@@ -1,7 +1,4 @@
 <?php
-
-    require 'Note.php';
-
     class Joueur {
 
         private $id;
@@ -53,5 +50,4 @@
         }
 
     }
-
 ?>
