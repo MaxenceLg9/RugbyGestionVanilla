@@ -1,5 +1,5 @@
 <?php
-    require 'Statut.php';
+    require '../modele/Statut.php';
 
     class Note {
 

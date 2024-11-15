@@ -1,6 +1,6 @@
 <?php
 
-    require 'Note.php';
+    require '../modele/Note.php';
 
     class Joueur {
 
