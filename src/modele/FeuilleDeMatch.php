@@ -12,7 +12,6 @@
         private bool $estTitulaire;
         private string $poste;
         private float $note;
-        private string $commentaires;
 
         function __construct(MatchDeRugby $matchDeRugby, Joueur $joueur, bool $estTitulaire, string $poste) {
             $this -> matchDeRugby = $matchDeRugby;
@@ -20,7 +19,6 @@
             $this -> estTitulaire = $estTitulaire;
             $this -> poste = $poste;
             $this -> note = 2.5;
-            $this -> commentaires = "";
         }
 
         public function getMatchDeRugby() : MatchDeRugby {
@@ -53,14 +51,6 @@
 
         public function setNote(float $note) {
             $this -> note = $note;
-        }
-
-        public function getCommentaires() : string {
-            return $this -> commentaires;
-        }
-
-        public function setCommentaires(string $commentaires) {
-            $this -> commentaires = $commentaires;
         }
 
     }
