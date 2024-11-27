@@ -1,17 +1,19 @@
 <?php
     class Joueur {
 
-        private $id;
+        private $idJoueur;
         private $numeroLicense;
         private $nom;
         private $prenom;
         private $dateNaissance;
         private $taille;
         private $poids;
-        private Statut $statut;
+        private $statut;
 
-        public function  __construct(int $id, string $nom, string $prenom, string $dateNaissance, int $numeroLicense, int $taille, int $poids, Statut $statut) {
-            $this -> id = $id;
+        public function  __construct(int $idJoueur, string $nom, string $prenom, 
+                                     string $dateNaissance, int $numeroLicense, 
+                                     int $taille, int $poids, Statut $statut) { 
+            $this -> idJoueur = $idJoueur;
             $this -> nom = $nom;
             $this -> prenom = $prenom;
             $this -> dateNaissance = $dateNaissance;
@@ -21,8 +23,8 @@
             $this -> statut = $statut;
         }
 
-        public function getId(): int {
-            return $this -> id;
+        public function getIdJoueur(): int {
+            return $this -> idJoueur;
         }
 
         public function getNom(): string {
@@ -47,6 +49,30 @@
 
         public function getNumeroLicense(): String {
             return $this -> numeroLicense;
+        }
+
+        public function getTaille(): int {
+            return $this -> taille;
+        }
+
+        public function setTaille(int $taille): void {
+            $this -> taille = $taille;
+        }
+
+        public function getPoids(): int {
+            return $this -> poids;
+        }
+
+        public function setPoids(int $poids): void {
+            $this -> poids = $poids;
+        }
+
+        public function getStatut(): Statut {
+            return $this -> statut;
+        }
+
+        public function setStatut(Statut $statut): void {
+            $this -> statut = $statut;
         }
 
     }
