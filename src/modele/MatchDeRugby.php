@@ -1,7 +1,7 @@
 <?php
 
-    require 'Resultat.php';
-    require 'Lieu.php';
+    require '../modele/Resultat.php';
+    require '../modele/Lieu.php';
 
     class MatchDeRugby {
 
