@@ -1,9 +1,9 @@
 <?php
 
-    require 'Resultat.php';
-    require 'Lieu.php';
-    require 'MatchDeRugby.php';
-    require 'Joueur.php';
+    require '../modele/Resultat.php';
+    require '../modele/Lieu.php';
+    require '../modele/MatchDeRugby.php';
+    require '../modele/Joueur.php';
 
     class FeuilleDeMatch {
 
