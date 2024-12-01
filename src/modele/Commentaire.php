@@ -4,9 +4,9 @@
 
     class Commentaire {
 
-        private $idCommentaire;
-        private $commentaires;
-        private $joueur;
+        private int $idCommentaire;
+        private string $commentaires;
+        private Joueur $joueur;
 
         public function  __construct(int $idCommentaire, string $commentaires, Joueur $joueur) { 
             $this -> idCommentaire = $idCommentaire;
@@ -31,5 +31,3 @@
         }
 
     }
-
-?>
