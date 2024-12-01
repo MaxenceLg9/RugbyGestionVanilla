@@ -1,10 +1,10 @@
 <?php
     class Entraineur {
-        private $idEntraineur;
-        private $nom;
-        private $prenom;
-        private $email;
-        private $motDePasse;
+        private int $idEntraineur;
+        private string $nom;
+        private string $prenom;
+        private string $email;
+        private string $motDePasse;
 
         public function  __construct(int $idEntraineur, string $nom, string $prenom, string $email, string $motDePasse) { 
             $this -> idEntraineur = $idEntraineur;
@@ -34,4 +34,3 @@
             return $this -> motDePasse;
         }
     }
-?>

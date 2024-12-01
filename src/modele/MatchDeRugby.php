@@ -11,7 +11,8 @@
         private Lieu $lieu;
         private Resultat $resultat;
 
-        function __construct(DateTime $dateHeure, string $adversaire, Lieu $lieu, Resultat $resultat) {
+        function __construct(int $idMatchDeRugby, DateTime $dateHeure, string $adversaire, Lieu $lieu, Resultat $resultat) {
+            $this -> idMatchDeRugby = $idMatchDeRugby;
             $this -> dateHeure = $dateHeure;
             $this -> adversaire = $adversaire;
             $this -> lieu = $lieu;
@@ -39,5 +40,3 @@
         }
 
     }
-
-?>
