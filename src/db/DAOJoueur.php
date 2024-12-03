@@ -134,4 +134,15 @@ class DAOJoueur {
         return $joueur;
     }
 
+    public function readById(int $idJoueur): Joueur {
+        $connexion = Connexion::getInstance()->getConnection();
+        $statement = $connexion->prepare("SELECT * FROM Joueur WHERE idJoueur = :idJoueur");
+        $statement->bindParam(':idJoueur', $idJoueur);
+        $statement->execute();
+        $row = $statement->fetch();
+        return new Joueur($row['idJoueur'], $row['numeroLicense'], $row['nom'], $row['prenom'],
+                          $row['dateNaissance'], $row['taille'], $row['poids'], $row['statut'],
+                          $row['postePrefere'], $row['estPremiereLigne']);
+    }
+
 }
