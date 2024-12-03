@@ -46,6 +46,16 @@ class DAOMatchDeRugby {
                                 $row['lieu'], $row['resultat']);
     }
 
+    public function readByDateHeure(DateTime $dateHeure): MatchDeRugby {
+        $connexion = Connexion::getInstance()->getConnection();
+        $statement = $connexion->prepare("SELECT * FROM MatchDeRugby WHERE dateHeure = :dateHeure");
+        $statement->bindParam(':dateHeure', $dateHeure);
+        $statement->execute();
+        $row = $statement->fetch();
+        return new MatchDeRugby($row['idMatchDeRugby'], $row['dateHeure'], $row['adversaire'],
+                                $row['lieu'], $row['resultat']);
+    }
+
     public function update(MatchDeRugby $match): void {
         $connexion = Connexion::getInstance()->getConnection();
         $statement = $connexion->prepare("UPDATE MatchDeRugby SET resultat = :resultat WHERE idMatchDeRugby = :idMatchDeRugby");
