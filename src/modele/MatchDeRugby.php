@@ -2,6 +2,7 @@
 
     require '../modele/Resultat.php';
     require '../modele/Lieu.php';
+    include '../db/DAOMatchDeRugby.php';
 
     class MatchDeRugby {
 
@@ -37,6 +38,30 @@
 
         public function getResultat(): Resultat {
             return $this -> resultat;
+        }
+
+        // partie DAO : utilisation des méthodes de la classe DAOMatchDeRugby
+        public function saveMatchDeRugby(): void {
+            $daoMatchDeRugby = new DAOMatchDeRugby();
+            if ($daoMatchDeRugby -> readByDateHeure($this -> dateHeure) === null) {
+                $daoMatchDeRugby -> create($this);
+            }
+            $daoMatchDeRugby -> update($this);
+        }
+
+        public static function getAllMatchDeRugby(): array {
+            $daoMatchDeRugby = new DAOMatchDeRugby();
+            return $daoMatchDeRugby -> read();
+        }
+
+        public function getMatchDeRugbyByDateHeure(): MatchDeRugby {
+            $daoMatchDeRugby = new DAOMatchDeRugby();
+            return $daoMatchDeRugby -> readByDateHeure($this -> dateHeure);
+        }
+
+        public function deleteMatchDeRugby(): void {
+            $daoMatchDeRugby = new DAOMatchDeRugby();
+            $daoMatchDeRugby -> delete($this);
         }
 
     }

@@ -1,6 +1,7 @@
 <?php
 
     require '../modele/Joueur.php';
+    include '../db/DAOCommentaire.php';
 
     class Commentaire {
 
@@ -28,6 +29,25 @@
 
         public function getJoueur(): Joueur {
             return $this -> joueur;
+        }
+
+        // partie DAO
+        public function saveCommentaire(): void {
+            $daoCommentaire = new DAOCommentaire();
+            if ($daoCommentaire -> readByJoueur($this -> getJoueur()) != null) {
+                $daoCommentaire -> update($this);
+            }
+            $daoCommentaire -> create($this);
+        }
+
+        public function deleteCommentaire(): void {
+            $daoCommentaire = new DAOCommentaire();
+            $daoCommentaire -> delete($this);
+        }
+
+        public function getCommentaireByJoueur(): Commentaire {
+            $daoCommentaire = new DAOCommentaire();
+            return $daoCommentaire -> readByJoueur($this -> getJoueur());
         }
 
     }

@@ -39,6 +39,23 @@ class DAOFeuilleDeMatch {
         return new FeuilleDeMatch($matchDeRugby, $joueur, $estTitulaire, $poste, $note);
     }
 
+    public function readAll(): array {
+        $connexion = Connexion::getInstance()->getConnection();
+        $requete = $connexion -> prepare("SELECT * FROM FeuilleDeMatch");
+        $requete -> execute();
+        $resultats = $requete -> fetchAll();
+
+        $feuillesDeMatch = array();
+        foreach ($resultats as $resultat) {
+            $idMatchDeRugby = $resultat['idMatchDeRugby'];
+            $matchDeRugby = (new DAOMatchDeRugby()) -> readById($idMatchDeRugby);
+            list($joueur, $estTitulaire, $poste, $note) = $this->extractResultat($resultat);
+            $feuillesDeMatch[] = new FeuilleDeMatch($matchDeRugby, $joueur, $estTitulaire, $poste, $note);
+        }
+
+        return $feuillesDeMatch;
+    }
+
     public function update(FeuilleDeMatch $feuilleDeMatch): void {
         $connexion = Connexion::getInstance()->getConnection();
         $requete = $connexion -> prepare(
@@ -77,6 +94,58 @@ class DAOFeuilleDeMatch {
         $requete->bindParam(':estTitulaire', $estTitulaire);
         $requete->bindParam(':poste', $poste);
         $requete->bindParam(':note', $note);
+    }
+
+    public function readAllByMatch(MatchDeRugby $matchDeRugby): array {
+        $connexion = Connexion::getInstance()->getConnection();
+        $requete = $connexion -> prepare(
+            "SELECT * FROM FeuilleDeMatch WHERE idMatchDeRugby = :idMatchDeRugby");
+
+        $idMatchDeRugby = $matchDeRugby -> getIdMatchDeRugby();
+        $requete -> bindParam(':idMatchDeRugby', $idMatchDeRugby);
+
+        $requete -> execute();
+        $resultats = $requete -> fetchAll();
+
+        $feuillesDeMatch = array();
+        foreach ($resultats as $resultat) {
+            list($joueur, $estTitulaire, $poste, $note) = $this->extractResultat($resultat);
+            $feuillesDeMatch[] = new FeuilleDeMatch($matchDeRugby, $joueur, $estTitulaire, $poste, $note);
+        }
+
+        return $feuillesDeMatch;
+    }
+
+    public function readAllByJoueur(Joueur $joueur): array {
+        $connexion = Connexion::getInstance()->getConnection();
+        $requete = $connexion -> prepare(
+            "SELECT * FROM FeuilleDeMatch WHERE idJoueur = :idJoueur");
+
+        $idJoueur = $joueur -> getIdJoueur();
+        $requete -> bindParam(':idJoueur', $idJoueur);
+
+        $requete -> execute();
+        $resultats = $requete -> fetchAll();
+
+        $feuillesDeMatch = array();
+        foreach ($resultats as $resultat) {
+            $idMatchDeRugby = $resultat['idMatchDeRugby'];
+            $matchDeRugby = (new DAOMatchDeRugby()) -> readById($idMatchDeRugby);
+            $estTitulaire = $resultat['estTitulaire'];
+            $poste = $resultat['poste'];
+            $note = $resultat['note'];
+
+            $feuillesDeMatch[] = new FeuilleDeMatch($matchDeRugby, $joueur, $estTitulaire, $poste, $note);
+        }
+        return $feuillesDeMatch;
+    }
+    private function extractResultat(mixed $resultat): array {
+        $idJoueur = $resultat['idJoueur'];
+        $joueur = (new DAOJoueur())->readById($idJoueur);
+        $estTitulaire = $resultat['estTitulaire'];
+        $poste = $resultat['poste'];
+        $note = $resultat['note'];
+        return array($joueur, $estTitulaire, $poste, $note);
     }
 
 }
