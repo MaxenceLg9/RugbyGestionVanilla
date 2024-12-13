@@ -15,10 +15,10 @@ class DAOJoueur {
             $numeroLicense = $joueur->getNumeroLicense();
             $nom = $joueur->getNom();
             $prenom = $joueur->getPrenom();
-            $dateNaissance = $joueur->getDateNaissance();
+            $dateNaissance = $joueur->getDateNaissance()->format('Y-m-d');
             $taille = $joueur->getTaille();
             $poids = $joueur->getPoids();
-            $statut = $joueur->getStatut();
+            $statut = $joueur->getStatut()->name;
             $postePrefere = $joueur->getPostePrefere();
             $estPremiereLigne = $joueur->getEstPremiereLigne();
 
@@ -32,7 +32,7 @@ class DAOJoueur {
             $statement->bindParam(':postePrefere', $postePrefere);
             $statement->bindParam(':estPremiereLigne', $estPremiereLigne);
             $statement->execute();
-            echo "Joueur créé avec succès";
+            echo "Joueur créé avec succès\n";
         } catch (PDOException $e) {
             echo "Erreur lors de la création du joueur" . $e->getMessage();
         }
@@ -55,7 +55,7 @@ class DAOJoueur {
         return $joueurs;
     }
 
-    public function readByNumeroLicense(int $numeroLicense): Joueur {
+    public function readByNumeroLicense(int $numeroLicense): ?Joueur {
         $joueur = null;
         try {
             $connexion = Connexion::getInstance()->getConnection();
@@ -63,9 +63,11 @@ class DAOJoueur {
             $statement->bindParam(':numeroLicense', $numeroLicense);
             $statement->execute();
             $row = $statement->fetch();
+            if ($row) {
             $joueur = new Joueur($row['idJoueur'], $row['numeroLicense'], $row['nom'], $row['prenom'],
                                 $row['dateNaissance'], $row['taille'], $row['poids'],
                                 $row['statut'], $row['postePrefere'], $row['estPremiereLigne']);
+            }
         } catch (PDOException $e) {
             echo "Erreur lors de la lecture du joueur: " . $e->getMessage();
         }
@@ -81,7 +83,7 @@ class DAOJoueur {
             );
             $taille = $joueur->getTaille();
             $poids = $joueur->getPoids();
-            $statut = $joueur->getStatut();
+            $statut = $joueur->getStatut()->name;
             $postePrefere = $joueur->getPostePrefere();
             $estPremiereLigne = $joueur->getEstPremiereLigne();
             $numeroLicense = $joueur->getNumeroLicense();
@@ -94,7 +96,7 @@ class DAOJoueur {
             $statement->bindParam(':numeroLicense', $numeroLicense);
 
             $statement->execute();
-            echo "Joueur mis à jour avec succès";
+            echo "Joueur mis à jour avec succès\n";
         } catch (PDOException $e) {
             echo "Erreur lors de la mise à jour du joueur: " . $e->getMessage();
         }
@@ -107,13 +109,13 @@ class DAOJoueur {
             $numeroLicense = $joueur->getNumeroLicense();
             $statement->bindParam(':numeroLicense', $numeroLicense);
             $statement->execute();
-            echo "Joueur supprimé avec succès";
+            echo "Joueur supprimé avec succès\n";
         } catch (PDOException $e) {
             echo "Erreur lors de la suppression du joueur: " . $e->getMessage();
         }
     }
 
-    public function readById(int $idJoueur): Joueur {
+    public function readById(int $idJoueur): ?Joueur {
         $joueur = null;
         try {
             $connexion = Connexion::getInstance()->getConnection();
@@ -121,9 +123,11 @@ class DAOJoueur {
             $statement->bindParam(':idJoueur', $idJoueur);
             $statement->execute();
             $row = $statement->fetch();
+            if ($row) {
             $joueur = new Joueur($row['idJoueur'], $row['numeroLicense'], $row['nom'], $row['prenom'],
                                 $row['dateNaissance'], $row['taille'], $row['poids'],
                                 $row['statut'], $row['postePrefere'], $row['estPremiereLigne']);
+            }
         } catch (PDOException $e) {
             echo "Erreur lors de la lecture du joueur: " . $e->getMessage();
         }

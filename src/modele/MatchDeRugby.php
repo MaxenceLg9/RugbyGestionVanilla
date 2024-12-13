@@ -6,11 +6,11 @@
 
     class MatchDeRugby {
 
-        private int $idMatchDeRugby;
+        private ?int $idMatchDeRugby;
         private DateTime $dateHeure;
         private string $adversaire;
         private Lieu $lieu;
-        private Resultat $resultat;
+        private ?Resultat $resultat;
 
         function __construct(int $idMatchDeRugby, DateTime $dateHeure, string $adversaire, Lieu $lieu, Resultat $resultat) {
             $this -> idMatchDeRugby = $idMatchDeRugby;

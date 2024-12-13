@@ -10,7 +10,7 @@ class Connexion {
         try {
             $dsn = "mysql:host=mysql-gestionequiperugby.alwaysdata.net;port=3306;dbname=gestionequiperugby_bd";
             $this->pdo = new PDO($dsn, $this->username, $this->password);
-            echo "Connected successfully to Alwaysdata database via PDO!";
+            echo "Connected successfully to Alwaysdata database via PDO!\n";
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }
