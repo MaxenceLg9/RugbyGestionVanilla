@@ -1,4 +1,6 @@
 <?php
+
+    include '../db/DAOEntraineur.php';
     class Entraineur {
         private int $idEntraineur;
         private string $nom;
@@ -33,4 +35,21 @@
         public function getMotDePasse(): string {
             return $this -> motDePasse;
         }
+
+        public function setMotDePasse(string $motDePasse): void {
+            $this -> motDePasse = $motDePasse;
+        }
+
+        // partie DAO
+        public function inscriptionEntraineur(): void {
+            $daoEntraineur = new DAOEntraineur();
+            $daoEntraineur -> create($this);
+        }
+
+        public function modifierMotDePasse(string $nouveauMotDePasse): void {
+            $this -> setMotDePasse($nouveauMotDePasse);
+            $daoEntraineur = new DAOEntraineur();
+            $daoEntraineur -> update($this);
+        }
+
     }

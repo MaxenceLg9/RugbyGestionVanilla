@@ -26,6 +26,9 @@ class Connexion {
     public function getConnection(): PDO {
         return $this->pdo;
     }
-}
 
-?>
+    public function closeConnection(): void {
+        unset($this->pdo);
+    }
+
+}

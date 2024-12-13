@@ -1,6 +1,5 @@
 <?php
 
-use Cassandra\Date;
 require '../modele/Statut.php';
 include '../db/DAOJoueur.php';
     class Joueur {
@@ -9,7 +8,7 @@ include '../db/DAOJoueur.php';
         private int $numeroLicense;
         private string $nom;
         private string $prenom;
-        private Date $dateNaissance;
+        private DateTime $dateNaissance;
         private int $taille;
         private int $poids;
         private Statut $statut;
@@ -17,7 +16,7 @@ include '../db/DAOJoueur.php';
         private bool $estPremiereLigne;
 
         public function  __construct(int $idJoueur, string $nom, string $prenom, 
-                                     Date $dateNaissance, int $numeroLicense,
+                                     DateTime $dateNaissance, int $numeroLicense,
                                      int $taille, int $poids, Statut $statut, 
                                      string $postePrefere, bool $estPremiereLigne) { 
             $this -> idJoueur = $idJoueur;
@@ -52,7 +51,7 @@ include '../db/DAOJoueur.php';
             $this -> prenom = $prenom;
         }
 
-        public function getDateNaissance(): Date {
+        public function getDateNaissance(): DateTime {
             return $this -> dateNaissance;
         }
 
