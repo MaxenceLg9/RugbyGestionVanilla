@@ -1,10 +1,7 @@
 <?php
 
-require '../db/Connexion.php';
-require '../db/DAOJoueur.php';
-require '../db/DAOMatchDeRugby.php';
-require '../modele/Joueur.php';
-require '../modele/MatchDeRugby.php';
+require_once '../modele/Joueur.php';
+require_once '../modele/MatchDeRugby.php';
 
 class InsererDonnees {
 
@@ -22,35 +19,31 @@ class InsererDonnees {
             new MatchDeRugby((int)null, new DateTime('2021-01-01 12:00:00'), 'Toulon', Lieu::DOMICILE, Resultat::GAGNE),
             new MatchDeRugby((int)null, new DateTime('2021-01-08 12:00:00'), 'Lyon', Lieu::EXTERIEUR, Resultat::PERDU),
             new MatchDeRugby((int)null, new DateTime('2021-01-15 12:00:00'), 'Clermont', Lieu::DOMICILE, Resultat::NUL),
-            new MatchDeRugby((int)null, new DateTime('2021-01-22 12:00:00'), 'Montpellier', Lieu::EXTERIEUR, null)
+            new MatchDeRugby((int)null, new DateTime('2021-01-22 12:00:00'), 'Montpellier', Lieu::EXTERIEUR, Resultat::NUL)
         ];
     }
 
     public static function insererDonnees(): void {
         $instance = new self();
 
-        $daoJoueur = new DAOJoueur();
         foreach ($instance->donneesJoueurs as $joueur) {
-            $daoJoueur->create($joueur);
+            $joueur->saveJoueur();
         }
 
-        $daoMatchDeRugby = new DAOMatchDeRugby();
         foreach ($instance->donneesMatchesDeRugby as $match) {
-            $daoMatchDeRugby->create($match);
+            $match->saveMatchDeRugby();
         }
     }
 
     public static function supprimerDonnees(): void {
         $instance = new self();
 
-        $daoJoueur = new DAOJoueur();
         foreach ($instance->donneesJoueurs as $joueur) {
-            $daoJoueur->delete($joueur);
+            $joueur->deleteJoueur();
         }
 
-        $daoMatchDeRugby = new DAOMatchDeRugby();
         foreach ($instance->donneesMatchesDeRugby as $match) {
-            $daoMatchDeRugby->delete($match);
+            $match->deleteMatchDeRugby();
         }
     }
 

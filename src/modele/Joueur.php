@@ -4,7 +4,7 @@ require '../modele/Statut.php';
 include '../db/DAOJoueur.php';
     class Joueur {
 
-        private int $idJoueur;
+        private ?int $idJoueur;
         private int $numeroLicense;
         private string $nom;
         private string $prenom;
