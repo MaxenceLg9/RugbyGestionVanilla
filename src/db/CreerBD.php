@@ -8,6 +8,7 @@ class CreerBD {
         "DROP TABLE IF EXISTS MatchDeRugby",
         "DROP TABLE IF EXISTS Commentaire",
         "DROP TABLE IF EXISTS Joueur",
+        "DROP TABLE IF EXISTS Entraineur",
         "CREATE TABLE IF NOT EXISTS Joueur (
             idJoueur INT PRIMARY KEY AUTO_INCREMENT,
             numeroLicense INT(4) NOT NULL,
@@ -43,6 +44,13 @@ class CreerBD {
             PRIMARY KEY (idMatchDeRugby, idJoueur),
             FOREIGN KEY (idMatchDeRugby) REFERENCES MatchDeRugby(idMatchDeRugby),
             FOREIGN KEY (idJoueur) REFERENCES Joueur(idJoueur)
+        )",
+        "CREATE TABLE IF NOT EXISTS Entraineur (
+            idEntraineur INT PRIMARY KEY AUTO_INCREMENT,
+            nom VARCHAR(50) NOT NULL,
+            prenom VARCHAR(50) NOT NULL,
+            email VARCHAR(50) NOT NULL,
+            motDePasse VARCHAR(50) NOT NULL
         )"
     ];
 
