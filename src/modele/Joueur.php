@@ -1,21 +1,22 @@
 <?php
 
-    require '../modele/Statut.php';
+require '../modele/Statut.php';
+include '../db/DAOJoueur.php';
     class Joueur {
 
-        private $idJoueur;
-        private $numeroLicense;
-        private $nom;
-        private $prenom;
-        private $dateNaissance;
-        private $taille;
-        private $poids;
-        private $statut;
-        private $postePrefere;
-        private $estPremiereLigne;
+        private int $idJoueur;
+        private int $numeroLicense;
+        private string $nom;
+        private string $prenom;
+        private DateTime $dateNaissance;
+        private int $taille;
+        private int $poids;
+        private Statut $statut;
+        private string $postePrefere;
+        private bool $estPremiereLigne;
 
         public function  __construct(int $idJoueur, string $nom, string $prenom, 
-                                     string $dateNaissance, int $numeroLicense, 
+                                     DateTime $dateNaissance, int $numeroLicense,
                                      int $taille, int $poids, Statut $statut, 
                                      string $postePrefere, bool $estPremiereLigne) { 
             $this -> idJoueur = $idJoueur;
@@ -50,7 +51,7 @@
             $this -> prenom = $prenom;
         }
 
-        public function getDateNaissance(): string {
+        public function getDateNaissance(): DateTime {
             return $this -> dateNaissance;
         }
 
@@ -98,5 +99,28 @@
             $this -> estPremiereLigne = $estPremiereLigne;
         }
 
+        // partie DAO : utiliser les méthodes de DAOJoueur pour accéder à la base de données
+        public function getJoueurByNumeroLicense(): Joueur {
+            $daoJoueur = new DAOJoueur();
+            return $daoJoueur -> readByNumeroLicense($this -> getNumeroLicense());
+        }
+
+        public static function getAllJoueurs(): array {
+            $daoJoueur = new DAOJoueur();
+            return $daoJoueur -> read();
+        }
+
+        public function saveJoueur(): void {
+            $daoJoueur = new DAOJoueur();
+            if ($daoJoueur -> readByNumeroLicense($this -> getNumeroLicense()) === null) {
+                $daoJoueur -> create($this);
+            }
+            $daoJoueur->update($this);
+        }
+
+        public function deleteJoueur(): void {
+            $daoJoueur = new DAOJoueur();
+            $daoJoueur -> delete($this);
+        }
+
     }
-?>

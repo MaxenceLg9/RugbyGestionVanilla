@@ -1,26 +1,34 @@
 <?php
+class Connexion {
 
-    class Connexion {
+    private static ?Connexion $instance = null;
+    private PDO $pdo;
+    private string $username = '387507';
+    private string $password = '$iutinfo';
 
-        private static $instance;
-
-        private function __construct() {}
-        
-        public static function Connect() {
-            if (!isset(self::$instance)) {
-                try {
-                    self::$instance = new PDO("pgsql:host=localhost;dbname=r301", "root", "");
-                } catch (PDOException $e) {
-                    die($e->getMessage());
-                }
-            }
-            return self::$instance;
+    private function __construct() {
+        try {
+            $dsn = "mysql:host=mysql-gestionequiperugby.alwaysdata.net;port=3306;dbname=gestionequiperugby_bd";
+            $this->pdo = new PDO($dsn, $this->username, $this->password);
+            echo "Connected successfully to Alwaysdata database via PDO!";
+        } catch (PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
         }
-
-        public static function Disconnect() {
-            self::$instance = null;
-        }
-        
     }
 
-?>
+    public static function getInstance(): ?Connexion {
+        if (self::$instance === null) {
+            self::$instance = new Connexion();
+        }
+        return self::$instance;
+    }
+
+    public function getConnection(): PDO {
+        return $this->pdo;
+    }
+
+    public function closeConnection(): void {
+        unset($this->pdo);
+    }
+
+}
