@@ -9,6 +9,7 @@
 <nav>
     <ul>
         <li><a href="#">Mon équipe</a></li>
+        <li><a href="#">Matchs</a></li>
         <li><a href="#">Résultats</a></li>
         <li><a href="#">Mon profil</a></li>
     </ul>
