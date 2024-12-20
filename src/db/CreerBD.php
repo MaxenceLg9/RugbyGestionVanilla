@@ -49,7 +49,7 @@ class CreerBD {
             idEntraineur INT PRIMARY KEY AUTO_INCREMENT,
             nom VARCHAR(50) NOT NULL,
             prenom VARCHAR(50) NOT NULL,
-            email VARCHAR(50) NOT NULL,
+            numeroLogin VARCHAR(50) NOT NULL,
             motDePasse VARCHAR(50) NOT NULL
         )"
     ];

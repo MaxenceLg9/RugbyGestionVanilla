@@ -8,17 +8,17 @@ class DAOEntraineur {
     public function create(Entraineur $entraineur): void {
         try {
             $connexion = Connexion::getInstance()->getConnection();
-            $statement = $connexion->prepare("INSERT INTO Entraineur (nom, prenom, email, motDePasse) 
-                   VALUES (:nom, :prenom, :email, :motDePasse)");
+            $statement = $connexion->prepare("INSERT INTO Entraineur (nom, prenom, numeroLogin, motDePasse) 
+                   VALUES (:nom, :prenom, :numeroLogin, :motDePasse)");
 
             $nom = $entraineur->getNom();
             $prenom = $entraineur->getPrenom();
-            $email = $entraineur->getEmail();
+            $numeroLogin = $entraineur->getNumeroLogin();
             $motDePasse = $entraineur->getMotDePasse();
 
             $statement->bindParam(':nom', $nom);
             $statement->bindParam(':prenom', $prenom);
-            $statement->bindParam(':email', $email);
+            $statement->bindParam(':numeroLogin', $numeroLogin);
             $statement->bindParam(':motDePasse', $motDePasse);
             $statement->execute();
             echo "Entraineur créé avec succès";
@@ -35,7 +35,7 @@ class DAOEntraineur {
             $statement->execute();
             while ($row = $statement->fetch()) {
                 $entraineurs[] = new Entraineur($row['idEntraineur'], $row['nom'],
-                    $row['prenom'], $row['email'], $row['motDePasse']);
+                    $row['prenom'], $row['numeroLogin'], $row['motDePasse']);
             }
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -43,16 +43,16 @@ class DAOEntraineur {
         return $entraineurs;
     }
 
-    public function readByEmail(string $email): Entraineur {
+    public function readByNumeroLogin(string $numeroLogin): Entraineur {
         $entraineur = null;
         try {
             $connexion = Connexion::getInstance()->getConnection();
-            $statement = $connexion->prepare("SELECT * FROM Entraineur WHERE email = :email");
-            $statement->bindParam(':email', $email);
+            $statement = $connexion->prepare("SELECT * FROM Entraineur WHERE numeroLogin = :numeroLogin");
+            $statement->bindParam(':numeroLogin', $numeroLogin);
             $statement->execute();
             $row = $statement->fetch();
             $entraineur = new Entraineur($row['idEntraineur'], $row['nom'],
-                $row['prenom'], $row['email'], $row['motDePasse']);
+                $row['prenom'], $row['numeroLogin'], $row['motDePasse']);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -62,12 +62,12 @@ class DAOEntraineur {
     public function update(Entraineur $entraineur): void {
         try {
             $connexion = Connexion::getInstance()->getConnection();
-            $statement = $connexion->prepare("UPDATE Entraineur SET motDePasse = :motDePasse WHERE email = :email");
+            $statement = $connexion->prepare("UPDATE Entraineur SET motDePasse = :motDePasse WHERE numeroLogin = :numeroLogin");
 
-            $email = $entraineur->getEmail();
+            $numeroLogin = $entraineur->getNumeroLogin();
             $motDePasse = $entraineur->getMotDePasse();
 
-            $statement->bindParam(':email', $email);
+            $statement->bindParam(':numeroLogin', $numeroLogin);
             $statement->bindParam(':motDePasse', $motDePasse);
             $statement->execute();
             echo "Entraineur modifié avec succès";
@@ -79,9 +79,9 @@ class DAOEntraineur {
     public function delete(Entraineur $entraineur): void {
         try {
             $connexion = Connexion::getInstance()->getConnection();
-            $statement = $connexion->prepare("DELETE FROM Entraineur WHERE email = :email");
-            $email = $entraineur->getEmail();
-            $statement->bindParam(':email', $email);
+            $statement = $connexion->prepare("DELETE FROM Entraineur WHERE numeroLogin = :numeroLogin");
+            $numeroLogin = $entraineur->getNumeroLogin();
+            $statement->bindParam(':numeroLogin', $numeroLogin);
             $statement->execute();
             echo "Entraineur supprimé avec succès";
         } catch (PDOException $e) {
