@@ -1,0 +1,10 @@
+RewriteEngine On
+RewriteBase /
+
+# Exclude requests to /resources/ from redirection
+RewriteCond %{REQUEST_URL} !^/resources/
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# Redirect all other requests to /controleur/
+RewriteRule ^(.*) https://gestionequiperugby.alwaysdata.net/controleur/$1 [L]
