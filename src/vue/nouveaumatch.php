@@ -24,10 +24,5 @@
         </h1>
         <p></p>
     </section>
-    <section>
-        <h1>
-            Voir vos derniers résultats
-        </h1>
-    </section>
 </div>
 </body>
