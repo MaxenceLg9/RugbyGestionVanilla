@@ -3,7 +3,6 @@ session_start();
 
 // Step 1: Unset all session variables
 $_SESSION = [];
-
 // Step 2: Destroy the session
 session_destroy();
 
