@@ -5,21 +5,22 @@ require_once '../modele/Entraineur.php';
 
 class DAOEntraineur {
 
-    public function create(Entraineur $entraineur): void {
+    public static function create(Entraineur $entraineur, string $motdepasse): void {
         try {
             $connexion = Connexion::getInstance()->getConnection();
-            $statement = $connexion->prepare("INSERT INTO Entraineur (nom, prenom, numeroLogin, motDePasse) 
-                   VALUES (:nom, :prenom, :numeroLogin, :motDePasse)");
+            $statement = $connexion->prepare("INSERT INTO Entraineur (nom, prenom, email, motDePasse) 
+                   VALUES (:nom, :prenom, :email, :motDePasse)");
 
             $nom = $entraineur->getNom();
             $prenom = $entraineur->getPrenom();
-            $numeroLogin = $entraineur->getNumeroLogin();
-            $motDePasse = $entraineur->getMotDePasse();
+            $email = $entraineur->getEmail();
+
+            $motdepasse = password_hash($motdepasse,PASSWORD_BCRYPT);
 
             $statement->bindParam(':nom', $nom);
             $statement->bindParam(':prenom', $prenom);
-            $statement->bindParam(':numeroLogin', $numeroLogin);
-            $statement->bindParam(':motDePasse', $motDePasse);
+            $statement->bindParam(':email', $email);
+            $statement->bindParam(':motDePasse', $motdepasse);
             $statement->execute();
             echo "Entraineur créé avec succès";
         } catch (PDOException $e) {
@@ -27,48 +28,41 @@ class DAOEntraineur {
         }
     }
 
-    public function read(): array {
-        $entraineurs = [];
+    public static function existEntraineur(): bool {
         try {
             $connexion = Connexion::getInstance()->getConnection();
-            $statement = $connexion->prepare("SELECT * FROM Entraineur");
+            $statement = $connexion->prepare("SELECT COUNT(*) FROM Entraineur");
             $statement->execute();
-            while ($row = $statement->fetch()) {
-                $entraineurs[] = new Entraineur($row['idEntraineur'], $row['nom'],
-                    $row['prenom'], $row['numeroLogin'], $row['motDePasse']);
-            }
+            return $statement->fetchColumn() != 0;
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
-        return $entraineurs;
+        return false;
     }
 
-    public function readByNumeroLogin(string $numeroLogin): Entraineur {
-        $entraineur = null;
+    public static function existEntraineurWithEmail(string $email): bool {
         try {
             $connexion = Connexion::getInstance()->getConnection();
-            $statement = $connexion->prepare("SELECT * FROM Entraineur WHERE numeroLogin = :numeroLogin");
-            $statement->bindParam(':numeroLogin', $numeroLogin);
+            $statement = $connexion->prepare("SELECT COUNT(*) FROM Entraineur WHERE email = :email");
+            $statement->bindParam(':email', $email);
             $statement->execute();
-            $row = $statement->fetch();
-            $entraineur = new Entraineur($row['idEntraineur'], $row['nom'],
-                $row['prenom'], $row['numeroLogin'], $row['motDePasse']);
+            return $statement->fetchColumn() != 0;
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
-        return $entraineur;
+        return false;
     }
 
-    public function update(Entraineur $entraineur): void {
+    public static function update(Entraineur $entraineur, string $motdepasse): void {
         try {
             $connexion = Connexion::getInstance()->getConnection();
-            $statement = $connexion->prepare("UPDATE Entraineur SET motDePasse = :motDePasse WHERE numeroLogin = :numeroLogin");
 
-            $numeroLogin = $entraineur->getNumeroLogin();
-            $motDePasse = $entraineur->getMotDePasse();
+            $statement = $connexion->prepare("UPDATE Entraineur SET motDePasse = :motDePasse WHERE email = :email");
 
-            $statement->bindParam(':numeroLogin', $numeroLogin);
-            $statement->bindParam(':motDePasse', $motDePasse);
+            $email = $entraineur->getEmail();
+            $motdepasse = password_hash($motdepasse,PASSWORD_BCRYPT);
+            $statement->bindParam(':email', $email);
+            $statement->bindParam(':motDePasse', $motdepasse);
             $statement->execute();
             echo "Entraineur modifié avec succès";
         } catch (PDOException $e) {
@@ -76,12 +70,25 @@ class DAOEntraineur {
         }
     }
 
-    public function delete(Entraineur $entraineur): void {
+    public static function getEntraineur($email) : Entraineur{
         try {
             $connexion = Connexion::getInstance()->getConnection();
-            $statement = $connexion->prepare("DELETE FROM Entraineur WHERE numeroLogin = :numeroLogin");
-            $numeroLogin = $entraineur->getNumeroLogin();
-            $statement->bindParam(':numeroLogin', $numeroLogin);
+            $statement = $connexion->prepare("SELECT * FROM Entraineur WHERE email = :email");
+            $statement->bindParam(':email', $email);
+            $statement->execute();
+            $row = $statement->fetchColumn();
+            return new Entraineur($row['id'],$row['nom'],$row['prenom'],$row['email']);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public static function delete(Entraineur $entraineur): void {
+        try {
+            $connexion = Connexion::getInstance()->getConnection();
+            $statement = $connexion->prepare("DELETE FROM Entraineur WHERE email = :email");
+            $email = $entraineur->getEmail();
+            $statement->bindParam(':email', $email);
             $statement->execute();
             echo "Entraineur supprimé avec succès";
         } catch (PDOException $e) {
@@ -89,4 +96,15 @@ class DAOEntraineur {
         }
     }
 
+    public static function compareMotDePasse(string $motdepasse, string $email): bool {
+        $connexion = Connexion::getInstance()->getConnection();
+        $statement = $connexion->prepare("SELECT motDePasse FROM Entraineur WHERE email=:email");
+        $statement->bindParam(':email', $email);
+        $statement->execute();
+        $rows = $statement->fetchColumn();
+        foreach ($rows as $row){
+            return password_verify($motdepasse,$row['motDePasse']);
+        }
+        return false;
+    }
 }

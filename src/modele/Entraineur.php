@@ -1,19 +1,17 @@
 <?php
 
-    include '../db/DAOEntraineur.php';
+    require_once '../db/DAOEntraineur.php';
     class Entraineur {
         private int $idEntraineur;
         private string $nom;
         private string $prenom;
-        private string $numeroLogin;
-        private string $motDePasse;
+        private string $email;
 
-        public function  __construct(int $idEntraineur, string $nom, string $prenom, string $numeroLogin, string $motDePasse) {
+        public function  __construct(int $idEntraineur, string $nom, string $prenom, string $email) {
             $this -> idEntraineur = $idEntraineur;
             $this -> nom = $nom;
             $this -> prenom = $prenom;
-            $this -> numeroLogin = $numeroLogin;
-            $this -> motDePasse = $motDePasse;
+            $this -> email = $email;
         }
 
         public function getIdEntraineur(): int {
@@ -28,28 +26,25 @@
             return $this -> prenom;
         }
 
-        public function getNumeroLogin(): string {
-            return $this -> numeroLogin;
-        }
-
-        public function getMotDePasse(): string {
-            return $this -> motDePasse;
-        }
-
-        public function setMotDePasse(string $motDePasse): void {
-            $this -> motDePasse = $motDePasse;
+        public function getEmail(): string {
+            return $this -> email;
         }
 
         // partie DAO
-        public function inscriptionEntraineur(): void {
-            $daoEntraineur = new DAOEntraineur();
-            $daoEntraineur -> create($this);
+        public function inscriptionEntraineur(string $motdepasse): void {
+            DAOEntraineur::create($this,$motdepasse);
         }
 
         public function modifierMotDePasse(string $nouveauMotDePasse): void {
-            $this -> setMotDePasse($nouveauMotDePasse);
-            $daoEntraineur = new DAOEntraineur();
-            $daoEntraineur -> update($this);
+            DAOEntraineur::update($this,$nouveauMotDePasse);
         }
 
+        public static function getEntraineur(string $email, string $motdepasse): ?Entraineur{
+            if(DAOEntraineur::existEntraineurWithEmail($email)) {
+                if(DAOEntraineur::compareMotDePasse($motdepasse, $email)){
+                    return DAOEntraineur::getEntraineur($email);
+                }
+            }
+            return null;
+        }
     }
