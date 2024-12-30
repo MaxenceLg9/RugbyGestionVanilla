@@ -5,4 +5,7 @@
 //    die();
 //}
 $post['nom'] = 'Jean';
+
+require '../modele/Urls.php';
+
 include '../vue/index.php';
