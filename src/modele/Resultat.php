@@ -1,7 +1,7 @@
 <?php
-    enum Resultat: int {
-        case GAGNE = 0; 
-        case PERDU = 1; 
-        case NUL = 2;
+    enum Resultat: string {
+        case GAGNE = 'Victoire';
+        case PERDU = 'Defaite';
+        case NUL = 'Nul';
     }
 ?>
