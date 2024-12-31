@@ -27,6 +27,7 @@ section{
     border: black 1px solid;
     padding: 1%;
     flex-direction: column;
+    justify-items: start;
     justify-content: space-around;
     align-content: center;
     align-items: center;
@@ -38,6 +39,7 @@ section{
     border-radius: 10px;
     margin : 1%;
 }
+
 form {
     display: flex;
     flex-direction: column;

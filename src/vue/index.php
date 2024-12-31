@@ -2,7 +2,7 @@
 <div class="main">
     <section>
         <h1>
-            Bienvenue <?php echo $post['nom'] ?>
+            Bienvenue <?php echo $_SESSION['nom'] ?>
         </h1>
         <p></p>
     </section>
