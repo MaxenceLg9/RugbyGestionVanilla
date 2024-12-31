@@ -7,14 +7,14 @@ require '../modele/Joueur.php';
 
 class DAOFeuilleDeMatch {
 
-    public function create(FeuilleDeMatch $feuilleDeMatch): void {
+    public static function create(FeuilleDeMatch $feuilleDeMatch): void {
         try {
             $connexion = Connexion::getInstance()->getConnection();
             $requete = $connexion -> prepare(
                 "INSERT INTO FeuilleDeMatch (idMatchDeRugby, idJoueur, estTitulaire, poste, note) 
              VALUES (:idMatchDeRugby, :idJoueur, :estTitulaire, :poste, :note)");
 
-            $this->setDonnees($feuilleDeMatch, $requete);
+            DAOFeuilleDeMatch::setDonnees($feuilleDeMatch, $requete);
 
             $requete -> execute();
             echo "Feuille de match créée avec succès !";
@@ -23,7 +23,7 @@ class DAOFeuilleDeMatch {
         }
     }
 
-    public function read(MatchDeRugby $matchDeRugby, Joueur $joueur) : FeuilleDeMatch {
+    public static function read(MatchDeRugby $matchDeRugby, Joueur $joueur) : FeuilleDeMatch {
         $feuilleDeMatch = null;
         try {
             $connexion = Connexion::getInstance()->getConnection();
@@ -49,7 +49,7 @@ class DAOFeuilleDeMatch {
         return $feuilleDeMatch;
     }
 
-    public function readAll(): array {
+    public static function readAll(): array {
         $feuillesDeMatch = array();
         try {
             $connexion = Connexion::getInstance()->getConnection();
@@ -59,9 +59,8 @@ class DAOFeuilleDeMatch {
 
             foreach ($resultats as $resultat) {
                 $idMatchDeRugby = $resultat['idMatchDeRugby'];
-                $matchDeRugby = (new DAOMatchDeRugby()) -> readById($idMatchDeRugby);
-                list($joueur, $estTitulaire, $poste, $note) = $this->extractResultat($resultat);
-                $feuillesDeMatch[] = new FeuilleDeMatch($matchDeRugby, $joueur, $estTitulaire, $poste, $note);
+                list($joueur, $estTitulaire, $poste, $note) = DAOFeuilleDeMatch::extractResultat($resultat);
+                $feuillesDeMatch[] = new FeuilleDeMatch($idMatchDeRugby, $joueur, $estTitulaire, $poste, $note);
             }
         } catch (PDOException $e) {
             echo "Erreur : " . $e -> getMessage();
@@ -69,14 +68,14 @@ class DAOFeuilleDeMatch {
         return $feuillesDeMatch;
     }
 
-    public function update(FeuilleDeMatch $feuilleDeMatch): void {
+    public static function update(FeuilleDeMatch $feuilleDeMatch): void {
         try {
             $connexion = Connexion::getInstance()->getConnection();
             $requete = $connexion -> prepare(
                 "UPDATE FeuilleDeMatch SET estTitulaire = :estTitulaire, poste = :poste, note = :note 
              WHERE idMatchDeRugby = :idMatchDeRugby AND idJoueur = :idJoueur");
 
-            $this->setDonnees($feuilleDeMatch, $requete);
+            DAOFeuilleDeMatch::setDonnees($feuilleDeMatch, $requete);
 
             $requete -> execute();
             echo "Feuille de match mise à jour avec succès !";
@@ -85,14 +84,14 @@ class DAOFeuilleDeMatch {
         }
     }
 
-    public function delete(FeuilleDeMatch $feuilleDeMatch): void {
+    public static function delete(FeuilleDeMatch $feuilleDeMatch): void {
         try {
             $connexion = Connexion::getInstance()->getConnection();
             $requete = $connexion -> prepare(
                 "DELETE FROM FeuilleDeMatch WHERE idMatchDeRugby = :idMatchDeRugby AND idJoueur = :idJoueur");
 
-            $idMatchDeRugby = $feuilleDeMatch -> getMatchDeRugby() -> getIdMatchDeRugby();
-            $idJoueur = $feuilleDeMatch -> getJoueur() -> getIdJoueur();
+            $idMatchDeRugby = $feuilleDeMatch -> getIdMatchDeRugby();
+            $idJoueur = $feuilleDeMatch -> getIdJoueur();
             $requete -> bindParam(':idMatchDeRugby', $idMatchDeRugby);
             $requete -> bindParam(':idJoueur', $idJoueur);
 
@@ -103,7 +102,7 @@ class DAOFeuilleDeMatch {
         }
     }
 
-    public function readAllByMatch(MatchDeRugby $matchDeRugby): array {
+    public static function readAllByMatch(MatchDeRugby $matchDeRugby): array {
         $feuillesDeMatch = array();
         try {
             $connexion = Connexion::getInstance()->getConnection();
@@ -117,7 +116,7 @@ class DAOFeuilleDeMatch {
             $resultats = $requete -> fetchAll();
 
             foreach ($resultats as $resultat) {
-                list($joueur, $estTitulaire, $poste, $note) = $this->extractResultat($resultat);
+                list($joueur, $estTitulaire, $poste, $note) = DAOFeuilleDeMatch::extractResultat($resultat);
                 $feuillesDeMatch[] = new FeuilleDeMatch($matchDeRugby, $joueur, $estTitulaire, $poste, $note);
             }
         } catch (PDOException $e) {
@@ -126,7 +125,7 @@ class DAOFeuilleDeMatch {
         return $feuillesDeMatch;
     }
 
-    public function readAllByJoueur(Joueur $joueur): array {
+    public static function readAllByJoueur(Joueur $joueur): array {
         $feuillesDeMatch = array();
         try {
             $connexion = Connexion::getInstance()->getConnection();
@@ -154,9 +153,9 @@ class DAOFeuilleDeMatch {
         return $feuillesDeMatch;
     }
 
-    private function setDonnees(FeuilleDeMatch $feuilleDeMatch, bool|PDOStatement $requete): void {
-        $idMatchDeRugby = $feuilleDeMatch->getMatchDeRugby()->getIdMatchDeRugby();
-        $idJoueur = $feuilleDeMatch->getJoueur()->getIdJoueur();
+    private static function setDonnees(FeuilleDeMatch $feuilleDeMatch, bool|PDOStatement $requete): void {
+        $idMatchDeRugby = $feuilleDeMatch->getIdMatchDeRugby()->getIdMatchDeRugby();
+        $idJoueur = $feuilleDeMatch->getIdJoueur()->getIdJoueur();
         $estTitulaire = $feuilleDeMatch->estJoueurTitulaire();
         $poste = $feuilleDeMatch->getPoste();
         $note = $feuilleDeMatch->getNote();
@@ -168,7 +167,7 @@ class DAOFeuilleDeMatch {
         $requete->bindParam(':note', $note);
     }
 
-    private function extractResultat(mixed $resultat): array {
+    private static function extractResultat(mixed $resultat): array {
         $idJoueur = $resultat['idJoueur'];
         $joueur = (new DAOJoueur())->readById($idJoueur);
         $estTitulaire = $resultat['estTitulaire'];
