@@ -5,6 +5,7 @@ if(empty($_SESSION['email'])){
     die();
 }
 
+require_once "../modele/MatchDeRugby.php";
 $matchs = [
     [
         'idMatchDeRugby' => -1,
@@ -42,6 +43,8 @@ $matchs = [
         'resultat' => "futur",
     ]
 ];
+
+$matchs = MatchDeRugby::getAllMatchDeRugby();
 $css = ["style.css"];
 $page = "../vue/matchs.php";
 include_once "../components/page.php";
