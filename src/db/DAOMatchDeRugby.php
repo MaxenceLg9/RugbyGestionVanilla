@@ -69,10 +69,10 @@ class DAOMatchDeRugby {
             $statement->execute();
             $row = $statement->fetch();
             if ($row) {
-                $match = new MatchDeRugby($row['idMatchDeRugby'], $row['dateHeure'], $row['adversaire'],
-                    $row['lieu'], $row['resultat']);
+                $match = new MatchDeRugby($row['idMatchDeRugby'], new DateTime($row['dateHeure']), $row['adversaire'],
+                    Lieu::from((string) $row['lieu']));
             }
-        } catch (PDOException $e) {
+        } catch (Exception $e) {
             echo "Erreur lors de la lecture du match: " . $e->getMessage();
         }
         return $match;
@@ -84,7 +84,11 @@ class DAOMatchDeRugby {
             $statement = $connexion->prepare("UPDATE MatchDeRugby SET resultat = :resultat WHERE idMatchDeRugby = :idMatchDeRugby");
 
             $idMatchDeRugby = $match->getIdMatchDeRugby();
-            $resultat = $match->getResultat()->name;
+            $resultat = "0";
+            if($match->getResultat() != null){
+                $resultat = $match->getResultat()->name;
+            }
+
 
             $statement->bindParam(':idMatchDeRugby', $idMatchDeRugby);
             $statement->bindParam(':resultat', $resultat);
