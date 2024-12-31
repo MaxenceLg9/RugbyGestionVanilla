@@ -9,8 +9,8 @@ if(!empty($_GET)){
     if(!isset($_GET["type"])){
         die("Type de requête non défini");
     }
+    $css = ["style.css","gererunmatch.css"];
     if($_GET["type"] == "ajout") {
-        $css = ["style.css"];
         $page = '../vue/nouveaumatch.php';
         include_once '../components/page.php';
     }
@@ -18,7 +18,6 @@ if(!empty($_GET)){
 
     }
     elseif ($_GET["type"] == "modification") {
-        $css = ["style.css"];
         $page = '../vue/modifmatch.php';
         include_once '../components/page.php';
     }
