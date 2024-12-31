@@ -1,11 +1,11 @@
 <?php
-//session_start();
-//if(empty($_SESSION['email'])){
-//    header('Location: login.php');
-//    die();
-//}
-$post['nom'] = 'Jean';
+session_start();
+if(empty($_SESSION['email'])){
+    header('Location: login');
+    die();
+}
+$post['nom'] = $_SESSION['nom'];
 
-require '../modele/Urls.php';
+require_once '../modele/Urls.php';
 
-include '../vue/index.php';
+include_once '../vue/index.php';
