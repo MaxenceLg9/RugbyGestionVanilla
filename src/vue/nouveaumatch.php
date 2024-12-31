@@ -2,24 +2,24 @@
 
 <div class="main">
     <section>
-        <form>
-            <label for="date">Date du match</label>
-            <input type="date" id="date" name="date" required>
-
-            <label for="heure">Heure du match</label>
-            <input type="time" id="heure" name="heure" required>
+        <form action="gerermatch.php" method="post">
+            <label for="datetime">Date du match</label>
+            <input type="datetime-local" id="datetime" name="datetime" required>
 
             <label for="lieu">Lieu du match</label>
-            <input type="text" id="lieu" name="lieu" required>
+            <label>
+                <select name="lieu">
+                    <option value="Exterieur">Exterieur</option>
+                    <option value="Domicile" selected>Domicile</option>
+                </select>
+            </label>
 
             <label for="adversaire">Adversaire</label>
             <input type="text" id="adversaire" name="adversaire" required>
 
-            <label for="score">Score</label>
-            <input type="text" id="score" name="score" required>
-
-            <input type="submit" value="Ajouter le match">
+            <input type="hidden" name="type" value="ajout">
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
+            <button type="submit" class="ajout">Ajouter le match</button>
         </form>
-
     </section>
 </div>
