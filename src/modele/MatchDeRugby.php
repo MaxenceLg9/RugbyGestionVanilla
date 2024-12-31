@@ -51,8 +51,9 @@ class MatchDeRugby {
     // partie DAO : utilisation des méthodes de la classe DAOMatchDeRugby
     public function saveMatchDeRugby(): void {
         $daoMatchDeRugby = new DAOMatchDeRugby();
-        if ($daoMatchDeRugby -> readByDateHeure($this -> dateHeure) === null) {
+        if ($daoMatchDeRugby -> readByDateHeure($this -> dateHeure) == null) {
             $daoMatchDeRugby -> create($this);
+            return;
         }
         $daoMatchDeRugby -> update($this);
     }
