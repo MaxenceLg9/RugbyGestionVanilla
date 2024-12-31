@@ -7,11 +7,14 @@
         private string $prenom;
         private string $email;
 
-        public function  __construct(int $idEntraineur, string $nom, string $prenom, string $email) {
+        private string $equipe;
+
+        public function  __construct(int $idEntraineur, string $nom, string $prenom, string $email, string $equipe) {
             $this -> idEntraineur = $idEntraineur;
             $this -> nom = $nom;
             $this -> prenom = $prenom;
             $this -> email = $email;
+            $this -> equipe = $equipe;
         }
 
         public function getIdEntraineur(): int {
@@ -30,6 +33,9 @@
             return $this -> email;
         }
 
+        public function getEquipe(): string {
+            return $this -> equipe;
+        }
         // partie DAO
         public function inscriptionEntraineur(string $motdepasse): void {
             DAOEntraineur::create($this,$motdepasse);

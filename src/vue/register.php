@@ -11,6 +11,9 @@
             <label for="email">Email</label>
             <input type="email" id="email" name="email" required>
 
+            <label for="equipe">Nom de l'equipe</label>
+            <input type="text" id="equipe" name="equipe" required>
+
             <label for="password">Mot de passe</label>
             <input type="password" id="password" name="password" required>
 

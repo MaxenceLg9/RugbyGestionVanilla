@@ -10,7 +10,7 @@ if(isset($_POST["email"])){
         header('Location: register');
         die();
     }
-    $entraineur = new Entraineur(0,$_POST["name"],$_POST["firstname"],$_POST["email"]);
+    $entraineur = new Entraineur(0,$_POST["name"],$_POST["firstname"],$_POST["email"],$_POST["equipe"]);
     $entraineur->inscriptionEntraineur($_POST["password"]);
     header('Location: login');
     die();
