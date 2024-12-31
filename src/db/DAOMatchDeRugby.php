@@ -33,10 +33,10 @@ class DAOMatchDeRugby {
             $statement = $connexion->prepare("SELECT * FROM MatchDeRugby");
             $statement->execute();
             while ($row = $statement->fetch()) {
-                $matches = new MatchDeRugby($row['idMatchDeRugby'], $row['dateHeure'], $row['adversaire'],
-                                        $row['lieu'], $row['resultat']);
+                $matches[] = new MatchDeRugby($row['idMatchDeRugby'], new DateTime($row['dateHeure']), $row['adversaire'],
+                    Lieu::from($row['lieu']));
             }
-        } catch (PDOException $e) {
+        } catch (Exception $e) {
             echo "Erreur lors de la lecture des matches: " . $e->getMessage();
         }
         return $matches;
@@ -50,10 +50,10 @@ class DAOMatchDeRugby {
             $statement->execute();
             $row = $statement->fetch();
             if ($row) {
-            return new MatchDeRugby($row['idMatchDeRugby'], $row['dateHeure'], $row['adversaire'],
-                                        $row['lieu']);
+                return new MatchDeRugby($row['idMatchDeRugby'], new DateTime($row['dateHeure']), $row['adversaire'],
+                    Lieu::from((string) $row['lieu']));
             }
-        } catch (PDOException $e) {
+        } catch (Exception $e) {
             echo "Erreur lors de la lecture du match: " . $e->getMessage();
         }
         return null;
@@ -69,8 +69,8 @@ class DAOMatchDeRugby {
             $statement->execute();
             $row = $statement->fetch();
             if ($row) {
-            $match = new MatchDeRugby($row['idMatchDeRugby'], $row['dateHeure'], $row['adversaire'],
-                                    $row['lieu'], $row['resultat']);
+                $match = new MatchDeRugby($row['idMatchDeRugby'], $row['dateHeure'], $row['adversaire'],
+                    $row['lieu'], $row['resultat']);
             }
         } catch (PDOException $e) {
             echo "Erreur lors de la lecture du match: " . $e->getMessage();
