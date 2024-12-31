@@ -15,5 +15,7 @@ if(isset($_POST["email"])){
     header('Location: login');
     die();
 }else {
-    include_once "../vue/register.php";
+    $css = ["login.css"];
+    $page = "../vue/register.php";
+    include_once "../components/page.php";
 }

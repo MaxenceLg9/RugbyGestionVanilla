@@ -19,4 +19,6 @@ if(!empty($_POST) && isset($_POST["email"])){
     $_SESSION["id"] = $entraineur->getIdEntraineur();
     header('Location: /');
 }
-include "../vue/login.php";
+$css = ["login.css"];
+$page = "../vue/login.php";
+include_once "../components/page.php";

@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<?php require "../components/nav.php" ?>
+<?php include_once "../components/nav.php" ?>
 
 <div class="main">
     <?php

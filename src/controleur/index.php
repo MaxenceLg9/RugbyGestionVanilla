@@ -6,6 +6,7 @@ if(empty($_SESSION['email'])){
 }
 $post['nom'] = $_SESSION['nom'];
 
-require_once '../modele/Urls.php';
 
-include_once '../vue/index.php';
+$css = ["style.css"];
+$page = '../vue/index.php';
+include_once '../components/page.php';

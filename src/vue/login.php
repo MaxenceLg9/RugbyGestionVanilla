@@ -1,11 +1,3 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <title>Connexion</title>
-    <meta charset="utf-8"/>
-    <link rel="stylesheet" href="../resources/style/login.css"/>
-</head>
-<body>
 <div class="login">
     <h1>Connexion</h1>
     <form method="post" action="/login" class="login">
@@ -19,5 +11,3 @@
         <input type="submit" value="Se connecter">
     </form>
 </div>
-</body>
-</html>

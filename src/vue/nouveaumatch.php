@@ -1,12 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Ajouter un match</title>
-    <meta charset="utf-8"/>
-    <link rel="stylesheet" href="../resources/style/style.css"/>
-</head>
-<body>
-
 <?php require "../components/nav.php" ?>
 
 <div class="main">
@@ -32,4 +23,3 @@
 
     </section>
 </div>
-</body>

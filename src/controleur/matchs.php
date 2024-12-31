@@ -1,5 +1,9 @@
 <?php
-
+session_start();
+if(empty($_SESSION['email'])){
+    header('Location: login');
+    die();
+}
 
 $matchs = [
     [
@@ -38,5 +42,6 @@ $matchs = [
         'resultat' => "futur",
     ]
 ];
-
-include "../vue/matchs.php";
+$css = ["style.css"];
+$page = "../vue/matchs.php";
+include_once "../components/page.php";
