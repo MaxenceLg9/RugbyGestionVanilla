@@ -19,6 +19,11 @@
             $this -> lieu = $lieu;
         }
 
+        public static function getFromId(int $idMatch): MatchDeRugby
+        {
+            return DAOMatchDeRugby::readById($idMatch);
+        }
+
         public function getIdMatchDeRugby(): int {
             return $this -> idMatchDeRugby;
         }
