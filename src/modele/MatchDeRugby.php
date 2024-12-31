@@ -12,12 +12,11 @@
         private Lieu $lieu;
         private ?Resultat $resultat;
 
-        function __construct(int $idMatchDeRugby, DateTime $dateHeure, string $adversaire, Lieu $lieu, Resultat $resultat) {
+        function __construct(int $idMatchDeRugby, DateTime $dateHeure, string $adversaire, Lieu $lieu) {
             $this -> idMatchDeRugby = $idMatchDeRugby;
             $this -> dateHeure = $dateHeure;
             $this -> adversaire = $adversaire;
             $this -> lieu = $lieu;
-            $this -> resultat = $resultat;
         }
 
         public function getIdMatchDeRugby(): int {
@@ -40,6 +39,10 @@
             return $this -> resultat;
         }
 
+        public function setResultat(Resultat $resultat): void {
+            $this -> resultat = $resultat;
+        }
+
         // partie DAO : utilisation des méthodes de la classe DAOMatchDeRugby
         public function saveMatchDeRugby(): void {
             $daoMatchDeRugby = new DAOMatchDeRugby();
@@ -50,8 +53,7 @@
         }
 
         public static function getAllMatchDeRugby(): array {
-            $daoMatchDeRugby = new DAOMatchDeRugby();
-            return $daoMatchDeRugby -> read();
+            return DAOMatchDeRugby::read();
         }
 
         public function getMatchDeRugbyByDateHeure(): MatchDeRugby {
