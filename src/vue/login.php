@@ -8,7 +8,7 @@
 <body>
 <div class="login">
     <h1>Connexion</h1>
-    <form method="post" action="login.php" class="login">
+    <form method="post" action="/login" class="login">
         <div>
             <label for="email">Email</label>
             <input type="email" id="email" name="email" required>

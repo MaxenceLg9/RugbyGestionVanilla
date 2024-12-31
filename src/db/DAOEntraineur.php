@@ -14,17 +14,18 @@ class DAOEntraineur {
             $nom = $entraineur->getNom();
             $prenom = $entraineur->getPrenom();
             $email = $entraineur->getEmail();
-
             $motdepasse = password_hash($motdepasse,PASSWORD_BCRYPT);
 
             $statement->bindParam(':nom', $nom);
             $statement->bindParam(':prenom', $prenom);
             $statement->bindParam(':email', $email);
             $statement->bindParam(':motDePasse', $motdepasse);
+
             $statement->execute();
             echo "Entraineur créé avec succès";
         } catch (PDOException $e) {
             echo $e->getMessage();
+            die();
         }
     }
 
@@ -49,6 +50,7 @@ class DAOEntraineur {
             return $statement->fetchColumn() != 0;
         } catch (PDOException $e) {
             echo $e->getMessage();
+            die();
         }
         return false;
     }
@@ -67,6 +69,7 @@ class DAOEntraineur {
             echo "Entraineur modifié avec succès";
         } catch (PDOException $e) {
             echo $e->getMessage();
+            die();
         }
     }
 
@@ -76,10 +79,17 @@ class DAOEntraineur {
             $statement = $connexion->prepare("SELECT * FROM Entraineur WHERE email = :email");
             $statement->bindParam(':email', $email);
             $statement->execute();
-            $row = $statement->fetchColumn();
-            return new Entraineur($row['id'],$row['nom'],$row['prenom'],$row['email']);
+            $row = $statement->fetch(PDO::FETCH_ASSOC);
+            if (!$row) {
+                // Handle the case where no data is found
+                throw new Exception('No Entraineur found for the given criteria.');
+            }
+            // Create and return the Entraineur object using the associative array
+            return new Entraineur($row['idEntraineur'], $row['nom'], $row['prenom'], $row['email']);
+
         } catch (PDOException $e) {
             echo $e->getMessage();
+            die();
         }
     }
 
@@ -98,13 +108,25 @@ class DAOEntraineur {
 
     public static function compareMotDePasse(string $motdepasse, string $email): bool {
         $connexion = Connexion::getInstance()->getConnection();
-        $statement = $connexion->prepare("SELECT motDePasse FROM Entraineur WHERE email=:email");
+
+        // Prepare the query to fetch the hashed password
+        $statement = $connexion->prepare("SELECT motDePasse FROM Entraineur WHERE email = :email");
         $statement->bindParam(':email', $email);
         $statement->execute();
-        $rows = $statement->fetchColumn();
-        foreach ($rows as $row){
-            return password_verify($motdepasse,$row['motDePasse']);
+
+        // Fetch the result
+        $row = $statement->fetch(PDO::FETCH_ASSOC);
+
+        // Check if the email exists in the database
+        if (!$row) {
+            // No matching email found
+            return false;
         }
-        return false;
+
+        // Extract the hashed password from the row
+        $hashedPassword = $row['motDePasse'];
+
+        // Verify the password using password_verify
+        return password_verify($motdepasse, $hashedPassword);
     }
 }

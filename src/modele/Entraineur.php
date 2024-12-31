@@ -44,6 +44,8 @@
                 if(DAOEntraineur::compareMotDePasse($motdepasse, $email)){
                     return DAOEntraineur::getEntraineur($email);
                 }
+                echo "test : exist email but wrong password";
+                die();
             }
             return null;
         }
