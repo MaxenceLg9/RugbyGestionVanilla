@@ -1,0 +1,13 @@
+html{
+    height: 100%;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(100deg, #00afff, #a63f3f);
+    color: #fff;
+    margin: 0;
+    display: flex;
+    padding: 0;
+    height: 100%;
+}
