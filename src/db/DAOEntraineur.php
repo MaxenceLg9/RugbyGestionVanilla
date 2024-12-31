@@ -8,18 +8,20 @@ class DAOEntraineur {
     public static function create(Entraineur $entraineur, string $motdepasse): void {
         try {
             $connexion = Connexion::getInstance()->getConnection();
-            $statement = $connexion->prepare("INSERT INTO Entraineur (nom, prenom, email, motDePasse) 
-                   VALUES (:nom, :prenom, :email, :motDePasse)");
+            $statement = $connexion->prepare("INSERT INTO Entraineur (nom, prenom, email, motDePasse, equipe) 
+                   VALUES (:nom, :prenom, :email, :motDePasse, :equipe)");
 
             $nom = $entraineur->getNom();
             $prenom = $entraineur->getPrenom();
             $email = $entraineur->getEmail();
             $motdepasse = password_hash($motdepasse,PASSWORD_BCRYPT);
+            $equipe = $entraineur->getEquipe();
 
             $statement->bindParam(':nom', $nom);
             $statement->bindParam(':prenom', $prenom);
             $statement->bindParam(':email', $email);
             $statement->bindParam(':motDePasse', $motdepasse);
+            $statement->bindParam(':equipe', $equipe);
 
             $statement->execute();
             echo "Entraineur créé avec succès";
@@ -85,7 +87,7 @@ class DAOEntraineur {
                 throw new Exception('No Entraineur found for the given criteria.');
             }
             // Create and return the Entraineur object using the associative array
-            return new Entraineur($row['idEntraineur'], $row['nom'], $row['prenom'], $row['email']);
+            return new Entraineur($row['idEntraineur'], $row['nom'], $row['prenom'], $row['email'],$row['equipe']);
 
         } catch (PDOException $e) {
             echo $e->getMessage();
