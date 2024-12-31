@@ -1,24 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Matchs</title>
-    <meta charset="utf-8"/>
-    <link rel="stylesheet" href="../resources/style/style.css"/>
-</head>
-<body>
-
 <?php include_once "../components/nav.php" ?>
 
 <div class="main">
     <?php
-    foreach($matchs as $match){
-        echo "<section>";
-        echo "<h2>Match du ".$match['dateHeure']."</h2>";
-        echo "<p>Adversaire: ".$match['adversaire']."</p>";
-        echo "<p>Lieu: ".$match['lieu']."</p>";
-        echo "<p>Résultat: ".$match['resultat']."</p>";
-        echo "</section>";
+    foreach($matchs as $match){?>
+        <section>
+            <h2>Match du <?php echo $match['dateHeure']?></h2>
+            <p>Adversaire: <?php echo $match['adversaire']?></p>
+            <p>Lieu: <?php echo $match['lieu']?>"</p>
+            <p>Résultat: <?php echo $match['resultat']?></p>
+            <form method="POST" action="matchs.php" style="margin-top: 10px;">
+                <input type="hidden" name="idMatch" value="<?= htmlspecialchars($match['idMatch']) ?>">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
+                <button type="submit" style="background-color: red; color: white;">Delete</button>
+            </form>
+        </section>
+        <?php
     }
     ?>
 </div>
-</body>
