@@ -8,18 +8,16 @@ class DAOMatchDeRugby {
         try {
             $connexion = Connexion::getInstance()->getConnection();
             $statement = $connexion->prepare(
-                "INSERT INTO MatchDeRugby (dateHeure, adversaire, lieu, resultat) 
-                   VALUES (:dateHeure, :adversaire, :lieu, :resultat)");
+                "INSERT INTO MatchDeRugby (dateHeure, adversaire, lieu) 
+                   VALUES (:dateHeure, :adversaire, :lieu)");
 
             $dateHeure = $match->getDateHeure()->format('Y-m-d H:i:s');
             $adversaire = $match->getAdversaire();
             $lieu = $match->getLieu()->name;
-            $resultat = $match->getResultat()->name;
 
             $statement->bindParam(':dateHeure', $dateHeure);
             $statement->bindParam(':adversaire', $adversaire);
             $statement->bindParam(':lieu', $lieu);
-            $statement->bindParam(':resultat', $resultat);
 
             $statement->execute();
             echo "Match créé avec succès\n";
@@ -28,14 +26,14 @@ class DAOMatchDeRugby {
         }
     }
 
-    public function read(): array {
+    public static function read(): array {
         $matches = [];
         try {
             $connexion = Connexion::getInstance()->getConnection();
             $statement = $connexion->prepare("SELECT * FROM MatchDeRugby");
             $statement->execute();
             while ($row = $statement->fetch()) {
-                $matches[] = new MatchDeRugby($row['idMatchDeRugby'], $row['dateHeure'], $row['adversaire'],
+                $matches = new MatchDeRugby($row['idMatchDeRugby'], $row['dateHeure'], $row['adversaire'],
                                         $row['lieu'], $row['resultat']);
             }
         } catch (PDOException $e) {
@@ -79,26 +77,6 @@ class DAOMatchDeRugby {
             echo "Erreur lors de la lecture du match: " . $e->getMessage();
         }
         return $match;
-    }
-
-    public function readByDateHeure(DateTime $dateHeure): MatchDeRugby {
-        $connexion = Connexion::getInstance()->getConnection();
-        $statement = $connexion->prepare("SELECT * FROM MatchDeRugby WHERE dateHeure = :dateHeure");
-        $statement->bindParam(':dateHeure', $dateHeure);
-        $statement->execute();
-        $row = $statement->fetch();
-        return new MatchDeRugby($row['idMatchDeRugby'], $row['dateHeure'], $row['adversaire'],
-                                $row['lieu'], $row['resultat']);
-    }
-
-    public function readByDateHeure(DateTime $dateHeure): MatchDeRugby {
-        $connexion = Connexion::getInstance()->getConnection();
-        $statement = $connexion->prepare("SELECT * FROM MatchDeRugby WHERE dateHeure = :dateHeure");
-        $statement->bindParam(':dateHeure', $dateHeure);
-        $statement->execute();
-        $row = $statement->fetch();
-        return new MatchDeRugby($row['idMatchDeRugby'], $row['dateHeure'], $row['adversaire'],
-                                $row['lieu'], $row['resultat']);
     }
 
     public function update(MatchDeRugby $match): void {
