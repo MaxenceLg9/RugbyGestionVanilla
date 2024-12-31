@@ -8,26 +8,26 @@
 
     class FeuilleDeMatch {
 
-        private MatchDeRugby $matchDeRugby;
-        private Joueur $joueur;
+        private int $idMatchDeRugby;
+        private int $idJoueur;
         private bool $estTitulaire;
         private string $poste;
         private float $note;
 
-        function __construct(MatchDeRugby $matchDeRugby, Joueur $joueur, bool $estTitulaire, string $poste, float $note) {
-            $this -> matchDeRugby = $matchDeRugby;
-            $this -> joueur = $joueur;
+        function __construct(int $matchDeRugby, int $joueur, bool $estTitulaire, string $poste, float $note) {
+            $this -> idMatchDeRugby = $matchDeRugby;
+            $this -> idJoueur = $joueur;
             $this -> estTitulaire = $estTitulaire;
             $this -> poste = $poste;
             $this -> note = $note;
         }
 
-        public function getMatchDeRugby() : MatchDeRugby {
-            return $this -> matchDeRugby;
+        public function getIdMatchDeRugby() : int {
+            return $this -> idMatchDeRugby;
         }
 
-        public function getJoueur() : Joueur {
-            return $this -> joueur;
+        public function getIdJoueur() : int {
+            return $this -> idJoueur;
         }
 
         public function estJoueurTitulaire() : bool {
@@ -59,7 +59,7 @@
         // partie DAO
         public function saveFeuilleDeMatch(): void {
             $daoFeuilleDeMatch = new DAOFeuilleDeMatch();
-            if ($daoFeuilleDeMatch -> read($this -> matchDeRugby, $this -> joueur) != null) {
+            if ($daoFeuilleDeMatch -> read($this -> idMatchDeRugby, $this -> idJoueur) != null) {
                 $daoFeuilleDeMatch -> update($this);
             }
             $daoFeuilleDeMatch -> create($this);
@@ -67,19 +67,19 @@
 
         public function deleteFeuilleDeMatch(): void {
             $daoFeuilleDeMatch = new DAOFeuilleDeMatch();
-            if ($daoFeuilleDeMatch -> read($this -> matchDeRugby, $this -> joueur) != null) {
+            if ($daoFeuilleDeMatch -> read($this -> idMatchDeRugby, $this -> idJoueur) != null) {
                 $daoFeuilleDeMatch->delete($this);
             }
         }
 
         public function getAllFeuilleDeMatchByMatch(): array {
             $daoFeuilleDeMatch = new DAOFeuilleDeMatch();
-            return $daoFeuilleDeMatch -> readAllByMatch($this->getMatchDeRugby());
+            return $daoFeuilleDeMatch -> readAllByMatch($this->getIdMatchDeRugby());
         }
 
         public function getAllFeuilleDeMatchByJoueur(): array {
             $daoFeuilleDeMatch = new DAOFeuilleDeMatch();
-            return $daoFeuilleDeMatch -> readAllByJoueur($this->getJoueur());
+            return $daoFeuilleDeMatch -> readAllByJoueur($this->getIdJoueur());
         }
 
         public static function getAllFeuilleDeMatch(): array {
