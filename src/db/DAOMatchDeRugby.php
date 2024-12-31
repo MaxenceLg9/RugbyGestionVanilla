@@ -42,8 +42,7 @@ class DAOMatchDeRugby {
         return $matches;
     }
 
-    public function readById(int $idMatchDeRugby): ?MatchDeRugby {
-        $matchDeRugby = null;
+    public static function readById(int $idMatchDeRugby): ?MatchDeRugby {
         try {
             $connexion = Connexion::getInstance()->getConnection();
             $statement = $connexion->prepare("SELECT * FROM MatchDeRugby WHERE idMatchDeRugby = :idMatchDeRugby");
@@ -51,13 +50,13 @@ class DAOMatchDeRugby {
             $statement->execute();
             $row = $statement->fetch();
             if ($row) {
-            $matchDeRugby = new MatchDeRugby($row['idMatchDeRugby'], $row['dateHeure'], $row['adversaire'],
-                                        $row['lieu'], $row['resultat']);
+            return new MatchDeRugby($row['idMatchDeRugby'], $row['dateHeure'], $row['adversaire'],
+                                        $row['lieu']);
             }
         } catch (PDOException $e) {
             echo "Erreur lors de la lecture du match: " . $e->getMessage();
         }
-        return $matchDeRugby;
+        return null;
     }
 
     public function readByDateHeure(DateTime $dateHeure): ?MatchDeRugby {
