@@ -3,7 +3,8 @@
 require '../modele/Joueur.php';
 session_start();
 if(!empty($_GET)){
-    if (!isset($_GET['csrf_token']) || $_GET['csrf_token'] !== $_SESSION['csrf_token']) {
+    //TODO : faire le même hashage que pour les matchs
+    if (!isset($_GET['csrf_token']) || !password_verify($_GET["idJoueur"].$_SESSION['csrf_token'].$_POST['type'],$_GET['csrf_token'])) {
         die('CSRF validation failed.');
     }
     if(!isset($_GET["type"])){
@@ -23,7 +24,8 @@ if(!empty($_GET)){
     }
 }
 elseif(!empty($_POST)){
-    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    //TODO : faire le même hashage que pour les matchs
+    if (!isset($_POST['csrf_token']) || !password_verify($_POST["idJoueur"].$_SESSION['csrf_token'].$_POST['type'],$_POST['csrf_token'])) {
         die('CSRF validation failed.');
     }
     if(!isset($_POST["type"])){
