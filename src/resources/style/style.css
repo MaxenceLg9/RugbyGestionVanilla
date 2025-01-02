@@ -13,6 +13,7 @@ html{
     margin : 1%;
     align-items: center;
     flex-direction: column;
+    gap: 15px;
 }
 
 .div-column {
@@ -31,7 +32,7 @@ section{
     padding: 1%;
     flex-direction: column;
     /*justify-items: start;*/
-    justify-content: space-around;
+    gap: 15px;
     align-content: center;
     align-items: center;
     /*side rounded*/
@@ -54,4 +55,8 @@ article {
     flex-wrap: wrap;
     width: 100%;
     height: fit-content;
+}
+
+div.statut {
+    height: 70px;
 }
