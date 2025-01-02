@@ -19,6 +19,7 @@ if(!empty($_GET)){
     }
     elseif ($_GET["type"] == "modification") {
         $page = '../vue/modifmatch.php';
+        $match = MatchDeRugby::getFromId($_GET['idMatch']);
         include_once '../components/page.php';
     }
 }
@@ -44,7 +45,6 @@ elseif(!empty($_POST)){
     if ($_POST["type"] == "modification"){
         // Sanitize and validate the match ID
         $match = MatchDeRugby::getFromId($_POST['idMatch']);
-        $match->setResultat($_POST['resultat']);
         $match->saveMatchDeRugby();
         header('Location: matchs');
         die();
