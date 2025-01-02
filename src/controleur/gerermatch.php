@@ -3,7 +3,8 @@
 require '../modele/MatchDeRugby.php';
 session_start();
 if(!empty($_GET)){
-    if (!isset($_GET['csrf_token']) || !password_verify($_GET["idMatch"].$_SESSION['csrf_token'],$_GET['csrf_token'])) {
+    if (!isset($_GET['csrf_token']) || !password_verify($_GET["idMatch"].$_SESSION['csrf_token'].$_GET['type'],$_GET['csrf_token'])) {
+        header('Location: matchs.php');
         die('CSRF validation failed.');
     }
     if(!isset($_GET["type"])){
@@ -25,7 +26,8 @@ if(!empty($_GET)){
 }
 elseif(!empty($_POST)){
     echo $_POST["idMatch"];
-    if (!isset($_POST['csrf_token']) || !password_verify($_POST["idMatch"].$_SESSION['csrf_token'],$_POST['csrf_token'])) {
+    if (!isset($_POST['csrf_token']) || !password_verify($_POST["idMatch"].$_SESSION['csrf_token'].$_POST['type'],$_POST['csrf_token'])) {
+        header('Location: matchs.php');
         die('CSRF validation failed.');
     }
     if(!isset($_POST["type"])){
