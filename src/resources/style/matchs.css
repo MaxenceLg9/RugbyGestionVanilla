@@ -1,48 +1,94 @@
+/* General button styling */
 button {
-    width: 80%;
-    margin: 0;
-    font-family: Bahnschrift;
+    width: 90%; /* Slightly wider for better alignment */
+    margin: 5px 0; /* Space between buttons */
+    font-family: Bahnschrift, Arial, sans-serif;
     background: red;
-    min-height: 30px;
+    min-height: 35px; /* Increased for a better look */
     border: none;
     color: white;
-    font-weight: normal;
+    font-weight: bold;
     border-radius: 5px;
+    transition: background 0.3s ease, transform 0.3s ease;
 }
 
 button:hover {
     cursor: pointer;
-    opacity: 80%;
-    color: black;
+    opacity: 90%;
+    transform: scale(1.05); /* Subtle hover animation */
+    color: white; /* Keep the text white for consistency */
 }
 
+/* Specific button styles */
 button.modify {
-    background: #0f8600;
+    background: #0f8600; /* Green for modify */
 }
 
-button.delete{
-    background: red;
+button.delete {
+    background: red; /* Red for delete */
 }
 
+/* Add consistent styling for 'add' button */
+button.add {
+    background: #007bff; /* Blue for add button */
+    font-size: 16px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
 
-form{
+button.add:hover {
+    background: #0056b3; /* Darker blue on hover */
+    transform: scale(1.1); /* Slightly larger on hover */
+}
+
+/* Form styling */
+form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
     height: 100%;
-    align-items: center;
+    margin: 0; /* Remove unnecessary margins */
 }
 
+/* Match section card styling */
 section {
     font-weight: bold;
-    min-height: 200px;
-    min-width: 200px;
-    padding: 0 2%;
-    background: #1c65b6;
+    min-height: 220px; /* Increased to match content */
+    min-width: 250px; /* Wider for better readability */
+    padding: 15px;
+    margin: 10px;
+    background: #1c65b6; /* Blue background */
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Add subtle shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+section:hover {
+    transform: scale(1.03); /* Slight growth on hover */
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+}
+
+/* Forms container styling */
 div.forms {
     width: 100%;
-    height: 100%;
+    display: flex;
+    justify-content: space-around; /* Space out buttons */
+    margin-top: 10px;
+}
+
+/* Adjust typography for match details */
+h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+p {
+    font-size: 14px;
+    margin: 5px 0;
+    color: #d0e7ff; /* Softer text color */
 }

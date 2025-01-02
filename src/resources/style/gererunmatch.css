@@ -1,13 +1,82 @@
-form{
-    width: 80%;
-    height: 80%;
+body {
+    font-family: 'Arial', sans-serif;
+    background: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
 }
 
-section{
-    width: 98%;
-    height: 98%;
+h1, h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
 }
 
-form{
+.main {
+    background: #ffc0c0;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
 
+section.full {
+    width: 95%;
+    padding: 2%;
+}
+
+form {
+    width: 100%;
+}
+
+.form-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.form-row label {
+    font-size: 16px;
+    color: #555;
+    flex: 1;
+    text-align: right;
+    margin-right: 10px;
+}
+
+.form-row input,
+.form-row select {
+    flex: 2;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+form > button {
+    width: 100%;
+    padding: 10px;
+    background: #00afff;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form > button:hover {
+    background: #008ecc;
+}
+
+.form-row input:focus,
+.form-row select:focus {
+    border-color: #00afff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 175, 255, 0.5);
 }
