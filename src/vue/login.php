@@ -8,6 +8,9 @@
             <label for="password">Mot de passe</label>
             <input type="password" id="password" name="password" required>
         </div>
+        <?php if(isset($_COOKIE['login_error'])): ?>
+            <p class="error"><?= $_COOKIE['login_error'] ?></p>
+        <?php endif; ?>
         <input type="submit" value="Se connecter">
     </form>
 </div>
