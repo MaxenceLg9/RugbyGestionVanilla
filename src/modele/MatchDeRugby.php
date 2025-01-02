@@ -40,8 +40,8 @@ class MatchDeRugby {
         return $this -> lieu;
     }
 
-    public function getResultat(): Resultat {
-        return $this -> resultat;
+    public function getResultat(): ?Resultat {
+        return is_null($this -> resultat) ? null : $this -> resultat;
     }
 
     public function setResultat(Resultat $resultat): void {
