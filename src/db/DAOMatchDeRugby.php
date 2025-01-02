@@ -30,7 +30,7 @@ class DAOMatchDeRugby {
         $matches = [];
         try {
             $connexion = Connexion::getInstance()->getConnection();
-            $statement = $connexion->prepare("SELECT * FROM MatchDeRugby");
+            $statement = $connexion->prepare("SELECT * FROM MatchDeRugby ORDER BY dateHeure ASC");
             $statement->execute();
             while ($row = $statement->fetch()) {
                 $matches[] = new MatchDeRugby($row['idMatchDeRugby'], new DateTime($row['dateHeure']), $row['adversaire'],
@@ -112,5 +112,4 @@ class DAOMatchDeRugby {
             echo "Erreur lors de la suppression du match: " . $e->getMessage();
         }
     }
-
 }
