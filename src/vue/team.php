@@ -1,5 +1,4 @@
-
-
+<?php include_once "../components/nav.php" ?>
 <div class="main">
     <header>
         <h1>Liste des joueurs</h1>
