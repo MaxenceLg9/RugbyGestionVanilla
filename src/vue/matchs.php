@@ -2,14 +2,16 @@
 
 <div class="main div-column">
     <header class="header-section">
-        <h1>Liste des matchs</h1>
-        <p>Vous cherchez à ajouter un match :</p>
-        <form method="get" action="gerermatch.php">
-            <input type="hidden" name="type" value="ajout">
-            <input type="hidden" name="idMatch" value="<?= 0 ?>">
-            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(password_hash("0".$_SESSION['csrf_token'], PASSWORD_BCRYPT)) ?>">
-            <button type="submit" class="add">Ajouter un match</button>
-        </form>
+        <h1>Liste des matchs du <?= $_SESSION["equipe"]?></h1>
+        <div>
+            <p>Vous cherchez à ajouter un match :</p>
+            <form method="get" action="gerermatch.php">
+                <input type="hidden" name="type" value="ajout">
+                <input type="hidden" name="idMatch" value="<?= 0 ?>">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(password_hash("0".$_SESSION['csrf_token'], PASSWORD_BCRYPT)) ?>">
+                <button type="submit" class="add">Ajouter un match</button>
+            </form>
+        </div>
     </header>
     <article class="match-list">
         <?php
