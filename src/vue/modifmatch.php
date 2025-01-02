@@ -8,23 +8,28 @@
         <form action="gerermatch.php" method="post">
             <div class="form-row">
                 <label for="datetime">Date du match</label>
-                <input type="datetime-local" id="datetime" name="datetime" required>
+                <input type="datetime-local" id="datetime" name="datetime" required value="<?= $match->getDateHeure()->format('Y-m-d\TH:i') ?>">
             </div>
             <div class="form-row">
                 <label for="lieu">Lieu du match</label>
                 <select id="lieu" name="lieu" required>
-                    <option value="Exterieur">Exterieur</option>
-                    <option value="Domicile" selected>Domicile</option>
+                    <?php if($match->getLieu()->name === 'EXTERIEUR') { ?>
+                        <option value = "Exterieur" selected> Exterieur</option >
+                        <option value = "Domicile" > Domicile</option >
+                    <?php } else { ?>
+                        <option value = "Exterieur" > Exterieur</option >
+                        <option value = "Domicile" selected> Domicile</option >
+                    <?php } ?>
                 </select>
             </div>
             <div class="form-row">
                 <label for="adversaire">Adversaire</label>
-                <input type="text" id="adversaire" name="adversaire" placeholder="Nom de l'adversaire" required>
+                <input type="text" id="adversaire" name="adversaire" placeholder="Nom de l'adversaire" required value="<?= $match->getAdversaire() ?>">
             </div>
 
             <input type="hidden" name="idMatch" value="<?= $match->getIdMatchDeRugby() ?>">
             <input type="hidden" name="type" value="ajout">
-            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(password_hash($match->getIdMatchDeRugby() . $_SESSION['csrf_token'], PASSWORD_BCRYPT)) ?>">
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(password_hash($match->getIdMatchDeRugby() . $_SESSION['csrf_token'] . "ajout", PASSWORD_BCRYPT)) ?>">
 
             <button type="submit" class="ajout">Modifier le match</button>
         </form>
