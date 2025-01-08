@@ -13,7 +13,7 @@ h1, h3 {
 }
 
 .main {
-    background: #ffc0c0;
+    background: #ffc0c0AA;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 5);
     display: flex;

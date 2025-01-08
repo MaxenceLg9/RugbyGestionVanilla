@@ -6,6 +6,7 @@ nav{
     flex-direction: column;
     justify-content: space-between;
     border-right: #0d1117 1px solid;
+    background: rgba(0, 82, 172, 0.73);
 }
 
 nav ul{
@@ -29,7 +30,7 @@ nav ul li a {
 nav ul a:hover{
     color: black;
     text-decoration: none;
-    background-color: rgba(96, 200, 255, 0.83);
+    background-color: #1c65b6BB;
 }
 
 nav ul li{

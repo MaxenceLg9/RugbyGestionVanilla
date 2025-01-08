@@ -1,14 +1,15 @@
+.div-column {
+    flex-direction: column;
+}
+
 .main{
     display: flex;
     width: 90%;
-    margin : 1%;
+    padding : 1%;
+    background: #9bd3ff22;
     align-items: center;
     flex-direction: column;
     gap: 15px;
-}
-
-.div-column {
-    flex-direction: column;
 }
 
 p, h1, h2, h3, h4, h5, h6{
@@ -58,4 +59,73 @@ article {
 
 div.statut {
     height: 70px;
+}
+
+.button, button {
+    width: 90%; /* Slightly wider for better alignment */
+    margin: 5px 0; /* Space between buttons */
+    font-family: Bahnschrift, Arial, sans-serif;
+    min-height: 35px; /* Increased for a better look */
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.button:hover, button:hover {
+    cursor: pointer;
+    opacity: 90%;
+    transform: scale(1.05); /* Subtle hover animation */
+    color: white; /* Keep the text white for consistency */
+}
+
+/* Specific button styles */
+.modify {
+    background: #15ad00; /* Green for modify */
+}
+
+.button.saisie{
+    background: #ff8c00; /* Orange for saisie */
+}
+
+button.delete {
+    background: red; /* Red for delete */
+}
+
+/* Add consistent styling for 'add' button */
+.button.add {
+    min-width: 300px; /* Wider for better readability */
+    width: 400px;
+    background: #1037caDD; /* Blue for add button */
+}
+
+button.add:hover, .button.add:hover {
+    transform: scale(1.1); /* Slightly larger on hover */
+}
+
+.forms {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.forms * {
+    width: 100%;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+    text-align: center;
+    align-items: center;
+}
+
+.button:hover {
+    opacity: 0.9;
+}
+
+
+.section-index{
+    background-color: #5a5a5aAA;
 }
