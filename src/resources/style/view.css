@@ -33,9 +33,9 @@ button.delete {
 }
 
 /* Add consistent styling for 'add' button */
-button.add {
-    padding: 10px 15px;
+.button.add {
     min-width: 300px; /* Wider for better readability */
+    width: 400px;
     background: #1548ff; /* Blue for add button */
 }
 
@@ -61,18 +61,15 @@ form {
 }
 
 /* Match section card styling */
-section {
+.section-card {
     font-weight: bold;
-    min-height: 220px; /* Increased to match content */
-    min-width: 250px; /* Wider for better readability */
-    padding: 15px;
-    margin: 10px;
+    height: 300px;
+    width: 320px;
+    max-width: 380px;
     background: #1c65b6; /* Blue background */
     color: white;
-    border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Add subtle shadow */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    height: 300px;
 }
 
 section:hover {
@@ -107,6 +104,7 @@ article {
     display: flex;
     flex-wrap: wrap; /* Allow wrapping to the next row if needed */
     gap: 15px; /* Add space between sections */
+    justify-content: center;
 }
 
 a{
