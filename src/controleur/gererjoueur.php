@@ -34,7 +34,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $page = '../vue/modifierjoueur.php';
         include_once '../components/page.php';
     }elseif ($type == "vue"){
+        require_once "../modele/JouerUnMatch.php";
         $joueur = Joueur::getById($idJoueur);
+        $matches = JouerUnMatch::getJouerByJoueur($joueur);
+        $stats['totalMatches'] = count($matches);
+        $stats['matchesWon'] = 0;
+        foreach($matches as $match){
+            if(MatchDeRugby::getFromId($match->getIdMatch())->getResultat() == Resultat::VICTOIRE)
+                $stats['matchesWon']++;
+        }
+        $winPercentage = 0;
+        $stats["avgNote"] = 0;
+        if($stats['totalMatches'] > 0) {
+            $winPercentage = number_format($stats['matchesWon'] / $stats['totalMatches'] * 100, 2);
+            $stats["avgNote"] = array_sum(array_map(function ($match) {
+                    return $match->getNote();
+                }, $matches)) / count($matches);
+        }
         $title = "Consulter un joueur";
         $page = '../vue/vuejoueur.php';
         include_once '../components/page.php';
