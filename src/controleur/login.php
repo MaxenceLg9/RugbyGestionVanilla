@@ -23,6 +23,7 @@ if(!empty($_POST) && isset($_POST["email"])){
     $_SESSION["id"] = $entraineur->getIdEntraineur();
     $_SESSION['csrf_token'] = bin2hex(openssl_random_pseudo_bytes(32));
     $_SESSION["equipe"] = $entraineur->getEquipe();
+    $_SESSION["prenom"] = $entraineur->getPrenom();
     header('Location: /');
 }
 $css = ["login.css"];
