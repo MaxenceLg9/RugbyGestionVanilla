@@ -1,6 +1,6 @@
 <?php
     enum Lieu: string {
-        case DOMICILE = 'Domicile';
-        case EXTERIEUR = 'Exterieur';
+        case DOMICILE = 'DOMICILE';
+        case EXTERIEUR = 'EXTERIEUR';
     }
 ?>
