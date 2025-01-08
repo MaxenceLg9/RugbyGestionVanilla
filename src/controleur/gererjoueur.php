@@ -1,52 +1,72 @@
 <?php
 
-require '../modele/Joueur.php';
-session_start();
-if(!empty($_GET)){
-    //TODO : faire le même hashage que pour les matchs
-    if (!isset($_GET['csrf_token']) || !password_verify($_GET["idJoueur"].$_SESSION['csrf_token'].$_POST['type'],$_GET['csrf_token'])) {
-        die('CSRF validation failed.');
-    }
-    if(!isset($_GET["type"])){
-        die("Type de requête non défini");
-    }
-    $css = ["style.css","gererunjoueur.css"];
-    if($_GET["type"] == "ajout") {
-        $page =
-        include_once
-    }
-    elseif ($_GET["type"] == "suppression") {
+require_once "../modele/Session.php";
+checkSession();
 
-    }
-    elseif ($_GET["type"] == "modification") {
-        $page =
-        include_once
-    }
+require_once '../modele/Joueur.php';
+
+$csrf_token = $_SESSION['csrf_token'];
+$type = $_POST['type'] ?? $_GET['type'] ?? null;
+
+if (!in_array($type, ['ajout', 'suppression', 'modification', 'vue'])) {
+    die("Type de requête non défini.");
 }
-elseif(!empty($_POST)){
-    //TODO : faire le même hashage que pour les matchs
-    if (!isset($_POST['csrf_token']) || !password_verify($_POST["idJoueur"].$_SESSION['csrf_token'].$_POST['type'],$_POST['csrf_token'])) {
-        die('CSRF validation failed.');
+
+
+$idJoueur = $_POST['idJoueur'] ?? $_GET['idJoueur'] ?? null;
+if (!is_numeric($idJoueur)) {
+    die("ID joueur invalide.");
+}
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    if (!isset($_GET['csrf_token']) || !password_verify($idJoueur . $csrf_token . $type, $_GET['csrf_token'])) {
+        die("CSRF validation failed.");
     }
-    if(!isset($_POST["type"])){
-        die("Type de requête non défini");
+    $css = ["style.css","gerer.css"];
+    if ($type === 'ajout') {
+        $title = "Ajouter un joueur";
+        $page = '../vue/nouveaujoueur.php';
+        include_once '../components/page.php';
+    } elseif ($type === 'modification') {
+        $joueur = Joueur::getById($idJoueur);
+        $title = "Modifier un joueur";
+        $page = '../vue/modifierjoueur.php';
+        include_once '../components/page.php';
+    }elseif ($type == "vue"){
+        $joueur = Joueur::getById($idJoueur);
+        $title = "Consulter un joueur";
+        $page = '../vue/vuejoueur.php';
+        include_once '../components/page.php';
+    }
+} elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!isset($_POST['csrf_token']) || !password_verify($idJoueur . $csrf_token . $type,$_POST['csrf_token'])) {
+        die("CSRF validation failed.");
     }
 
-    if($_POST["type"] == "ajout") {
-
-        die();
-    }
-    if (!isset($_POST['idMatch']) || !is_numeric($_POST['idMatch'])) {
-        die('Invalid match ID.');
-    }
-    if ($_POST["type"] == "modification"){
-
-        header('Location: matchs');
-        die();
-    }
-    elseif ($_POST["type"] == "suppression"){
-
-        header('Location: matchs');
-        die();
+    if ($type === 'ajout') {
+        $joueur = new Joueur(-1, $_POST['nom'], $_POST['prenom'], new DateTime($_POST['dateNaissance']), $_POST['numeroLicense'], $_POST['taille'], $_POST['poids'], Statut::ABSENT, $_POST['postePrefere'], $_POST['estPremiereLigne']);
+        $joueur->setCommentaire($_POST["commentaire"]);
+        $joueur->saveJoueur();
+        header('Location: team.php');
+    } elseif ($type === 'modification') {
+        $joueur = Joueur::getById($idJoueur);
+        $joueur->setNom($_POST['nom']);
+        $joueur->setPrenom($_POST['prenom']);
+        $joueur->setDateNaissance(new DateTime($_POST['dateNaissance']));
+        $joueur->setNumeroLicense($_POST['numeroLicense']);
+        $joueur->setTaille($_POST['taille']);
+        $joueur->setPoids($_POST['poids']);
+        $joueur->setStatut(Statut::from($_POST['statut']));
+        $joueur->setPostePrefere($_POST['postePrefere']);
+        $joueur->setEstPremiereLigne($_POST['estPremiereLigne']);
+        $joueur->setCommentaire($_POST["commentaire"]);
+        $joueur->saveJoueur();
+        // Update logic here
+        header('Location: team.php');
+    }elseif($type === 'suppression'){
+        // Delete logic here
+        Joueur::getById($idJoueur)->deleteJoueur();
+        header('Location: team.php');
     }
 }
