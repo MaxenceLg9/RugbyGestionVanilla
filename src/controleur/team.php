@@ -6,6 +6,9 @@ if(empty($_SESSION['email'])){
     die();
 }
 
-$css = ["style.css"];
+require "../modele/Joueur.php";
+
+$joueurs = Joueur::findAll();
+$css = ["style.css","view.css"];
 $page = "../vue/team.php";
 include_once "../components/page.php";
