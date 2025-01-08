@@ -17,7 +17,7 @@ class CreerBD {
             dateNaissance DATE NOT NULL,
             taille INT(3) NULL,
             poids INT(3) NULL,
-            statut ENUM('Actif', 'Blesse', 'Suspendu', 'Absent') NOT NULL,
+            statut ENUM('ACTIF', 'BLESSE', 'SUSPENDU', 'ABSENT') NOT NULL,
             postePrefere VARCHAR(50) NULL,
             estPremiereLigne BOOLEAN NULL
         )",
@@ -31,8 +31,8 @@ class CreerBD {
             idMatchDeRugby INT PRIMARY KEY AUTO_INCREMENT,
             dateHeure DATETIME NOT NULL,
             adversaire VARCHAR(50) NOT NULL,
-            lieu ENUM('Domicile', 'Exterieur') NOT NULL,
-            resultat ENUM('Victoire', 'Defaite', 'Nul') NULL
+            lieu ENUM('DOMICILE', 'EXTERIEUR') NOT NULL,
+            resultat ENUM('VICTOIRE', 'DEFAITE', 'NUL') NULL
         )",
         "CREATE TABLE IF NOT EXISTS FeuilleDeMatch (
             idMatchDeRugby INT NOT NULL,
