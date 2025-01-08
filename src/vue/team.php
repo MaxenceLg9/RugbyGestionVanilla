@@ -5,7 +5,7 @@
         <h1>Votre équipe : <?= $_SESSION["equipe"]?></h1>
         <div class="add">
             <p>Vous cherchez à ajouter un joueur?</p>
-            <a href="gererjoueur.php?type=ajout&idJoueur=0&csrf_token=<?= htmlspecialchars(password_hash("0" . $_SESSION['csrf_token'] . "ajout", PASSWORD_BCRYPT)) ?>" class="forms button add"><p>Ajouter une équipe</p></a>
+            <a href="gererjoueur.php?type=ajout&idJoueur=0&csrf_token=<?= htmlspecialchars(password_hash("0" . $_SESSION['csrf_token'] . "ajout", PASSWORD_BCRYPT)) ?>" class="forms button add"><p>Ajouter un joueur</p></a>
         </div>
     </header>
     <article class="team-list">
