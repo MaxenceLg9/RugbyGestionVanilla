@@ -81,6 +81,31 @@ class DAOMatchDeRugby {
     public function update(MatchDeRugby $match): void {
         try {
             $connexion = Connexion::getInstance()->getConnection();
+            $statement = $connexion->prepare(
+                "UPDATE MatchDeRugby SET dateHeure = :dateHeure, adversaire = :adversaire, lieu = :lieu
+                   WHERE idMatchDeRugby = :idMatchDeRugby");
+
+            $dateHeure = $match->getDateHeure()->format('Y-m-d H:i:s');
+            $adversaire = $match->getAdversaire();
+            $lieu = $match->getLieu()->name;
+            $id = $match->getIdMatchDeRugby();
+
+            $statement->bindParam(':dateHeure', $dateHeure);
+            $statement->bindParam(':adversaire', $adversaire);
+            $statement->bindParam(':lieu', $lieu);
+            $statement->bindParam(':idMatchDeRugby',$id);
+
+            $statement->execute();
+            echo "Match mis à jour avec succès\n";
+        } catch (PDOException $e) {
+            echo "Erreur lors de la mise à jour du match: " . $e->getMessage();
+            die();
+        }
+    }
+
+    public function setResult(MatchDeRugby $match): void{
+        try {
+            $connexion = Connexion::getInstance()->getConnection();
             $statement = $connexion->prepare("UPDATE MatchDeRugby SET resultat = :resultat WHERE idMatchDeRugby = :idMatchDeRugby");
 
             $idMatchDeRugby = $match->getIdMatchDeRugby();
@@ -103,9 +128,9 @@ class DAOMatchDeRugby {
     public function delete(MatchDeRugby $matchDeRugby): void {
         try {
             $connexion = Connexion::getInstance()->getConnection();
-            $statement = $connexion->prepare("DELETE FROM MatchDeRugby WHERE dateHeure = :dateHeure");
-            $dateHeure = $matchDeRugby->getDateHeure()->format('Y-m-d H:i:s');
-            $statement->bindParam(':dateHeure', $dateHeure);
+            $statement = $connexion->prepare("DELETE FROM MatchDeRugby WHERE idMatchDeRugby = :idMatchDeRugby");
+            $id = $matchDeRugby->getIdMatchDeRugby();
+            $statement->bindParam(':idMatchDeRugby', $id);
             $statement->execute();
             echo "Match supprimé avec succès\n";
         } catch (PDOException $e) {
