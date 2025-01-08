@@ -63,8 +63,9 @@ form {
 /* Match section card styling */
 .section-card {
     font-weight: bold;
-    height: 300px;
+    height: 330px;
     width: 320px;
+    justify-content: space-between;
     max-width: 380px;
     background: #1c65b6; /* Blue background */
     color: white;
