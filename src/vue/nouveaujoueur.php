@@ -48,6 +48,10 @@
                     <option value="0">Non</option>
                 </select>
             </div>
+            <div class="form-row">
+                <label for="commentaire">Ajouter un commentaire sur le joueur (max 400carac.)</label>
+                <input type="text" class="textfield" name="commentaire" id="commentaire"/>
+            </div>
 
             <input type="hidden" name="type" value="ajout">
             <input type="hidden" name="idJoueur" value="0">

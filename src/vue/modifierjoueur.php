@@ -69,6 +69,11 @@
                 </select>
             </div>
 
+            <div class="form-row">
+                <label for="commentaire">Ajouter un commentaire sur le joueur (max 400carac.)</label>
+                <input type="text" class="textfield" name="commentaire" id="commentaire" value="<?=$joueur->getCommentaire()?>"/>
+            </div>
+
             <!-- Hidden fields -->
             <input type="hidden" name="idJoueur" value="<?= htmlspecialchars($joueur->getIdJoueur()) ?>">
             <input type="hidden" name="type" value="modification">
