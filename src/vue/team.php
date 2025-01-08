@@ -31,6 +31,7 @@
 
                 <div class="forms">
                     <!-- Modification Form -->
+                    <a href="gererjoueur.php?type=vue&idJoueur=<?= htmlspecialchars($joueur->getIdJoueur()) ?>&csrf_token=<?= htmlspecialchars(password_hash($joueur->getIdJoueur() . $_SESSION['csrf_token'] . "vue", PASSWORD_BCRYPT)) ?>" class="forms saisie button"><p>Consulter le joueur</p></a>
                     <a href="gererjoueur.php?type=modification&idJoueur=<?= htmlspecialchars($joueur->getIdJoueur()) ?>&csrf_token=<?= htmlspecialchars(password_hash($joueur->getIdJoueur() . $_SESSION['csrf_token'] . "modification", PASSWORD_BCRYPT)) ?>" class="forms modify button">
                         <p>Modifier le joueur</p>
                     </a>
