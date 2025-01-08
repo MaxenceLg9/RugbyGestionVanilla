@@ -1,14 +1,19 @@
 <?php
 
+require_once "../db/DAOJouerUnMatch.php";
+
 class JouerUnMatch {
 
+
+    private $idMatch;
     private Joueur $joueur;
 
     private bool $titulaire;
 
     private string $poste;
     private float $note;
-    function __construct(Joueur $joueur, bool $titulaire, string $poste, float $note) {
+    function __construct(int $idMatch,Joueur $joueur, bool $titulaire, string $poste, float $note) {
+        $this->idMatch = $idMatch;
         $this->joueur = $joueur;
         $this->titulaire = $titulaire;
         $this->poste = $poste;
@@ -29,6 +34,22 @@ class JouerUnMatch {
     public function setJoueur(Joueur $joueur): void
     {
         $this->joueur = $joueur;
+    }
+
+    /**
+     * @param int $idMatch
+     */
+    public function setIdMatch(int $idMatch): void
+    {
+        $this->idMatch = $idMatch;
+    }
+
+    /**
+     * @return int
+     */
+    public function getIdMatch(): int
+    {
+        return $this->idMatch;
     }
 
     /**
@@ -82,15 +103,15 @@ class JouerUnMatch {
     public function save(int $idMatch): void {
         $DAOJouer = new DAOJouerUnMatch();
         if ($DAOJouer -> read($idMatch, $this -> getJoueur()) != null) {
-            $DAOJouer -> update($idMatch,$this);
+            $DAOJouer -> update($this);
         }
-        $DAOJouer -> create($idMatch,$this);
+        $DAOJouer -> create($this);
     }
 
     public function delete(int $idMatch): void {
         $DAOJouerUnMatch = new DAOJouerUnMatch();
         if ($DAOJouerUnMatch -> read($idMatch, $this ->getJoueur()) != null) {
-            $DAOJouerUnMatch->delete($idMatch,$this);
+            $DAOJouerUnMatch->delete($this);
         }
     }
 
