@@ -5,6 +5,9 @@ checkSession();
 
 $post['nom'] = $_SESSION['nom'];
 
+require_once "../modele/MatchDeRugby.php";
+$matches = MatchDeRugby::getMatchDeRugbyWithResultat();
+
 $title = "Accueil";
 $css = ["style.css"];
 $page = '../vue/index.php';
