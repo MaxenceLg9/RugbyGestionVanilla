@@ -7,7 +7,7 @@ if(empty($_SESSION['email'])){
 
 require_once "../modele/MatchDeRugby.php";
 
-$matchs = MatchDeRugby::getAllMatchDeRugby();
-$css = ["style.css","matchs.css"];
+$matchs = MatchDeRugby::findAll();
+$css = ["style.css","view.css"];
 $page = "../vue/matchs.php";
 include_once "../components/page.php";

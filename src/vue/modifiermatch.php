@@ -13,12 +13,10 @@
             <div class="form-row">
                 <label for="lieu">Lieu du match</label>
                 <select id="lieu" name="lieu" required>
-                    <?php if($match->getLieu()->name === 'EXTERIEUR') { ?>
-                        <option value = "Exterieur" selected> Exterieur</option >
-                        <option value = "Domicile" > Domicile</option >
-                    <?php } else { ?>
-                        <option value = "Exterieur" > Exterieur</option >
-                        <option value = "Domicile" selected> Domicile</option >
+                    <?php foreach (Lieu::cases() as $lieu) { ?>
+                        <option value="<?= $lieu->name ?>" <?= $match->getLieu() === $lieu ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($lieu->name) ?>
+                        </option>
                     <?php } ?>
                 </select>
             </div>
@@ -28,8 +26,8 @@
             </div>
 
             <input type="hidden" name="idMatch" value="<?= $match->getIdMatchDeRugby() ?>">
-            <input type="hidden" name="type" value="ajout">
-            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(password_hash($match->getIdMatchDeRugby() . $_SESSION['csrf_token'] . "ajout", PASSWORD_BCRYPT)) ?>">
+            <input type="hidden" name="type" value="modification">
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(password_hash($match->getIdMatchDeRugby() . $_SESSION['csrf_token'] . "modification", PASSWORD_BCRYPT)) ?>">
 
             <button type="submit" class="ajout">Modifier le match</button>
         </form>

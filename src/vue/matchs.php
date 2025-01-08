@@ -5,20 +5,17 @@
         <h1>Liste des matchs du <?= $_SESSION["equipe"]?></h1>
         <div class="add">
             <p>Vous cherchez à ajouter un match?</p>
-            <form method="get" action="gerermatch.php">
-                <input type="hidden" name="type" value="ajout">
-                <input type="hidden" name="idMatch" value="<?= 0 ?>">
-                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(password_hash("0".$_SESSION['csrf_token']."ajout", PASSWORD_BCRYPT)) ?>">
-                <button type="submit" class="add">Ajouter un match</button>
-            </form>
+            <a href="gerermatch.php?type=ajout&idMatch=0&csrf_token=<?= htmlspecialchars(password_hash("0" . $_SESSION['csrf_token'] . "ajout", PASSWORD_BCRYPT)) ?>" class="forms button add"><p>Ajouter un match</p></a>
         </div>
     </header>
     <article class="match-list">
         <?php
-        $match = new MatchDeRugby(1, new DateTime(), "Toulouse", Lieu::DOMICILE);
+        if(empty($matchs)){
+            echo "<p>Aucun match n'est enregistré pour le moment.</p>";
+        }
         foreach ($matchs as $match) { ?>
 
-            <section class="match-card">
+            <section class="section-card">
 
                 <div class="match-info">
                     <h2>Match du <?= $match->getDateHeure()->format('d/m/Y-H:i') ?></h2>

@@ -12,8 +12,9 @@
             <div class="form-row">
                 <label for="lieu">Lieu du match</label>
                 <select id="lieu" name="lieu" required>
-                    <option value="Exterieur">Exterieur</option>
-                    <option value="Domicile" selected>Domicile</option>
+                    <?php foreach (Lieu::cases() as $lieu) { ?>
+                        <option value="<?= $lieu->name ?>"><?= htmlspecialchars($lieu->name) ?></option>
+                    <?php } ?>
                 </select>
             </div>
             <div class="form-row">
@@ -24,7 +25,7 @@
             <input type="hidden" name="idMatch" value="<?= 0 ?>">
             <input type="hidden" name="type" value="ajout">
             <input type="hidden" name="csrf_token"
-                   value="<?=htmlspecialchars(password_hash("0".$_SESSION['csrf_token'],PASSWORD_BCRYPT))?>">
+                   value="<?=htmlspecialchars(password_hash("0".$_SESSION['csrf_token']."ajout",PASSWORD_BCRYPT))?>">
 
             <button type="submit" class="ajout">Ajouter le match</button>
         </form>
