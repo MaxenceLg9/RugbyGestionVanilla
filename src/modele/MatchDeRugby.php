@@ -87,9 +87,15 @@ class MatchDeRugby {
         return DAOMatchDeRugby::read();
     }
 
+    //TODO : ?????
     public function getMatchDeRugbyByDateHeure(): MatchDeRugby {
         $daoMatchDeRugby = new DAOMatchDeRugby();
         return $daoMatchDeRugby -> readByDateHeure($this -> dateHeure);
+    }
+
+    public static function getMatchDeRugbyWithResultat(): array {
+        $daoMatchDeRugby = new DAOMatchDeRugby();
+        return $daoMatchDeRugby -> readMatchWithResultat();
     }
 
     public function deleteMatchDeRugby(): void {
