@@ -4,7 +4,7 @@
     <header class="header-section">
         <h1>Votre équipe : <?= $_SESSION["equipe"]?></h1>
         <div class="add">
-            <p>Vous cherchez à ajouter un joueur?</p>
+            <p class="color-red">Vous cherchez à ajouter un joueur?</p>
             <a href="gererjoueur.php?type=ajout&idJoueur=0&csrf_token=<?= htmlspecialchars(password_hash("0" . $_SESSION['csrf_token'] . "ajout", PASSWORD_BCRYPT)) ?>" class="forms button add"><p>Ajouter un joueur</p></a>
         </div>
     </header>
@@ -14,7 +14,7 @@
 
         // Assuming $equipes is an array of Equipe objects passed to this page
         if(empty($joueurs)){
-            echo "<p>Aucun joueur n'est enregistré pour le moment.</p>";
+            echo "<p class=\"color-red\">Aucun joueur n'est enregistré pour le moment.</p>";
         }
         foreach ($joueurs as $joueur) { ?>
             <section class="section-card">

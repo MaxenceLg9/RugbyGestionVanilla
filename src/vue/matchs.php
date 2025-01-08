@@ -4,14 +4,14 @@
     <header class="header-section">
         <h1>Liste des matchs du <?= $_SESSION["equipe"]?></h1>
         <div class="add">
-            <p>Vous cherchez à ajouter un match?</p>
+            <p class="color-red">Vous cherchez à ajouter un match?</p>
             <a href="gerermatch.php?type=ajout&idMatch=0&csrf_token=<?= htmlspecialchars(password_hash("0" . $_SESSION['csrf_token'] . "ajout", PASSWORD_BCRYPT)) ?>" class="forms button add"><p>Ajouter un match</p></a>
         </div>
     </header>
     <article class="match-list">
         <?php
         if(empty($matchs)){
-            echo "<p>Aucun match n'est enregistré pour le moment.</p>";
+            echo "<p class=\"color-red\">Aucun match n'est enregistré pour le moment.</p>";
         }
         foreach ($matchs as $match) { ?>
 
