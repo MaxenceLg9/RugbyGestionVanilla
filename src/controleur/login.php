@@ -26,6 +26,7 @@ if(!empty($_POST) && isset($_POST["email"])){
     $_SESSION["prenom"] = $entraineur->getPrenom();
     header('Location: /');
 }
+$title = "Login";
 $css = ["login.css"];
 $page = "../vue/login.php";
 include_once "../components/page.php";

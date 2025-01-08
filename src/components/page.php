@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <title>Inscription</title>
+    <title><?=$title?></title>
     <meta charset="utf-8"/>
     <?php foreach ($css as $style) { ?>
         <link rel="stylesheet" href="../resources/style/<?php echo $style ?>"/>

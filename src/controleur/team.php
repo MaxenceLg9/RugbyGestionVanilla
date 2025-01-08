@@ -9,6 +9,8 @@ if(empty($_SESSION['email'])){
 require "../modele/Joueur.php";
 
 $joueurs = Joueur::findAll();
+
+$title = "Mon équipe";
 $css = ["style.css","view.css"];
 $page = "../vue/team.php";
 include_once "../components/page.php";
