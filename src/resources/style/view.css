@@ -50,6 +50,10 @@ p {
     color: #ffffff; /* Softer text color */
 }
 
+.color-red {
+    color: #672323;
+}
+
 article {
     display: flex;
     flex-wrap: wrap; /* Allow wrapping to the next row if needed */

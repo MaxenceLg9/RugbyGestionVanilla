@@ -27,7 +27,7 @@ p, h1, h2, h3, h4, h5, h6{
 }
 
 .strong-bienvenue{
-    color: #ffd4d4;
+    color: #672323;
 }
 
 section{
@@ -77,7 +77,7 @@ div.statut {
 .button:hover, button:hover {
     cursor: pointer;
     opacity: 90%;
-    transform: scale(1.05); /* Subtle hover animation */
+    transform: scale(1.02); /* Subtle hover animation */
     color: white; /* Keep the text white for consistency */
 }
 
@@ -127,5 +127,5 @@ a{
 
 
 .section-index{
-    background-color: #5a5a5aAA;
+    background-color: #5a5a5a33;
 }

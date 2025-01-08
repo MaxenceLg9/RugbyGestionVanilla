@@ -13,6 +13,10 @@ h1, h3 {
 }
 
 .main {
+
+}
+
+article {
     background: #ffc0c0AA;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 5);
@@ -20,12 +24,14 @@ h1, h3 {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 1%;
+    flex-wrap: nowrap;
+    margin: 1%;
+    width: 95%;
 }
 
-section.full {
+section {
     width: 95%;
-    padding: 2%;
 }
 
 form {
