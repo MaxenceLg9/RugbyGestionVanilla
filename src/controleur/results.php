@@ -1,9 +1,6 @@
 <?php
-session_start();
-if(empty($_SESSION['email'])){
-    header('Location: login');
-    die();
-}
+require_once "../modele/Session.php";
+checkSession();
 
 $css = ["style.css"];
 $page = "../vue/results.php";
