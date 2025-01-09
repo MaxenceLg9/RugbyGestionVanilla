@@ -40,10 +40,11 @@
                     <?php } ?>
                 </div>
                 <div class="forms">
+
+                    <a href="gerermatch.php?type=vue&idMatch=<?= htmlspecialchars($match->getIdMatch()) ?>&csrf_token=<?= htmlspecialchars(password_hash($match->getIdMatch() . $_SESSION['csrf_token'] . "vue", PASSWORD_BCRYPT)) ?>" class="forms saisie button"><p>Voir la feuille de match</p></a>
                     <?php if($match->isArchive()){
                         echo "<p class=\"color-red\" style='text-align: center'>Ce match est archivé et ne peut être modifié.</p>";
                     } else {?>
-                        <a href="gerermatch.php?type=vue&idMatch=<?= htmlspecialchars($match->getIdMatch()) ?>&csrf_token=<?= htmlspecialchars(password_hash($match->getIdMatch() . $_SESSION['csrf_token'] . "vue", PASSWORD_BCRYPT)) ?>" class="forms saisie button"><p>Voir la feuille de match</p></a>
                         <a href="gerermatch.php?type=modification&idMatch=<?= htmlspecialchars($match->getIdMatch()) ?>&csrf_token=<?= htmlspecialchars(password_hash($match->getIdMatch() . $_SESSION['csrf_token'] . "modification", PASSWORD_BCRYPT)) ?>" class="forms modify button"><p>Modifier le match</p></a>
                     <?php } ?>
                     <form method="post" action="gerermatch.php">
