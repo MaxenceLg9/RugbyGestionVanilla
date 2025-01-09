@@ -58,7 +58,6 @@
                 <!-- Poste préféré -->
                 <div class="form-row">
                     <label for="postePrefere">Poste préféré</label>
-                    <label for="postePrefere">Poste préféré</label>
                     <select id="postePrefere" name="postePrefere" required>
                         <?php foreach (Poste::cases() as $poste) { ?>
                             <option value="<?= $poste->name ?>" <?= $joueur->getStatut() === $poste ? 'selected' : ''?>>
@@ -72,8 +71,8 @@
                 <div class="form-row">
                     <label for="estPremiereLigne">Est première ligne</label>
                     <select id="estPremiereLigne" name="estPremiereLigne" required>
-                        <option value="1" <?= $joueur->getEstPremiereLigne() ? 'selected' : '' ?>>Oui</option>
-                        <option value="0" <?= !$joueur->getEstPremiereLigne() ? 'selected' : '' ?>>Non</option>
+                        <option value="1" <?= $joueur->isPremiereLigne() ? 'selected' : '' ?>>Oui</option>
+                        <option value="0" <?= !$joueur->isPremiereLigne() ? 'selected' : '' ?>>Non</option>
                     </select>
                 </div>
 

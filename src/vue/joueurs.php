@@ -33,7 +33,7 @@
                             <p>Poids : <?= htmlspecialchars($joueur->getPoids()) ?> kg</p>
                             <p>Statut : <?= htmlspecialchars($joueur->getStatut()->name) ?></p>
                             <p>Poste préféré : <?= htmlspecialchars($joueur->getPostePrefere()->value) ?></p>
-                            <p>Est première ligne : <?= $joueur->getEstPremiereLigne() ? "Oui" : "Non" ?></p>
+                            <p>Est première ligne : <?= $joueur->isPremiereLigne() ? "Oui" : "Non" ?></p>
                         </div>
                         <img src="<?= $url?>" alt="Photo de profil de <?= htmlspecialchars($joueur->getNom() . " " . $joueur->getPrenom()) ?>" width="80" height="80">
                     </div>
