@@ -17,10 +17,12 @@
 
             <section class="section-card">
 
-                <div class="match-info">
-                    <h2>Match du <?= $match->getDateHeure()->format('d/m/Y-H:i') ?></h2>
-                    <p><strong>Adversaire:</strong> <?= $match->getAdversaire() ?></p>
-                    <p><strong>Lieu:</strong> <?= $match->getLieu()->name ?></p>
+                <div class="card-info">
+                    <div class="head">
+                        <h2>Match du <?= $match->getDateHeure()->format('d/m/Y-H:i') ?></h2>
+                        <p><strong>Adversaire:</strong> <?= $match->getAdversaire() ?></p>
+                        <p><strong>Lieu:</strong> <?= $match->getLieu()->name ?></p>
+                    </div>
                 </div>
 
                 <div class="statut">
@@ -28,7 +30,7 @@
                         <p class="result">Match passé</p>
                         <?php if(!is_null($match->getResultat())){ ?>
                             <p class="result">Match validé</p>
-                            <p>Score : Match <?= $match->getResultat()?></p>
+                            <p>Score : Match <?= $match->getResultat()->name?></p>
                         <?php }
                         else { ?>
                             <p>Aucun résultat</p>
@@ -37,13 +39,12 @@
                         <p class="result">Match à venir</p>
                     <?php } ?>
                 </div>
-
                 <div class="forms">
                     <?php if($match->isArchive()){
-                        echo "<p class=\"color-red\">Ce match est archivé.</p>";
+                        echo "<p class=\"color-red\" style='text-align: center'>Ce match est archivé et ne peut être modifié.</p>";
                     } else {?>
-                    <a href="gerermatch.php?type=vue&idMatch=<?= htmlspecialchars($match->getIdMatch()) ?>&csrf_token=<?= htmlspecialchars(password_hash($match->getIdMatch() . $_SESSION['csrf_token'] . "vue", PASSWORD_BCRYPT)) ?>" class="forms saisie button"><p>Voir la feuille de match</p></a>
-                    <a href="gerermatch.php?type=modification&idMatch=<?= htmlspecialchars($match->getIdMatch()) ?>&csrf_token=<?= htmlspecialchars(password_hash($match->getIdMatch() . $_SESSION['csrf_token'] . "modification", PASSWORD_BCRYPT)) ?>" class="forms modify button"><p>Modifier le match</p></a>
+                        <a href="gerermatch.php?type=vue&idMatch=<?= htmlspecialchars($match->getIdMatch()) ?>&csrf_token=<?= htmlspecialchars(password_hash($match->getIdMatch() . $_SESSION['csrf_token'] . "vue", PASSWORD_BCRYPT)) ?>" class="forms saisie button"><p>Voir la feuille de match</p></a>
+                        <a href="gerermatch.php?type=modification&idMatch=<?= htmlspecialchars($match->getIdMatch()) ?>&csrf_token=<?= htmlspecialchars(password_hash($match->getIdMatch() . $_SESSION['csrf_token'] . "modification", PASSWORD_BCRYPT)) ?>" class="forms modify button"><p>Modifier le match</p></a>
                     <?php } ?>
                     <form method="post" action="gerermatch.php">
                         <input type="hidden" name="type" value="suppression">
