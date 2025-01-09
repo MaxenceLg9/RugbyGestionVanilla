@@ -4,6 +4,11 @@ if(!DAOEntraineur::existEntraineur()) {
     header('Location: register');
     die();
 }
+session_start();
+if(isset($_SESSION["email"])){
+    header('Location: /');
+    die();
+}
 if(!empty($_POST) && isset($_POST["email"])){
     $entraineur = Entraineur::getEntraineur($_POST["email"],$_POST["password"]);
     if ($entraineur == null) {
