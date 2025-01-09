@@ -40,7 +40,11 @@
                 </div>
                 <div class="form-row">
                     <label for="postePrefere">Poste préféré</label>
-                    <input type="text" id="postePrefere" name="postePrefere" placeholder="Poste préféré" required>
+                    <select id="postePrefere" name="postePrefere" required>
+                        <?php foreach (Poste::cases() as $poste) { ?>
+                            <option value="<?= $poste->name?>"><?= htmlspecialchars($poste->value) ?></option>
+                        <?php } ?>
+                    </select>
                 </div>
                 <div class="form-row">
                     <label for="estPremiereLigne">Est première ligne</label>

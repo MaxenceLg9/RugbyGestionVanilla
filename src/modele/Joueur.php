@@ -1,7 +1,8 @@
 <?php
 
-require '../modele/Statut.php';
-include '../db/DAOJoueur.php';
+require_once '../modele/Statut.php';
+require_once '../db/DAOJoueur.php';
+require_once '../modele/Poste.php';
 class Joueur {
 
     private ?int $idJoueur;
@@ -12,7 +13,7 @@ class Joueur {
     private int $taille;
     private int $poids;
     private Statut $statut;
-    private string $postePrefere;
+    private Poste $postePrefere;
     private bool $estPremiereLigne;
 
     private string $commentaire;
@@ -22,7 +23,7 @@ class Joueur {
     public function  __construct(int $idJoueur, string $nom, string $prenom,
                                  DateTime $dateNaissance, int $numeroLicense,
                                  int $taille, int $poids, Statut $statut,
-                                 string $postePrefere, bool $estPremiereLigne) {
+                                 Poste $postePrefere, bool $estPremiereLigne) {
         $this -> idJoueur = $idJoueur;
         $this -> nom = $nom;
         $this -> prenom = $prenom;
@@ -115,11 +116,11 @@ class Joueur {
         $this -> statut = $statut;
     }
 
-    public function getPostePrefere(): string {
+    public function getPostePrefere(): Poste {
         return $this -> postePrefere;
     }
 
-    public function setPostePrefere(string $postePrefere): void {
+    public function setPostePrefere(Poste $postePrefere): void {
         $this -> postePrefere = $postePrefere;
     }
 
@@ -132,14 +133,10 @@ class Joueur {
     }
 
     // partie DAO : utiliser les méthodes de DAOJoueur pour accéder à la base de données
-    public function getJoueurByNumeroLicense(): Joueur {
+    public function getJoueurByNumeroLicense(): Joueur
+    {
         $daoJoueur = new DAOJoueur();
-        return $daoJoueur -> readByNumeroLicense($this -> getNumeroLicense());
-    }
-
-    public static function getAllJoueurs(): array {
-        $daoJoueur = new DAOJoueur();
-        return $daoJoueur -> read();
+        return $daoJoueur->readByNumeroLicense($this->getNumeroLicense());
     }
 
     public function saveJoueur(): void {
@@ -156,7 +153,7 @@ class Joueur {
         $daoJoueur -> delete($this);
     }
 
-    public static function getById(float|int|string $idJoueur): ?Joueur{
+    public static function getById(int $idJoueur): ?Joueur{
         return DAOJoueur::readById($idJoueur);
     }
 

@@ -47,9 +47,9 @@
                 <div class="form-row">
                     <label for="statut">Statut</label>
                     <select id="statut" name="statut" required>
-                        <?php foreach (Statut::cases() as $statutOption) { ?>
-                            <option value="<?= $statutOption->name ?>" <?= $joueur->getStatut() === $statutOption ? 'selected' : '' ?>>
-                                <?= htmlspecialchars($statutOption->name) ?>
+                        <?php foreach (Statut::cases() as $statut) { ?>
+                            <option value="<?= $statut->name ?>" <?= $joueur->getStatut() === $statut ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($statut->name) ?>
                             </option>
                         <?php } ?>
                     </select>
@@ -58,7 +58,14 @@
                 <!-- Poste préféré -->
                 <div class="form-row">
                     <label for="postePrefere">Poste préféré</label>
-                    <input type="text" id="postePrefere" name="postePrefere" required value="<?= htmlspecialchars($joueur->getPostePrefere()) ?>">
+                    <label for="postePrefere">Poste préféré</label>
+                    <select id="postePrefere" name="postePrefere" required>
+                        <?php foreach (Poste::cases() as $poste) { ?>
+                            <option value="<?= $poste->name ?>" <?= $joueur->getStatut() === $poste ? 'selected' : ''?>>
+                                <?= htmlspecialchars($poste->name) ?>
+                            </option>
+                        <?php } ?>
+                    </select>
                 </div>
 
                 <!-- Est première ligne -->
