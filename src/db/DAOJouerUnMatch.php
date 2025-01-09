@@ -11,19 +11,21 @@ class DAOJouerUnMatch {
         try {
             $connexion = Connexion::getInstance()->getConnection();
             $requete = $connexion -> prepare(
-                "INSERT INTO Participer (idMatchDeRugby, idJoueur, estTitulaire, poste, note) 
-             VALUES (:idMatchDeRugby, :idJoueur, :estTitulaire, :poste, :note)");
+                "INSERT INTO Participer (idMatch, idJoueur, estTitulaire, poste, note, archive) 
+             VALUES (:idMatch, :idJoueur, :estTitulaire, :poste, :note, :archive)");
 
 
             $estTitulaire = $jouer -> isTitulaire();
             $poste = $jouer -> getPoste();
             $note = $jouer -> getNote();
             $idMatch = $jouer -> getIdMatch();
+            $archive = $jouer->isArchive();
 
             $requete->bindParam(':estTitulaire', $estTitulaire);
             $requete->bindParam(':poste', $poste);
             $requete->bindParam(':note', $note);
-            $requete->bindParam(':idMatchDeRugby', $idMatch);
+            $requete->bindParam(':idMatch', $idMatch);
+            $requete->bindParam(':archive', $archive);
 
             $requete -> execute();
             echo "Feuille de match créée avec succès !";
@@ -32,29 +34,34 @@ class DAOJouerUnMatch {
         }
     }
 
-    public static function read(int $idMatch, Joueur $joueur) : ?JouerUnMatch {
-        $Participer = null;
+    public static function existJoueur(JouerUnMatch $jouer): bool {
         try {
             $connexion = Connexion::getInstance()->getConnection();
-            $requete = $connexion -> prepare(
-                "SELECT * FROM Participer WHERE idMatchDeRugby = :idMatchDeRugby AND idJoueur = :idJoueur");
+            $requete = $connexion->prepare(
+                "SELECT * FROM Participer WHERE idMatch = :idMatch AND idJoueur = :idJoueur"
+            );
 
-            $idJoueur = $joueur -> getIdJoueur();
-            $requete -> bindParam(':idMatchDeRugby', $idMatch);
-            $requete -> bindParam(':idJoueur', $idJoueur);
+            // Get the necessary values from the $jouer object
+            $idMatch = $jouer->getIdMatch();
+            $idJoueur = $jouer->getJoueur()->getIdJoueur();
 
-            $requete -> execute();
-            $resultat = $requete -> fetch();
+            // Bind parameters
+            $requete->bindParam(':idMatch', $idMatch, PDO::PARAM_INT);
+            $requete->bindParam(':idJoueur', $idJoueur, PDO::PARAM_INT);
 
-            $estTitulaire = $resultat['estTitulaire'];
-            $poste = $resultat['poste'];
-            $note = $resultat['note'];
+            // Execute query
+            $requete->execute();
 
-            return new JouerUnMatch($idMatch,$joueur, $estTitulaire, $poste, $note);
+            // Fetch the result
+            $row = $requete->fetch(PDO::FETCH_ASSOC);
+
+            // Return true if a row exists, false otherwise
+            return $row !== false;
+
         } catch (PDOException $e) {
-            echo "Erreur : " . $e -> getMessage();
+            echo "Erreur : " . $e->getMessage();
+            return false; // Default to false in case of an exception
         }
-        return null;
     }
 
     public static function readAll(): array {
@@ -66,7 +73,7 @@ class DAOJouerUnMatch {
             $rows = $requete -> fetchAll();
 
             foreach ($rows as $row) {
-                $listJouer[] = new JouerUnMatch($row["idMatch"],Joueur::getById($row["idJoueur"]), $row["estTitulaire"], $row["poste"], $row["note"]);
+                $listJouer[] = new JouerUnMatch($row["idMatch"],Joueur::getById($row["idJoueur"]), $row["estTitulaire"], $row["poste"], $row["note"], $row["archive"]);
             }
         } catch (PDOException $e) {
             echo "Erreur : " . $e -> getMessage();
@@ -79,7 +86,7 @@ class DAOJouerUnMatch {
             $connexion = Connexion::getInstance()->getConnection();
             $requete = $connexion -> prepare(
                 "UPDATE Participer SET estTitulaire = :estTitulaire, poste = :poste, note = :note 
-             WHERE idMatchDeRugby = :idMatchDeRugby AND idJoueur = :idJoueur");
+             WHERE idMatch = :idMatch AND idJoueur = :idJoueur");
 
             $estTitulaire = $jouer -> isTitulaire();
             $poste = $jouer -> getPoste();
@@ -90,7 +97,7 @@ class DAOJouerUnMatch {
             $requete->bindParam(':estTitulaire', $estTitulaire);
             $requete->bindParam(':poste', $poste);
             $requete->bindParam(':note', $note);
-            $requete->bindParam(':idMatchDeRugby', $idMatch);
+            $requete->bindParam(':idMatch', $idMatch);
             $requete->bindParam(':idJoueur', $idJoueur);
 
             $requete -> execute();
@@ -104,11 +111,11 @@ class DAOJouerUnMatch {
         try {
             $connexion = Connexion::getInstance()->getConnection();
             $requete = $connexion -> prepare(
-                "DELETE FROM Participer WHERE idMatchDeRugby = :idMatchDeRugby AND idJoueur = :idJoueur");
+                "DELETE FROM Participer WHERE idMatch = :idMatch AND idJoueur = :idJoueur");
 
             $idJoueur = $jouer -> getJoueur()->getIdJoueur();
             $idMatch = $jouer -> getIdMatch();
-            $requete -> bindParam(':idMatchDeRugby', $idMatch);
+            $requete -> bindParam(':idMatch', $idMatch);
             $requete -> bindParam(':idJoueur', $idJoueur);
 
             $requete -> execute();
@@ -123,15 +130,15 @@ class DAOJouerUnMatch {
         try {
             $connexion = Connexion::getInstance()->getConnection();
             $requete = $connexion -> prepare(
-                "SELECT * FROM Participer WHERE idMatchDeRugby = :idMatchDeRugby");
+                "SELECT * FROM Participer WHERE idMatch = :idMatch");
 
-            $requete -> bindParam(':idMatchDeRugby', $idMatch);
+            $requete -> bindParam(':idMatch', $idMatch);
 
             $requete -> execute();
             $rows = $requete -> fetchAll();
 
             foreach ($rows as $row) {
-                $listJouer[] = new JouerUnMatch($idMatch,Joueur::getById($row["idJoueur"]), $row["estTitulaire"], $row["poste"], $row["note"]);
+                $listJouer[] = new JouerUnMatch($idMatch,Joueur::getById($row["idJoueur"]), $row["estTitulaire"], $row["poste"], $row["note"], $row["archive"]);
             }
         } catch (PDOException $e) {
             echo "Erreur : " . $e -> getMessage();
@@ -153,7 +160,7 @@ class DAOJouerUnMatch {
             $rows = $requete -> fetchAll();
 
             foreach ($rows as $row) {
-                $listJouers[] = new JouerUnMatch($row['idMatch'], $row['estTitulaire'], $row['poste'], $row['note']);
+                $listJouers[] = new JouerUnMatch($row['idMatch'], $joueur,$row['estTitulaire'], $row['poste'], $row['note'], $row["archive"]);
             }
         } catch (PDOException $e) {
             echo "Erreur : " . $e -> getMessage();

@@ -12,12 +12,31 @@ class JouerUnMatch {
 
     private string $poste;
     private float $note;
-    function __construct(int $idMatch,Joueur $joueur, bool $titulaire, string $poste, float $note) {
+
+    private bool $archive;
+
+    function __construct(int $idMatch,Joueur $joueur, bool $titulaire, string $poste, float $note, bool $archive) {
         $this->idMatch = $idMatch;
         $this->joueur = $joueur;
         $this->titulaire = $titulaire;
         $this->poste = $poste;
         $this->note = $note;
+        $this->archive = $archive;
+    }
+
+    /**
+     * @param bool $archive
+     */
+    public function setArchive(bool $archive): void
+    {
+        $this->archive = $archive;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isArchive(): bool{
+        return $this->archive;
     }
 
     /**
@@ -100,9 +119,9 @@ class JouerUnMatch {
         return $this->titulaire;
     }
 
-    public function save(int $idMatch): void {
+    public function save(): void {
         $DAOJouer = new DAOJouerUnMatch();
-        if ($DAOJouer -> read($idMatch, $this -> getJoueur()) != null) {
+        if ($DAOJouer -> read($this) != null) {
             $DAOJouer -> update($this);
         }
         $DAOJouer -> create($this);

@@ -6,26 +6,45 @@ include '../db/DAOMatchDeRugby.php';
 
 class MatchDeRugby {
 
-    private ?int $idMatchDeRugby;
+    private ?int $idMatch;
     private DateTime $dateHeure;
     private string $adversaire;
     private Lieu $lieu;
     private ?Resultat $resultat = null;
 
-    function __construct(int $idMatchDeRugby, DateTime $dateHeure, string $adversaire, Lieu $lieu) {
-        $this -> idMatchDeRugby = $idMatchDeRugby;
+    private bool $archive;
+
+    function __construct(int $idMatch, DateTime $dateHeure, string $adversaire, Lieu $lieu, bool $archive) {
+        $this -> idMatch = $idMatch;
         $this -> dateHeure = $dateHeure;
         $this -> adversaire = $adversaire;
         $this -> lieu = $lieu;
+        $this->archive = $archive;
     }
 
-    public static function getFromId(int $idMatch): MatchDeRugby
+    public static function getFromId(int $idMatch): ?MatchDeRugby
     {
         return DAOMatchDeRugby::readById($idMatch);
     }
 
-    public function getIdMatchDeRugby(): int {
-        return $this -> idMatchDeRugby;
+    public function getIdMatch(): int {
+        return $this -> idMatch;
+    }
+
+    /**
+     * @param bool $archive
+     */
+    public function setArchive(bool $archive): void
+    {
+        $this->archive = $archive;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isArchive(): bool
+    {
+        return $this->archive;
     }
 
 
@@ -72,7 +91,7 @@ class MatchDeRugby {
     // partie DAO : utilisation des méthodes de la classe DAOMatchDeRugby
     public function saveMatchDeRugby(): void {
         $daoMatchDeRugby = new DAOMatchDeRugby();
-        if ($this->getIdMatchDeRugby() === -1) {
+        if ($this->getIdMatch() === -1) {
             $daoMatchDeRugby -> create($this);
             return;
         }

@@ -5,6 +5,26 @@ require_once '../modele/Joueur.php';
 
 class DAOJoueur {
 
+    public static function readActif():array
+    {
+        $joueurs = [];
+        try {
+            $connexion = Connexion::getInstance()->getConnection();
+            $statement = $connexion->prepare("SELECT * FROM Joueur WHERE statut = 'ACTIF'");
+            $statement->execute();
+            while ($row = $statement->fetch()) {
+                $joueur = new Joueur($row['idJoueur'], $row['nom'], $row['prenom'],
+                    new DateTime($row['dateNaissance']), $row['numeroLicense'], $row['taille'], $row['poids'],
+                    Statut::from($row['statut']), $row['postePrefere'], $row['estPremiereLigne']);
+                $joueur->setCommentaire($row["commentaire"]);
+                $joueurs[] = $joueur;
+            }
+        } catch (PDOException $e) {
+            echo "Erreur lors de la lecture des joueurs: " . $e->getMessage();
+        }
+        return $joueurs;
+    }
+
     public function create(Joueur $joueur): void {
         try {
             $connexion = Connexion::getInstance()->getConnection();
@@ -154,4 +174,11 @@ class DAOJoueur {
         return $joueur;
     }
 
+    private static function constructFromRow($row):Joueur{
+        $joueur = new Joueur($row['idJoueur'], $row['nom'], $row['prenom'],
+            new DateTime($row['dateNaissance']), $row['numeroLicense'], $row['taille'], $row['poids'],
+            Statut::from($row['statut']), $row['postePrefere'], $row['estPremiereLigne']);
+        $joueur->setCommentaire($row["commentaire"]);
+        return $joueur;
+    }
 }

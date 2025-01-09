@@ -17,6 +17,8 @@ class Joueur {
 
     private string $commentaire;
 
+    private string $url;
+
     public function  __construct(int $idJoueur, string $nom, string $prenom,
                                  DateTime $dateNaissance, int $numeroLicense,
                                  int $taille, int $poids, Statut $statut,
@@ -32,6 +34,7 @@ class Joueur {
         $this -> postePrefere = $postePrefere;
         $this -> estPremiereLigne = $estPremiereLigne;
         $this->commentaire = "";
+        $this->url = "";
     }
 
     public function getIdJoueur(): int {
@@ -55,6 +58,18 @@ class Joueur {
      */
     public function setCommentaire(string $commentaire): void{
         $this->commentaire = $commentaire;
+    }
+
+    public function setURL(string $url): void {
+        $this -> url = $url;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl(): string
+    {
+        return $this->url;
     }
 
     /**
@@ -149,14 +164,18 @@ class Joueur {
         return DAOJoueur::read();
     }
 
-    public function setNumeroLicense(mixed $numeroLicense)
+    public function setNumeroLicense(mixed $numeroLicense):void
     {
         $this->numeroLicense = $numeroLicense;
     }
 
-    public function setDateNaissance(DateTime $date)
+    public function setDateNaissance(DateTime $date):void
     {
         $this->dateNaissance = $date;
+    }
+
+    public static function findAllActif():array{
+        return DAOJoueur::readActif();
     }
 
 }

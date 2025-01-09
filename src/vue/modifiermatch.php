@@ -26,9 +26,9 @@
                     <input type="text" id="adversaire" name="adversaire" placeholder="Nom de l'adversaire" required value="<?= $match->getAdversaire() ?>">
                 </div>
 
-                <input type="hidden" name="idMatch" value="<?= $match->getIdMatchDeRugby() ?>">
+                <input type="hidden" name="idMatch" value="<?= $match->getIdMatch() ?>">
                 <input type="hidden" name="type" value="modification">
-                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(password_hash($match->getIdMatchDeRugby() . $_SESSION['csrf_token'] . "modification", PASSWORD_BCRYPT)) ?>">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(password_hash($match->getIdMatch() . $_SESSION['csrf_token'] . "modification", PASSWORD_BCRYPT)) ?>">
 
                 <button type="submit" class="ajout">Modifier le match</button>
             </form>

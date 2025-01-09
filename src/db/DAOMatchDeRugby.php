@@ -4,6 +4,17 @@ require_once 'Connexion.php';
 require_once '../modele/MatchDeRugby.php';
 class DAOMatchDeRugby {
 
+    /**
+     * @param mixed $row
+     * @return MatchDeRugby
+     * @throws DateMalformedStringException
+     */
+    public static function createMatch(mixed $row): MatchDeRugby
+    {
+        return new MatchDeRugby($row['idMatch'], new DateTime($row['dateHeure']), $row['adversaire'],
+            Lieu::from($row['lieu']), $row['valider']);
+    }
+
     public function create(MatchDeRugby $match): void {
         try {
             $connexion = Connexion::getInstance()->getConnection();
@@ -33,8 +44,7 @@ class DAOMatchDeRugby {
             $statement = $connexion->prepare("SELECT * FROM MatchDeRugby ORDER BY dateHeure ASC");
             $statement->execute();
             while ($row = $statement->fetch()) {
-                $matches[] = new MatchDeRugby($row['idMatch'], new DateTime($row['dateHeure']), $row['adversaire'],
-                    Lieu::from($row['lieu']));
+                $matches[] = self::createMatch($row);
             }
         } catch (Exception $e) {
             echo "Erreur lors de la lecture des matches: " . $e->getMessage();
@@ -50,8 +60,7 @@ class DAOMatchDeRugby {
             $statement->execute();
             $row = $statement->fetch();
             if ($row) {
-                return new MatchDeRugby($row['idMatch'], new DateTime($row['dateHeure']), $row['adversaire'],
-                    Lieu::from((string) $row['lieu']));
+                return self::createMatch($row);
             }
         } catch (Exception $e) {
             echo "Erreur lors de la lecture du match: " . $e->getMessage();
@@ -69,13 +78,12 @@ class DAOMatchDeRugby {
             $statement->execute();
             $row = $statement->fetch();
             if ($row) {
-                $match = new MatchDeRugby($row['idMatch'], new DateTime($row['dateHeure']), $row['adversaire'],
-                    Lieu::from((string) $row['lieu']));
+                return self::createMatch($row);
             }
         } catch (Exception $e) {
             echo "Erreur lors de la lecture du match: " . $e->getMessage();
         }
-        return $match;
+        return null;
     }
 
     public function update(MatchDeRugby $match): void {
@@ -108,7 +116,7 @@ class DAOMatchDeRugby {
             $connexion = Connexion::getInstance()->getConnection();
             $statement = $connexion->prepare("UPDATE MatchDeRugby SET resultat = :resultat WHERE idMatch = :idMatch");
 
-            $idMatch = $match->getidMatch();
+            $idMatch = $match->getIdMatch();
             $resultat = "0";
             if($match->getResultat() != null){
                 $resultat = $match->getResultat()->name;
@@ -129,7 +137,7 @@ class DAOMatchDeRugby {
         try {
             $connexion = Connexion::getInstance()->getConnection();
             $statement = $connexion->prepare("DELETE FROM MatchDeRugby WHERE idMatch = :idMatch");
-            $id = $matchDeRugby->getidMatch();
+            $id = $matchDeRugby->getIdMatch();
             $statement->bindParam(':idMatch', $id);
             $statement->execute();
             echo "Match supprimé avec succès\n";
@@ -138,7 +146,7 @@ class DAOMatchDeRugby {
         }
     }
 
-    public function readMatchWithResultat()
+    public function readMatchWithResultat(): array
     {
         $matches = [];
         try {
@@ -146,8 +154,7 @@ class DAOMatchDeRugby {
             $statement = $connexion->prepare("SELECT * FROM MatchDeRugby WHERE resultat is not null ORDER BY dateHeure ASC");
             $statement->execute();
             while ($row = $statement->fetch()) {
-                $match = new MatchDeRugby($row['idMatch'], new DateTime($row['dateHeure']), $row['adversaire'],
-                    Lieu::from($row['lieu']));
+                $match = self::createMatch($row);
                 $match->setResultat($row["resultat"]);
                 $matches[] = $match;
             }

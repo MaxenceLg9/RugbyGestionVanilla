@@ -32,12 +32,23 @@ if($_SERVER['REQUEST_METHOD'] === 'GET'){
         $title = "Modifier un match";
         $page = '../vue/modifiermatch.php';
         $match = MatchDeRugby::getFromId($_GET['idMatch']);
+        if($match == null){
+            header('Location: matchs.php');
+            die();
+        }
         include_once '../components/page.php';
     }
     elseif($type == "vue"){
+        require_once "../modele/Joueur.php";
+        $css = ["style.css", "feuille.css"];
         $title = "Consulter un match";
         $page = '../vue/vuematch.php';
         $match = MatchDeRugby::getFromId($_GET['idMatch']);
+        if($match == null){
+            header('Location: matchs.php');
+            die();
+        }
+        $joueurs = Joueur::findAllActif();
         include_once '../components/page.php';
     }
 }
@@ -49,7 +60,7 @@ elseif($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     if($type == "ajout") {
         $dateHeure = new DateTime($_POST['datetime']);
-        $match = new MatchDeRugby(-1, $dateHeure, $_POST['adversaire'],  Lieu::from($_POST['lieu']));
+        $match = new MatchDeRugby(-1, $dateHeure, $_POST['adversaire'],  Lieu::from($_POST['lieu']),false);
         $match->saveMatchDeRugby();
         header('Location: matchs');
         die();
@@ -57,6 +68,10 @@ elseif($_SERVER['REQUEST_METHOD'] === 'POST'){
     if ($type == "modification"){
         // Sanitize and validate the match ID
         $match = MatchDeRugby::getFromId($_POST['idMatch']);
+        if($match == null){
+            header('Location: matchs.php');
+            die();
+        }
         $match->setDateHeure(new DateTime($_POST['datetime']));
         $match->setAdversaire($_POST['adversaire']);
         $match->setLieu(Lieu::from($_POST['lieu']));
@@ -67,6 +82,10 @@ elseif($_SERVER['REQUEST_METHOD'] === 'POST'){
     elseif ($type == "suppression"){
         // Sanitize and validate the match ID
         $match = MatchDeRugby::getFromId($_POST['idMatch']);
+        if($match == null){
+            header('Location: matchs.php');
+            die();
+        }
         $match->deleteMatchDeRugby();
         header('Location: matchs');
         die();
