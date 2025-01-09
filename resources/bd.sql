@@ -14,7 +14,8 @@ CREATE TABLE IF NOT EXISTS Joueur (
     statut ENUM('ACTIF', 'BLESSE', 'SUSPENDU', 'ABSENT') NOT NULL,
     postePrefere VARCHAR(50) NULL,
     estPremiereLigne BOOLEAN NULL,
-    commentaire VARCHAR(400)
+    commentaire VARCHAR(400),
+    URL VARCHAR(100) NULL
     );
 
 CREATE TABLE IF NOT EXISTS MatchDeRugby (
@@ -22,7 +23,8 @@ CREATE TABLE IF NOT EXISTS MatchDeRugby (
                                             dateHeure DATETIME NOT NULL,
                                             adversaire VARCHAR(50) NOT NULL,
     lieu ENUM('DOMICILE', 'EXTERIEUR') NOT NULL,
-    resultat ENUM('VICTOIRE', 'DEFAITE', 'NUL') NULL
+    resultat ENUM('VICTOIRE', 'DEFAITE', 'NUL') NULL,
+    valider BOOLEAN NOT NULL,
     );
 
 CREATE TABLE IF NOT EXISTS Participer (
@@ -31,6 +33,7 @@ CREATE TABLE IF NOT EXISTS Participer (
                                               estTitulaire BOOLEAN NULL,
                                               poste VARCHAR(50) NULL,
     note FLOAT NULL,
+    archiver BOOLEAN NOT NULL,
     PRIMARY KEY (idMatch, idJoueur),
     FOREIGN KEY (idMatch) REFERENCES MatchDeRugby(idMatch),
     FOREIGN KEY (idJoueur) REFERENCES Joueur(idJoueur)
