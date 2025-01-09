@@ -1,10 +1,7 @@
 <?php
-session_start();
-if(empty($_SESSION['email'])){
-    header('Location: login');
-    session_destroy();
-    die();
-}
+
+require_once "../modele/Session.php";
+checkSession();
 
 require "../modele/Joueur.php";
 
