@@ -8,9 +8,7 @@ body {
 
 .container {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    padding: 20px;
 }
 
 .players-container {
@@ -19,38 +17,47 @@ body {
     gap: 15px;
     margin: 20px;
     width: 90%;
+    height: 850px;
+    overflow: auto;
 }
 
 .player-card {
-    background: #e94560;
+    background: #ff889d;
     border-radius: 10px;
-    padding: 15px;
-    width: 120px;
+    width: 220px;
+    padding: 5px;
+    height: 60px;
+    gap: 15px;
     text-align: center;
     cursor: grab;
     user-select: none;
+    display: flex;
+    align-items: center;
+}
+
+.premiere-ligne{
+    background: #ff6130;
 }
 
 .player-card img {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    margin-bottom: 10px;
 }
 
 .field {
     background: url('../img/data/comp.png') no-repeat center;
     background-size: contain;
-    width: 1060px;
+    width: 1360px;
     height: 767px;
     position: relative;
 }
 
 .position-slot {
     position: absolute;
-    width: 80px;
+    width: 220px;
     height: 80px;
-    border-radius: 25%;
+    border-radius: 15px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -75,6 +82,14 @@ body {
 .slot-13 {top: 525px; left: 535px;}
 .slot-14 {top: 640px; left: 685px;}
 .slot-15 {top: 640px; left: 370px;}
+.slot-16 {top: 40px; left: 1050px;}
+.slot-17 {top: 121px; left: 1050px;}
+.slot-18 {top: 202px; left: 1050px;}
+.slot-19 {top: 283px; left: 1050px;}
+.slot-20 {top: 364px; left: 1050px;}
+.slot-21 {top: 445px; left: 1050px;}
+.slot-22 {top: 526px; left: 1050px;}
+.slot-23 {top: 607px; left: 1050px;}
 
 .dragging {
     opacity: 0.5;
@@ -91,6 +106,5 @@ article {
     justify-content: center;
     align-items: center;
     padding: 1%;
-    margin: 1%;
-    width: 95%;
+    width: 98%;
 }
