@@ -12,5 +12,5 @@ $joueurs = Joueur::findAll();
 
 $title = "Mon équipe";
 $css = ["style.css","view.css"];
-$page = "../vue/team.php";
+$page = "../vue/joueurs.php";
 include_once "../components/page.php";
