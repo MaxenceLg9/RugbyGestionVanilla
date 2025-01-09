@@ -11,8 +11,11 @@ class DAOMatchDeRugby {
      */
     public static function createMatch(mixed $row): MatchDeRugby
     {
-        return new MatchDeRugby($row['idMatch'], new DateTime($row['dateHeure']), $row['adversaire'],
+        $match = new MatchDeRugby($row['idMatch'], new DateTime($row['dateHeure']), $row['adversaire'],
             Lieu::from($row['lieu']), $row['valider']);
+        if($row["resultat"] != null)
+            $match->setResultat(Resultat::from($row["resultat"]));
+        return $match;
     }
 
     public function create(MatchDeRugby $match): void {
@@ -155,7 +158,6 @@ class DAOMatchDeRugby {
             $statement->execute();
             while ($row = $statement->fetch()) {
                 $match = self::createMatch($row);
-                $match->setResultat($row["resultat"]);
                 $matches[] = $match;
             }
         } catch (Exception $e) {
