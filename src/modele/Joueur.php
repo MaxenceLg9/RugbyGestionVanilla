@@ -124,7 +124,7 @@ class Joueur {
         $this -> postePrefere = $postePrefere;
     }
 
-    public function getEstPremiereLigne(): bool {
+    public function isPremiereLigne(): bool {
         return $this -> estPremiereLigne;
     }
 
