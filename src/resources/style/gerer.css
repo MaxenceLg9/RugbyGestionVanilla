@@ -86,3 +86,73 @@ form > button:hover {
     outline: none;
     box-shadow: 0 0 5px rgba(0, 175, 255, 0.5);
 }
+
+.identity-info {
+    display: flex;
+    width: 100%;
+    justify-content: right;
+    align-items: center;
+}
+
+.identity-info img{
+}
+
+.identity-info div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    width: 70%;
+}
+
+/* Section Style */
+section.player-identity {
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 1% auto;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    gap: 20px;
+}
+
+/* Identity Info Container */
+.identity-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 20px;
+}
+
+/* Identity Details */
+.identity-details {
+    flex: 1;
+    text-align: left;
+}
+
+.identity-details p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Identity Image */
+.identity-image {
+    flex-shrink: 0;
+    text-align: center;
+}
+
+.identity-image img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+}
