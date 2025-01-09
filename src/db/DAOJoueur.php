@@ -2,6 +2,7 @@
 
 require_once 'Connexion.php';
 require_once '../modele/Joueur.php';
+require_once "../modele/Poste.php";
 
 class DAOJoueur {
 
@@ -10,14 +11,10 @@ class DAOJoueur {
         $joueurs = [];
         try {
             $connexion = Connexion::getInstance()->getConnection();
-            $statement = $connexion->prepare("SELECT * FROM Joueur WHERE statut = 'ACTIF'");
+            $statement = $connexion->prepare("SELECT * FROM Joueur WHERE statut = 'ACTIF' GROUP BY postePrefere");
             $statement->execute();
             while ($row = $statement->fetch()) {
-                $joueur = new Joueur($row['idJoueur'], $row['nom'], $row['prenom'],
-                    new DateTime($row['dateNaissance']), $row['numeroLicense'], $row['taille'], $row['poids'],
-                    Statut::from($row['statut']), $row['postePrefere'], $row['estPremiereLigne']);
-                $joueur->setCommentaire($row["commentaire"]);
-                $joueurs[] = $joueur;
+                $joueurs[] = self::constructFromRow($row);
             }
         } catch (PDOException $e) {
             echo "Erreur lors de la lecture des joueurs: " . $e->getMessage();
@@ -32,27 +29,7 @@ class DAOJoueur {
                 "INSERT INTO Joueur (numeroLicense, nom, prenom, dateNaissance, taille, poids, statut, postePrefere, estPremiereLigne, commentaire) 
                    VALUES (:numeroLicense, :nom, :prenom, :dateNaissance, :taille, :poids, :statut, :postePrefere, :estPremiereLigne, :commentaire)");
 
-            $numeroLicense = $joueur->getNumeroLicense();
-            $nom = $joueur->getNom();
-            $prenom = $joueur->getPrenom();
-            $dateNaissance = $joueur->getDateNaissance()->format('Y-m-d');
-            $taille = $joueur->getTaille();
-            $poids = $joueur->getPoids();
-            $statut = $joueur->getStatut()->name;
-            $postePrefere = $joueur->getPostePrefere();
-            $estPremiereLigne = $joueur->getEstPremiereLigne();
-            $commentaire = $joueur->getCommentaire();
-
-            $statement->bindParam(':numeroLicense', $numeroLicense);
-            $statement->bindParam(':nom', $nom);
-            $statement->bindParam(':prenom', $prenom);
-            $statement->bindParam(':dateNaissance', $dateNaissance);
-            $statement->bindParam(':taille', $taille);
-            $statement->bindParam(':poids', $poids);
-            $statement->bindParam(':statut', $statut);
-            $statement->bindParam(':postePrefere', $postePrefere);
-            $statement->bindParam(':estPremiereLigne', $estPremiereLigne);
-            $statement->bindParam(':commentaire',$commentaire);
+            $this->bindParams($joueur, $statement);
             $statement->execute();
             echo "Joueur créé avec succès\n";
         } catch (PDOException $e) {
@@ -65,14 +42,10 @@ class DAOJoueur {
         $joueurs = [];
         try {
             $connexion = Connexion::getInstance()->getConnection();
-            $statement = $connexion->prepare("SELECT * FROM Joueur");
+            $statement = $connexion->prepare("SELECT * FROM Joueur ORDER BY postePrefere, nom");
             $statement->execute();
             while ($row = $statement->fetch()) {
-                $joueur = new Joueur($row['idJoueur'], $row['nom'], $row['prenom'],
-                    new DateTime($row['dateNaissance']), $row['numeroLicense'], $row['taille'], $row['poids'],
-                    Statut::from($row['statut']), $row['postePrefere'], $row['estPremiereLigne']);
-                $joueur->setCommentaire($row["commentaire"]);
-                $joueurs[] = $joueur;
+                $joueurs[] = self::constructFromRow($row);
             }
         } catch (PDOException $e) {
             echo "Erreur lors de la lecture des joueurs: " . $e->getMessage();
@@ -89,10 +62,7 @@ class DAOJoueur {
             $statement->execute();
             $row = $statement->fetch();
             if ($row) {
-                $joueur = new Joueur($row['idJoueur'], $row['nom'], $row['prenom'],
-                    new DateTime($row['dateNaissance']), $row['numeroLicense'], $row['taille'], $row['poids'],
-                    Statut::from($row['statut']), $row['postePrefere'], $row['estPremiereLigne']);
-                $joueur->setCommentaire($row["commentaire"]);
+                $joueur = self::constructFromRow($row);
             }
         } catch (PDOException $e) {
             echo "Erreur lors de la lecture du joueur: " . $e->getMessage();
@@ -109,30 +79,7 @@ class DAOJoueur {
                     numeroLicense = :numeroLicense, nom = :nom, prenom = :prenom, dateNaissance = :dateNaissance, commentaire= :commentaire
               WHERE idJoueur = :idJoueur"
             );
-            $numeroLicense = $joueur->getNumeroLicense();
-            $nom = $joueur->getNom();
-            $prenom = $joueur->getPrenom();
-            $dateNaissance = $joueur->getDateNaissance()->format('Y-m-d');
-            $taille = $joueur->getTaille();
-            $poids = $joueur->getPoids();
-            $statut = $joueur->getStatut()->name;
-            $postePrefere = $joueur->getPostePrefere();
-            $estPremiereLigne = $joueur->getEstPremiereLigne();
-            $commentaire = $joueur->getCommentaire();
-            $id = $joueur->getIdJoueur();
-
-
-            $statement->bindParam(':numeroLicense', $numeroLicense);
-            $statement->bindParam(':nom', $nom);
-            $statement->bindParam(':prenom', $prenom);
-            $statement->bindParam(':dateNaissance', $dateNaissance);
-            $statement->bindParam(':taille', $taille);
-            $statement->bindParam(':poids', $poids);
-            $statement->bindParam(':statut', $statut);
-            $statement->bindParam(':postePrefere', $postePrefere);
-            $statement->bindParam(':estPremiereLigne', $estPremiereLigne);
-            $statement->bindParam(':commentaire',$commentaire);
-            $statement->bindParam(':idJoueur', $id);
+            self::bindParams($joueur, $statement);
 
             $statement->execute();
             echo "Joueur mis à jour avec succès\n";
@@ -163,10 +110,7 @@ class DAOJoueur {
             $statement->execute();
             $row = $statement->fetch();
             if ($row) {
-                $joueur = new Joueur($row['idJoueur'], $row['nom'], $row['prenom'],
-                    new DateTime($row['dateNaissance']), $row['numeroLicense'], $row['taille'], $row['poids'],
-                    Statut::from($row['statut']), $row['postePrefere'], $row['estPremiereLigne']);
-                $joueur->setCommentaire($row["commentaire"]);
+                $joueur = self::constructFromRow($row);
             }
         } catch (PDOException $e) {
             echo "Erreur lors de la lecture du joueur: " . $e->getMessage();
@@ -177,8 +121,38 @@ class DAOJoueur {
     private static function constructFromRow($row):Joueur{
         $joueur = new Joueur($row['idJoueur'], $row['nom'], $row['prenom'],
             new DateTime($row['dateNaissance']), $row['numeroLicense'], $row['taille'], $row['poids'],
-            Statut::from($row['statut']), $row['postePrefere'], $row['estPremiereLigne']);
+            Statut::from($row['statut']), Poste::tryFromName($row['postePrefere']), $row['estPremiereLigne']);
         $joueur->setCommentaire($row["commentaire"]);
         return $joueur;
+    }
+
+    /**
+     * @param Joueur $joueur
+     * @param bool|PDOStatement $statement
+     * @return array
+     */
+    public function bindParams(Joueur $joueur, bool|PDOStatement $statement): void
+    {
+        $numeroLicense = $joueur->getNumeroLicense();
+        $nom = $joueur->getNom();
+        $prenom = $joueur->getPrenom();
+        $dateNaissance = $joueur->getDateNaissance()->format('Y-m-d');
+        $taille = $joueur->getTaille();
+        $poids = $joueur->getPoids();
+        $statut = $joueur->getStatut()->name;
+        $postePrefere = $joueur->getPostePrefere()->name;
+        $estPremiereLigne = $joueur->getEstPremiereLigne();
+        $commentaire = $joueur->getCommentaire();
+
+        $statement->bindParam(':numeroLicense', $numeroLicense);
+        $statement->bindParam(':nom', $nom);
+        $statement->bindParam(':prenom', $prenom);
+        $statement->bindParam(':dateNaissance', $dateNaissance);
+        $statement->bindParam(':taille', $taille);
+        $statement->bindParam(':poids', $poids);
+        $statement->bindParam(':statut', $statut);
+        $statement->bindParam(':postePrefere', $postePrefere);
+        $statement->bindParam(':estPremiereLigne', $estPremiereLigne);
+        $statement->bindParam(':commentaire', $commentaire);
     }
 }
