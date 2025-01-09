@@ -6,32 +6,33 @@
 
         <!-- Player Info Section -->
 
-        <section class="player-identity">
-            <?php
-            $url = empty($joueur->getUrl()) ? "../resources/img/data/default.png" : $joueur->getUrl();
-            ?>
-            <h2>Identité du joueur</h2>
+        <div class="first-section">
+            <section class="player-identity">
+                <?php
+                $url = empty($joueur->getUrl()) ? "../resources/img/data/default.png" : $joueur->getUrl();
+                ?>
+                <h2>Identité du joueur</h2>
 
-            <div class="identity-info">
-                <div class="identity-details">
-                    <p><strong>Nom :</strong> <?= htmlspecialchars($joueur->getNom()) ?></p>
-                    <p><strong>Prénom :</strong> <?= htmlspecialchars($joueur->getPrenom()) ?></p>
-                    <p><strong>Date de Naissance :</strong> <?= htmlspecialchars($joueur->getDateNaissance()->format('d-m-Y')) ?></p>
-                </div>
-                <div class="identity-image">
+                <div class="identity-info">
                     <img src="<?= htmlspecialchars($url) ?>" alt="Photo de <?= htmlspecialchars($joueur->getNom()) ?>" width="200" height="200">
+                    <div class="identity-details">
+                        <p><strong>Nom :</strong> <?= htmlspecialchars($joueur->getNom()) ?></p>
+                        <p><strong>Prénom :</strong> <?= htmlspecialchars($joueur->getPrenom()) ?></p>
+                        <p><strong>Date de Naissance :</strong> <?= htmlspecialchars($joueur->getDateNaissance()->format('d-m-Y')) ?></p>
+                    </div>
                 </div>
-            </div>
-        </section>
-        <section class="player-info">
-            <p><strong>Numéro de Licence :</strong> <?= htmlspecialchars($joueur->getNumeroLicense()) ?></p>
-            <p><strong>Taille :</strong> <?= htmlspecialchars($joueur->getTaille()) ?> cm</p>
-            <p><strong>Poids :</strong> <?= htmlspecialchars($joueur->getPoids()) ?> kg</p>
-            <p><strong>Poste Préféré :</strong> <?= htmlspecialchars($joueur->getPostePrefere()->value) ?></p>
-            <p><strong>Première Ligne :</strong> <?= $joueur->getEstPremiereLigne() ? 'Oui' : 'Non' ?></p>
-            <p><strong>Statut :</strong> <?= htmlspecialchars($joueur->getStatut()->name) ?></p>
-            <p><strong>Commentaire :</strong> <?= nl2br(htmlspecialchars($joueur->getCommentaire())) ?></p>
-        </section>
+            </section>
+            <section class="player-info">
+                <h2>Caractéristiques</h2>
+                <p><strong>Numéro de Licence :</strong> <?= htmlspecialchars($joueur->getNumeroLicense()) ?></p>
+                <p><strong>Taille :</strong> <?= htmlspecialchars($joueur->getTaille()) ?> cm</p>
+                <p><strong>Poids :</strong> <?= htmlspecialchars($joueur->getPoids()) ?> kg</p>
+                <p><strong>Poste Préféré :</strong> <?= htmlspecialchars($joueur->getPostePrefere()->value) ?></p>
+                <p><strong>Première Ligne :</strong> <?= $joueur->getEstPremiereLigne() ? 'Oui' : 'Non' ?></p>
+                <p><strong>Statut :</strong> <?= htmlspecialchars($joueur->getStatut()->name) ?></p>
+                <p><strong>Commentaire :</strong> <?= nl2br(htmlspecialchars($joueur->getCommentaire())) ?></p>
+            </section>
+        </div>
 
         <!-- Player Statistics Section -->
         <section class="player-stats">
