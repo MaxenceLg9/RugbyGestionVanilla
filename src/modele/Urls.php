@@ -1,7 +1,7 @@
 <?php
 
 $URL['accueil'] = "./";
-$URL['team'] = "./team";
+$URL['equipe'] = "./equipe";
 $URL['matchs'] = "./matchs";
 $URL['results'] = "./results";
 $URL['me'] = "./me";
