@@ -11,7 +11,7 @@ class DAOJoueur {
         $joueurs = [];
         try {
             $connexion = Connexion::getInstance()->getConnection();
-            $statement = $connexion->prepare("SELECT * FROM Joueur WHERE statut = 'ACTIF' GROUP BY postePrefere");
+            $statement = $connexion->prepare("SELECT * FROM Joueur WHERE statut = 'ACTIF' ORDER BY postePrefere, nom");
             $statement->execute();
             while ($row = $statement->fetch()) {
                 $joueurs[] = self::constructFromRow($row);
@@ -80,6 +80,8 @@ class DAOJoueur {
               WHERE idJoueur = :idJoueur"
             );
             self::bindParams($joueur, $statement);
+            $id = $joueur->getIdJoueur();
+            $statement->bindParam(':idJoueur', $id);
 
             $statement->execute();
             echo "Joueur mis à jour avec succès\n";
@@ -141,7 +143,7 @@ class DAOJoueur {
         $poids = $joueur->getPoids();
         $statut = $joueur->getStatut()->name;
         $postePrefere = $joueur->getPostePrefere()->name;
-        $estPremiereLigne = $joueur->getEstPremiereLigne();
+        $estPremiereLigne = $joueur->isPremiereLigne();
         $commentaire = $joueur->getCommentaire();
 
         $statement->bindParam(':numeroLicense', $numeroLicense);
