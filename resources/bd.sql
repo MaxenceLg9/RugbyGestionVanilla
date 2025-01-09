@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS MatchDeRugby (
                                             adversaire VARCHAR(50) NOT NULL,
     lieu ENUM('DOMICILE', 'EXTERIEUR') NOT NULL,
     resultat ENUM('VICTOIRE', 'DEFAITE', 'NUL') NULL,
-    valider BOOLEAN NOT NULL,
+    valider BOOLEAN NOT NULL
     );
 
 CREATE TABLE IF NOT EXISTS Participer (
