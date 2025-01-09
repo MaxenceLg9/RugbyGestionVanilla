@@ -9,11 +9,22 @@ CREATE TABLE IF NOT EXISTS Joueur (
     nom VARCHAR(50) NOT NULL,
     prenom VARCHAR(50) NOT NULL,
     dateNaissance DATE NOT NULL,
-    taille INT(3) NULL,
-    poids INT(3) NULL,
+    taille INT(3) NOT NULL,
+    poids INT(3) NOT NULL,
     statut ENUM('ACTIF', 'BLESSE', 'SUSPENDU', 'ABSENT') NOT NULL,
-    postePrefere VARCHAR(50) NULL,
-    estPremiereLigne BOOLEAN NULL,
+    postePrefere ENUM(
+                         'PILIER',
+                         'TALONNEUR',
+                         'DEUXIEME_LIGNE',
+                         'TROISIEME_LIGNE_AILE',
+                         'TROISIEME_LIGNE_CENTRE',
+                         'DEMI_MELEE',
+                         'DEMI_OUVERTURE',
+                         'CENTRE',
+                         'AILIER',
+                         'ARRIERE'
+                     ) NOT NULL,
+    estPremiereLigne BOOLEAN NOT NULL,
     commentaire VARCHAR(400),
     URL VARCHAR(100) NULL
     );
@@ -47,3 +58,8 @@ CREATE TABLE IF NOT EXISTS Entraineur (
     equipe VARCHAR(20) NOT NULL,
     motDePasse VARCHAR(60) NOT NULL
     );
+
+ALTER TABLE Joueur CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE MatchDeRugby CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE Participer CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE Entraineur CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
