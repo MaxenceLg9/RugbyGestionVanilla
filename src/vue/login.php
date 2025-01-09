@@ -15,4 +15,9 @@
             <input type="submit" value="Se connecter">
         </form>
     </div>
+    <style>
+        body {
+            height: 100%;
+        }
+    </style>
 </div>
