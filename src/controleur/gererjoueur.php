@@ -61,10 +61,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
 
     if ($type === 'ajout') {
-        $joueur = new Joueur(-1, $_POST['nom'], $_POST['prenom'], new DateTime($_POST['dateNaissance']), $_POST['numeroLicense'], $_POST['taille'], $_POST['poids'], Statut::ABSENT, $_POST['postePrefere'], $_POST['estPremiereLigne']);
+
+        $joueur = new Joueur(-1, $_POST['nom'], $_POST['prenom'], new DateTime($_POST['dateNaissance']), $_POST['numeroLicense'], $_POST['taille'], $_POST['poids'], Statut::from($_POST["statut"]), Poste::tryFromName($_POST['postePrefere']), $_POST['estPremiereLigne']);
         $joueur->setCommentaire($_POST["commentaire"]);
         $joueur->saveJoueur();
-        header('Location: team.php');
+        header('Location: equipe.php');
     } elseif ($type === 'modification') {
         $joueur = Joueur::getById($idJoueur);
         $joueur->setNom($_POST['nom']);
@@ -74,15 +75,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $joueur->setTaille($_POST['taille']);
         $joueur->setPoids($_POST['poids']);
         $joueur->setStatut(Statut::from($_POST['statut']));
-        $joueur->setPostePrefere($_POST['postePrefere']);
+        $joueur->setPostePrefere(Poste::tryFromName($_POST['postePrefere']));
         $joueur->setEstPremiereLigne($_POST['estPremiereLigne']);
         $joueur->setCommentaire($_POST["commentaire"]);
         $joueur->saveJoueur();
         // Update logic here
-        header('Location: team.php');
+        header('Location: equipe.php');
     }elseif($type === 'suppression'){
         // Delete logic here
         Joueur::getById($idJoueur)->deleteJoueur();
-        header('Location: team.php');
+        header('Location: equipe.php');
     }
 }
