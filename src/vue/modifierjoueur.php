@@ -6,6 +6,10 @@
         <section class="full">
             <h3>Entrez les informations du joueur à modifier</h3>
             <h3>Joueur : <?= htmlspecialchars($joueur->getNom() . " " . $joueur->getPrenom()) ?></h3>
+            <?php
+            $url = empty($joueur->getUrl()) ? "../resources/img/data/default.png" : $joueur->getUrl();
+            ?>
+            <img src="<?=$url?>" alt="Photo de <?= htmlspecialchars($joueur->getNom() . " " . $joueur->getPrenom()) ?>" width="200" height="200">
             <form action="gererjoueur.php" method="post">
                 <!-- Nom -->
                 <div class="form-row">
