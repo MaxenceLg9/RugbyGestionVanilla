@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS Joueur (
                      ) NOT NULL,
     estPremiereLigne BOOLEAN NOT NULL,
     commentaire VARCHAR(400),
-    URL VARCHAR(100) NULL
+    url VARCHAR(100) NULL
     );
 
 CREATE TABLE IF NOT EXISTS MatchDeRugby (
