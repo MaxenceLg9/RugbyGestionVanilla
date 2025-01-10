@@ -1,28 +1,16 @@
-const players = Array.from(document.querySelectorAll('.player-card'));
-const slots = Array.from(document.querySelectorAll('.position-slot'));
+const players = document.querySelectorAll('.player-card');
+const slots = document.querySelectorAll('.position-slot');
 const fieldNbJoueurs = document.getElementById('fieldNbJoueurs');
 const fieldNbPremieresLignes = document.getElementById('fieldNbPremieresLignes');
+
+const inputNbJoueurs = document.getElementById('inputNbJoueurs');
+const inputNbPremieresLignes = document.getElementById('inputNbPremieresLignes');
+
 const joueurs = document.getElementById('players');
 
 let draggedPlayer = null;
 
-let nbJoueurs = 0;
-let nbPremieresLignes = 0;
-
-fieldNbJoueurs.innerHTML = nbJoueurs.toString();
-fieldNbPremieresLignes.innerHTML = nbPremieresLignes.toString();
-
-players.forEach(player => {
-    player.addEventListener('dragstart', (e) => {
-        draggedPlayer = player;
-        setTimeout(() => player.classList.add('dragging'), 0)
-    });
-
-    player.addEventListener('dragend', (e) => {
-        draggedPlayer = null;
-        player.classList.remove('dragging');
-    });
-});
+updateUI();
 
 // Add dragover and drop event listeners to the "joueurs" container
 joueurs.addEventListener('dragover', (e) => e.preventDefault());
@@ -45,7 +33,7 @@ slots.forEach(slot => {
             const playerPremiereLigne = draggedPlayer.querySelector('input[name="premiereLigne"]').value === '1';
 
             // Find the hidden input for this slot and set its value
-            const hiddenInput = this.nextElementSibling;
+            const hiddenInput = slot.nextElementSibling;
             if (hiddenInput && hiddenInput.type === 'hidden') {
                 hiddenInput.value = playerId;
 
@@ -78,17 +66,24 @@ slots.forEach(slot => {
     });
 
     slot.addEventListener('dragleave', (e) => {
+        console.log('draggedPlayer:', draggedPlayer);
+        console.log('slot.firstChild:', slot.firstChild);
+        console.log(slot.firstChild === draggedPlayer);
         if (draggedPlayer && slot.firstChild === draggedPlayer) {
+            console.log('aaa');
             // Remove player from the slot
             slot.removeChild(draggedPlayer);
 
             // Return player to "joueurs"
             joueurs.appendChild(draggedPlayer);
-
+            const hiddenInput = slot.nextElementSibling;
+            if (hiddenInput && hiddenInput.type === 'hidden') {
+                hiddenInput.value = "";
+                console.log("hiddenInput.value", hiddenInput.value);
+            }
             // Update counts
             const playerPremiereLigne = draggedPlayer.querySelector('input[name="premiereLigne"]').value === '1';
             updateCounts(playerPremiereLigne, -1);
-
             // Update displayed counts
             updateUI();
         }
@@ -107,4 +102,21 @@ function updateCounts(isPremiereLigne, delta) {
 function updateUI() {
     fieldNbJoueurs.innerHTML = nbJoueurs.toString();
     fieldNbPremieresLignes.innerHTML = nbPremieresLignes.toString();
+    inputNbJoueurs.value = nbJoueurs;
+    inputNbPremieresLignes.value = nbPremieresLignes;
 }
+console.log("Players to load");
+players.forEach(player => {
+    player.addEventListener('dragstart', (e) => {
+        draggedPlayer = player;
+        setTimeout(() => player.classList.add('dragging'), 0)
+    });
+
+    if(archiveMatch === 0)
+        player.setAttribute('draggable', 'true');
+
+    player.addEventListener('dragend', (e) => {
+        draggedPlayer = null;
+        player.classList.remove('dragging');
+    });
+});
