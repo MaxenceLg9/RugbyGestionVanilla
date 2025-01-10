@@ -42,10 +42,10 @@ CREATE TABLE IF NOT EXISTS Participer (
                                               idMatch INT NOT NULL,
                                               idJoueur INT NOT NULL,
                                               estTitulaire BOOLEAN NULL,
-                                              poste VARCHAR(50) NULL,
+                                              numero INT NOT NULL,
     note FLOAT NULL,
-    archiver BOOLEAN NOT NULL,
-    PRIMARY KEY (idMatch, idJoueur),
+    archive BOOLEAN NOT NULL,
+    PRIMARY KEY (idMatch, numero),
     FOREIGN KEY (idMatch) REFERENCES MatchDeRugby(idMatch),
     FOREIGN KEY (idJoueur) REFERENCES Joueur(idJoueur)
     );
