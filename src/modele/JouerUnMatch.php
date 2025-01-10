@@ -10,16 +10,16 @@ class JouerUnMatch {
 
     private bool $titulaire;
 
-    private string $poste;
+    private int $numero;
     private float $note;
 
     private bool $archive;
 
-    function __construct(int $idMatch,Joueur $joueur, bool $titulaire, string $poste, float $note, bool $archive) {
+    function __construct(int $idMatch,Joueur $joueur, bool $titulaire, string $numero, float $note, bool $archive) {
         $this->idMatch = $idMatch;
         $this->joueur = $joueur;
         $this->titulaire = $titulaire;
-        $this->poste = $poste;
+        $this->numero = $numero;
         $this->note = $note;
         $this->archive = $archive;
     }
@@ -90,17 +90,17 @@ class JouerUnMatch {
     /**
      * @return string
      */
-    public function getPoste(): string
+    public function getNumero(): string
     {
-        return $this->poste;
+        return $this->numero;
     }
 
     /**
-     * @param string $poste
+     * @param string $numero
      */
-    public function setPoste(string $poste): void
+    public function setnumero(string $numero): void
     {
-        $this->poste = $poste;
+        $this->numero = $numero;
     }
 
     /**
@@ -121,16 +121,23 @@ class JouerUnMatch {
 
     public function save(): void {
         $DAOJouer = new DAOJouerUnMatch();
-        if ($DAOJouer -> read($this) != null) {
+        if (DAOJouerUnMatch::existJoueur($this)) {
             $DAOJouer -> update($this);
         }
         $DAOJouer -> create($this);
     }
 
-    public function delete(int $idMatch): void {
-        $DAOJouerUnMatch = new DAOJouerUnMatch();
-        if ($DAOJouerUnMatch -> read($idMatch, $this ->getJoueur()) != null) {
-            $DAOJouerUnMatch->delete($this);
+    //Warning : unsafe method
+    public function update(): void{
+        DAOJouerUnMatch::update($this);
+    }
+    public function insert(): void{
+        DAOJouerUnMatch::create($this);
+    }
+
+    public function delete(): void {
+        if (DAOJouerUnMatch::existJoueur($this)) {
+            DAOJouerUnMatch::delete($this);
         }
     }
 
@@ -142,5 +149,9 @@ class JouerUnMatch {
     public static function getJouerByJoueur(Joueur $joueur): array{
         $DAOJouerUnMatch = new DAOJouerUnMatch();
         return $DAOJouerUnMatch->readAllByJoueur($joueur);
+    }
+
+    public static function isArchiveFDM(int $idMatch): bool {
+        return DAOJouerUnMatch::isArchiveFDM($idMatch);
     }
 }
