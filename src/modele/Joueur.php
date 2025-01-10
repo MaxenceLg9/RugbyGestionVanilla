@@ -62,7 +62,7 @@ class Joueur {
     }
 
     public function setURL(string $url): void {
-        $this -> url = $url;
+        $this -> url = "../resources/img/joueurs/".$url;
     }
 
     /**
@@ -70,7 +70,10 @@ class Joueur {
      */
     public function getUrl(): string
     {
-        return $this->url;
+        if(is_file($this->url)){
+            return $this->url;
+        }
+        return "";
     }
 
     /**
