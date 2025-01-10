@@ -5,6 +5,7 @@ const fieldNbPremieresLignes = document.getElementById('fieldNbPremieresLignes')
 
 const inputNbJoueurs = document.getElementById('inputNbJoueurs');
 const inputNbPremieresLignes = document.getElementById('inputNbPremieresLignes');
+const buttonValider = document.getElementById('buttonValider');
 
 const joueurs = document.getElementById('players');
 
@@ -104,6 +105,11 @@ function updateUI() {
     fieldNbPremieresLignes.innerHTML = nbPremieresLignes.toString();
     inputNbJoueurs.value = nbJoueurs;
     inputNbPremieresLignes.value = nbPremieresLignes;
+    buttonValider.disabled = nbJoueurs < 11 || nbPremieresLignes < 4;
+    if(nbJoueurs < 11 || nbPremieresLignes < 4)
+        buttonValider.classList.add('disabled');
+    else
+        buttonValider.classList.remove('disabled');
 }
 console.log("Players to load");
 players.forEach(player => {
