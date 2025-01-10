@@ -11,19 +11,21 @@ class DAOJouerUnMatch {
         try {
             $connexion = Connexion::getInstance()->getConnection();
             $requete = $connexion -> prepare(
-                "INSERT INTO Participer (idMatch, idJoueur, estTitulaire, poste, note, archive) 
-             VALUES (:idMatch, :idJoueur, :estTitulaire, :poste, :note, :archive)");
+                "INSERT INTO Participer (idMatch, idJoueur, estTitulaire, numero, note, archive) 
+             VALUES (:idMatch, :idJoueur, :estTitulaire, :numero, :note, :archive)");
 
 
             $estTitulaire = $jouer -> isTitulaire();
-            $poste = $jouer -> getPoste();
+            $numero = $jouer -> getNumero();
             $note = $jouer -> getNote();
             $idMatch = $jouer -> getIdMatch();
             $archive = $jouer->isArchive();
+            $idJoueur = $jouer->getJoueur()->getIdJoueur();
 
             $requete->bindParam(':estTitulaire', $estTitulaire);
-            $requete->bindParam(':poste', $poste);
+            $requete->bindParam(':numero', $numero);
             $requete->bindParam(':note', $note);
+            $requete->bindParam(':idJoueur', $idJoueur);
             $requete->bindParam(':idMatch', $idMatch);
             $requete->bindParam(':archive', $archive);
 
@@ -38,16 +40,16 @@ class DAOJouerUnMatch {
         try {
             $connexion = Connexion::getInstance()->getConnection();
             $requete = $connexion->prepare(
-                "SELECT * FROM Participer WHERE idMatch = :idMatch AND idJoueur = :idJoueur"
+                "SELECT * FROM Participer WHERE idMatch = :idMatch AND numero = :numero"
             );
 
             // Get the necessary values from the $jouer object
             $idMatch = $jouer->getIdMatch();
-            $idJoueur = $jouer->getJoueur()->getIdJoueur();
+            $numero = $jouer->getNumero();
 
             // Bind parameters
             $requete->bindParam(':idMatch', $idMatch, PDO::PARAM_INT);
-            $requete->bindParam(':idJoueur', $idJoueur, PDO::PARAM_INT);
+            $requete->bindParam(':numero', $numero, PDO::PARAM_INT);
 
             // Execute query
             $requete->execute();
@@ -73,7 +75,7 @@ class DAOJouerUnMatch {
             $rows = $requete -> fetchAll();
 
             foreach ($rows as $row) {
-                $listJouer[] = new JouerUnMatch($row["idMatch"],Joueur::getById($row["idJoueur"]), $row["estTitulaire"], $row["poste"], $row["note"], $row["archive"]);
+                $listJouer[] = new JouerUnMatch($row["idMatch"],Joueur::getById($row["idJoueur"]), $row["estTitulaire"], $row["numero"], $row["note"], $row["archive"]);
             }
         } catch (PDOException $e) {
             echo "Erreur : " . $e -> getMessage();
@@ -85,20 +87,22 @@ class DAOJouerUnMatch {
         try {
             $connexion = Connexion::getInstance()->getConnection();
             $requete = $connexion -> prepare(
-                "UPDATE Participer SET estTitulaire = :estTitulaire, poste = :poste, note = :note 
-             WHERE idMatch = :idMatch AND idJoueur = :idJoueur");
+                "UPDATE Participer SET estTitulaire = :estTitulaire, idJoueur = :idJoueur, note = :note, archive = :archive
+             WHERE idMatch = :idMatch AND numero = :numero");
 
             $estTitulaire = $jouer -> isTitulaire();
-            $poste = $jouer -> getPoste();
+            $numero = $jouer -> getNumero();
             $note = $jouer -> getNote();
             $idJoueur = $jouer -> getJoueur() -> getIdJoueur();
             $idMatch = $jouer -> getIdMatch();
+            $archive = $jouer->isArchive();
 
             $requete->bindParam(':estTitulaire', $estTitulaire);
-            $requete->bindParam(':poste', $poste);
+            $requete->bindParam(':numero', $numero);
             $requete->bindParam(':note', $note);
             $requete->bindParam(':idMatch', $idMatch);
             $requete->bindParam(':idJoueur', $idJoueur);
+            $requete->bindParam(':archive', $archive);
 
             $requete -> execute();
             echo "Feuille de match mise à jour avec succès !";
@@ -130,15 +134,14 @@ class DAOJouerUnMatch {
         try {
             $connexion = Connexion::getInstance()->getConnection();
             $requete = $connexion -> prepare(
-                "SELECT * FROM Participer WHERE idMatch = :idMatch");
+                "SELECT * FROM Participer WHERE idMatch = :idMatch ORDER BY numero");
 
             $requete -> bindParam(':idMatch', $idMatch);
 
             $requete -> execute();
             $rows = $requete -> fetchAll();
-
             foreach ($rows as $row) {
-                $listJouer[] = new JouerUnMatch($idMatch,Joueur::getById($row["idJoueur"]), $row["estTitulaire"], $row["poste"], $row["note"], $row["archive"]);
+                $listJouer[$row["numero"]] = new JouerUnMatch($idMatch,Joueur::getById($row["idJoueur"]), $row["estTitulaire"], $row["numero"], $row["note"], $row["archive"]);
             }
         } catch (PDOException $e) {
             echo "Erreur : " . $e -> getMessage();
@@ -151,7 +154,7 @@ class DAOJouerUnMatch {
         try {
             $connexion = Connexion::getInstance()->getConnection();
             $requete = $connexion -> prepare(
-                "SELECT * FROM Participer WHERE idJoueur = :idJoueur");
+                "SELECT * FROM Participer JOIN MatchDeRugby ON Participer.idMatch = MatchDeRugby.idMatch WHERE idJoueur = :idJoueur AND archive = 1 AND Resultat is not null");
 
             $idJoueur = $joueur -> getIdJoueur();
             $requete -> bindParam(':idJoueur', $idJoueur);
@@ -160,12 +163,30 @@ class DAOJouerUnMatch {
             $rows = $requete -> fetchAll();
 
             foreach ($rows as $row) {
-                $listJouers[] = new JouerUnMatch($row['idMatch'], $joueur,$row['estTitulaire'], $row['poste'], $row['note'], $row["archive"]);
+                $listJouers[] = new JouerUnMatch($row['idMatch'], $joueur,$row['estTitulaire'], $row['numero'], $row['note'], $row["archive"]);
             }
         } catch (PDOException $e) {
             echo "Erreur : " . $e -> getMessage();
         }
         return $listJouers;
+    }
+
+    public static function isArchiveFDM(int $idMatch): bool
+    {
+        try {
+            $connexion = Connexion::getInstance()->getConnection();
+            $requete = $connexion -> prepare(
+                "SELECT archive FROM Participer WHERE idMatch = :idMatch");
+
+            $requete -> bindParam(':idMatch', $idMatch);
+
+            $requete -> execute();
+            $row = $requete -> fetch(PDO::FETCH_ASSOC);
+            return $row ? $row['archive'] : false;
+        } catch (PDOException $e) {
+            echo "Erreur : " . $e -> getMessage();
+        }
+        return false;
     }
 
 }
