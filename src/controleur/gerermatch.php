@@ -40,6 +40,7 @@ if($_SERVER['REQUEST_METHOD'] === 'GET'){
     }
     elseif($type == "vue"){
         require_once "../modele/Joueur.php";
+        require_once "../modele/JouerUnMatch.php";
         $css = ["style.css", "feuille.css"];
         $title = "Consulter un match";
         $page = '../vue/vuematch.php';
@@ -48,7 +49,12 @@ if($_SERVER['REQUEST_METHOD'] === 'GET'){
             header('Location: matchs.php');
             die();
         }
-        $joueurs = Joueur::findAllActif();
+        $archive = $match->isArchive();
+        $valider = JouerUnMatch::isArchiveFDM($match->getIdMatch());
+        if(!$archive && !$valider){
+            $joueursNP = Joueur::findAllNotOnMatch($match->getIdMatch());
+        }
+        $jouerLeMatch = JouerUnMatch::getJouerByMatch($match->getIdMatch());
         include_once '../components/page.php';
     }
 }
