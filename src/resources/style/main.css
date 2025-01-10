@@ -23,3 +23,8 @@ body {
     align-items: center;
     justify-content: center;
 }
+
+.nav-container{
+    width: 10%;
+    min-width: 157px;
+}
