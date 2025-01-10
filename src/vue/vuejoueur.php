@@ -70,9 +70,13 @@
                         <td><?= htmlspecialchars($match->getAdversaire()) ?></td>
                         <td><?= htmlspecialchars($match->getLieu()->value) ?></td>
                         <td><?= htmlspecialchars($match->getResultat()->value) ?></td>
-                        <td><?= htmlspecialchars($fdm->getPoste()) ?></td>
+                        <td><?= htmlspecialchars($fdm->getNumero()) ?></td>
                         <td><?= $fdm->isTitulaire() ? 'Oui' : 'Non' ?></td>
+                        <?php if($fdm->getNote() == -1){ ?>
+                            <td>Non noté</td>
+                        <?php }else{ ?>
                         <td><?= number_format($fdm->getNote()) ?></td>
+                        <?php } ?>
                     </tr>
                 <?php } ?>
                 </tbody>
