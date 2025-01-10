@@ -9,17 +9,23 @@ VALUES
 (2003, 'Gros', 'Jean-Baptiste', '1999-05-25', 185, 115, 'ACTIF', 'PILIER', TRUE, 'Technique et solide en mêlée.', 'images/gros.png'),
 (2004, 'Tatafu', 'Tevita', '1997-11-15', 182, 118, 'ACTIF', 'PILIER', TRUE, 'Polyvalent et puissant.', 'images/tatafu.png'),
 (2005, 'Wardi', 'Reda', '1995-09-16', 183, 115, 'ACTIF', 'PILIER', TRUE, 'Excellent soutien en mêlée fermée.', 'images/wardi.png'),
+(2006, 'Baille', 'Cyril', '1993-09-15', 182, 119, 'ACTIF', 'PILIER', 1, 'Strong and reliable in scrums.', 'https://example.com/images/cyril_baille.jpg'),
+
 
 -- Talonneurs
 (2101, 'Barlot', 'Gaëtan', '1997-07-04', 180, 102, 'ACTIF', 'TALONNEUR', TRUE, 'Très mobile avec une excellente technique.', 'images/barlot.png'),
 (2102, 'Marchand', 'Julien', '1995-05-29', 178, 106, 'BLESSE', 'TALONNEUR', TRUE, 'Capitaine exemplaire et bon leader.', 'images/marchand.png'),
 (2103, 'Mauvaka', 'Peato', '1997-01-10', 184, 118, 'ACTIF', 'TALONNEUR', TRUE, 'Un impact player exceptionnel.', 'images/mauvaka.png'),
+(2104, 'Bourgarit', 'Pierre', '1997-09-12', 185, 108, 'ACTIF', 'TALONNEUR', 1, 'Dynamic hooker with a strong presence on the field.', 'https://example.com/images/pierre_bourgarit.jpg'),
+
 
 -- DEUXIEME_LIGNEs
 (2201, 'Flament', 'Thibaud', '1997-04-29', 200, 112, 'ACTIF', 'DEUXIEME_LIGNE', TRUE, 'Mobile et solide en touche.', 'images/flament.png'),
 (2202, 'Guillard', 'Mickaël', '1998-02-17', 195, 115, 'ACTIF', 'DEUXIEME_LIGNE', TRUE, 'Fiable en touche et très physique.', 'images/guillard.png'),
 (2203, 'Meafou', 'Emmanuel', '1998-07-12', 202, 140, 'ACTIF', 'DEUXIEME_LIGNE', TRUE, 'Puissant avec une grosse présence physique.', 'images/meafou.png'),
 (2204, 'Taofifenua', 'Romain', '1990-09-14', 200, 140, 'ACTIF', 'DEUXIEME_LIGNE', TRUE, 'Force de la nature avec beaucoup d’expérience.', 'images/taofifenua.png'),
+(2205, 'Willemse', 'Paul', '1992-11-13', 201, 135, 'ACTIF', 'DEUXIEME_LIGNE', 0, 'Towering lock, key in lineouts and scrums.', 'https://example.com/images/paul_willemse.jpg'),
+
 
 -- Troisième lignes Ailes
 (2301, 'Boudehent', 'Paul', '1999-11-22', 193, 105, 'ACTIF', 'TROISIEME_LIGNE_AILE', FALSE, 'Plaqueur efficace et très mobile.', 'images/boudehent.png'),
@@ -38,10 +44,13 @@ VALUES
 (2502, 'Le Garrec', 'Nolann', '2002-04-22', 180, 78, 'ACTIF', 'DEMI_MELEE', FALSE, 'Un jeune DEMI_MELEE prometteur.', 'images/legarrec.png'),
 (2503, 'Lucu', 'Maxime', '1993-05-12', 177, 80, 'ACTIF', 'DEMI_MELEE', FALSE, 'Solide dans la gestion du jeu.', 'images/lucu.png'),
 (2504, 'Serin', 'Baptiste', '1994-06-20', 180, 82, 'ACTIF', 'DEMI_MELEE', FALSE, 'Créatif et technique.', 'images/serin.png'),
+(2505, 'Couilloud', 'Baptiste', '1997-07-22', 178, 82, 'ACTIF', 'DEMI_MELEE', 0, 'Agile scrum-half with excellent passing skills.', 'https://example.com/images/baptiste_couilloud.jpg'),
+
 
 -- Demis d’ouverture
 (2601, 'Jalibert', 'Matthieu', '1998-11-06', 184, 86, 'ACTIF', 'DEMI_OUVERTURE', FALSE, 'Explosif et très bon en attaque.', 'images/jalibert.png'),
-
+(2602, 'Ntamack', 'Romain', '1999-05-01', 186, 87, 'ACTIF', 'DEMI_OUVERTURE', 0, 'Star player known for his quick decision-making.', 'https://example.com/images/romain_ntamack.jpg'),
+(2603, 'Carbonel', 'Louis', '2000-10-18', 183, 85, 'ACTIF', 'DEMI_OUVERTURE', FALSE, 'Excellent buteur et gestionnaire de jeu.', 'images/carbonel.png'),
 -- Centres
 (2701, 'Fickou', 'Gaël', '1994-03-26', 191, 101, 'ACTIF', 'CENTRE', FALSE, 'Leader sur le terrain et très expérimenté.', 'images/fickou.png'),
 (2702, 'Frisch', 'Antoine', '1996-11-04', 188, 95, 'ACTIF', 'CENTRE', FALSE, 'Polyvalent et solide.', 'images/frisch.png'),
@@ -50,12 +59,17 @@ VALUES
 -- Ailiers
 (2801, 'Moefana', 'Yoram', '2000-06-18', 182, 93, 'ACTIF', 'AILIER', FALSE, 'Puissant et rapide.', 'images/moefana.png'),
 (2802, 'Villiere', 'Gabin', '1995-12-19', 180, 85, 'SUSPENDU', 'AILIER', FALSE, 'Connu pour son agressivité positive.', 'images/villiere.png'),
+(2803, 'Penaud', 'Damian', '1996-11-25', 190, 96, 'ACTIF', 'AILIER', 0, 'Versatile winger with great scoring abilities.', 'https://example.com/images/damian_penaud.jpg'),
+(2804, 'Attisogbe', 'Theo', '2001-03-15', 184, 92, 'ACTIF', 'AILIER', 0, 'Young and promising winger with explosive speed.', 'https://example.com/images/theo_attisogbe.jpg'),
+
 
 -- Arrières
 (2901, 'Barré', 'Léo', '1999-07-15', 185, 85, 'ACTIF', 'ARRIERE', FALSE, 'Un joueur polyvalent et sûr sous les ballons hauts.', 'images/barre.png'),
 (2902, 'Bielle-Biarrey', 'Louis', '2003-06-14', 184, 83, 'ACTIF', 'ARRIERE', FALSE, 'Un jeune joueur prometteur avec un bon jeu au pied.', 'images/bielle-biarrey.png'),
 (2903, 'Buros', 'Romain', '1997-09-08', 188, 90, 'ACTIF', 'ARRIERE', FALSE, 'Excellent relanceur avec de la vitesse.', 'images/buros.png'),
 (2904, 'Ramos', 'Thomas', '1995-07-23', 178, 82, 'ACTIF', 'ARRIERE', FALSE, 'Solide au pied et intelligent dans sa gestion du jeu.', 'images/ramos.png');
+
+
 
 
 INSERT INTO MatchDeRugby (dateHeure, adversaire, lieu, resultat, valider)
