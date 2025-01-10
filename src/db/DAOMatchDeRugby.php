@@ -114,28 +114,6 @@ class DAOMatchDeRugby {
         }
     }
 
-    public function setResult(MatchDeRugby $match): void{
-        try {
-            $connexion = Connexion::getInstance()->getConnection();
-            $statement = $connexion->prepare("UPDATE MatchDeRugby SET resultat = :resultat WHERE idMatch = :idMatch");
-
-            $idMatch = $match->getIdMatch();
-            $resultat = "0";
-            if($match->getResultat() != null){
-                $resultat = $match->getResultat()->name;
-            }
-
-
-            $statement->bindParam(':idMatch', $idMatch);
-            $statement->bindParam(':resultat', $resultat);
-
-            $statement->execute();
-            echo "Match mis à jour avec succès\n";
-        } catch (PDOException $e) {
-            echo "Erreur lors de la mise à jour du match: " . $e->getMessage();
-        }
-    }
-
     public function delete(MatchDeRugby $matchDeRugby): void {
         try {
             $connexion = Connexion::getInstance()->getConnection();
@@ -167,5 +145,24 @@ class DAOMatchDeRugby {
             echo "Erreur lors de la lecture des matches: " . $e->getMessage();
         }
         return $matches;
+    }
+
+    public function validerMatch(MatchDeRugby $match): void
+    {
+        try {
+            $connexion = Connexion::getInstance()->getConnection();
+            $statement = $connexion->prepare("UPDATE MatchDeRugby SET resultat = :resultat, valider := 1 WHERE idMatch = :idMatch");
+
+            $idMatch = $match->getIdMatch();
+            $resultat = $match->getResultat()->value;
+
+            $statement->bindParam(':idMatch', $idMatch);
+            $statement->bindParam(':resultat', $resultat);
+
+            $statement->execute();
+            echo "Match mis à jour avec succès\n";
+        } catch (PDOException $e) {
+            echo "Erreur lors de la mise à jour du match: " . $e->getMessage();
+        }
     }
 }
