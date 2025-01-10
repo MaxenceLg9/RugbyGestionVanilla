@@ -30,7 +30,7 @@
                         <p class="result">Match passé</p>
                         <?php if(!is_null($match->getResultat())){ ?>
                             <p class="result">Match validé</p>
-                            <p>Score : Match <?= $match->getResultat()->name?></p>
+                            <p>Score : <?= $match->getResultat()->name?></p>
                         <?php }
                         else { ?>
                             <p>Aucun résultat</p>
