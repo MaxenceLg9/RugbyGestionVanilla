@@ -70,6 +70,7 @@ div.statut {
     min-height: 35px; /* Increased for a better look */
     border: none;
     color: white;
+    max-width: 400px;
     font-weight: bold;
     border-radius: 5px;
     font-size: 16px;

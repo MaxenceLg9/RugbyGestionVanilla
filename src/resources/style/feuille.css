@@ -9,13 +9,15 @@ body {
 .container {
     display: flex;
     align-items: center;
+    background-color: #f9f9f9;
+    border-radius: 20px;
+    border: #0d1117 2px solid;
 }
 
 .players-container {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
-    margin: 20px;
     width: 90%;
     height: 850px;
     overflow: auto;
@@ -51,6 +53,7 @@ body {
     width: 1360px;
     height: 767px;
     position: relative;
+    margin-bottom: 40px;
 }
 
 .position-slot {
@@ -107,4 +110,27 @@ article {
     align-items: center;
     padding: 1%;
     width: 98%;
+    gap: 10px;
+}
+
+form {
+    border-left: 2px solid black;
+    padding-bottom: 20px;
+}
+
+aside{
+    display: flex;
+    /*background: rgba(255, 156, 156, 0.67);*/
+    flex-direction: column;
+    height: 100%;
+    gap: 15px;
+    align-self: flex-start;
+    max-height: 917px;
+    padding-left: 20px;
+    padding-top: 5px;
+}
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.5;
 }
