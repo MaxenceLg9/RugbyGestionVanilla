@@ -70,6 +70,23 @@ class DAOJoueur {
         return $joueur;
     }
 
+    public static function readNonParticiperMatch(int $idMatch): array {
+        try {
+            $connection = Connexion::getInstance()->getConnection();
+            $statement = $connection->prepare("SELECT * FROM Joueur WHERE idJoueur NOT IN (SELECT idJoueur FROM Participer WHERE idMatch = :idMatch)");
+            $statement->bindParam(':idMatch', $idMatch);
+            $statement->execute();
+            $joueurs = [];
+            while ($row = $statement->fetch()) {
+                $joueurs[] = self::constructFromRow($row);
+            }
+        }
+        catch (PDOException $e) {
+            echo "Erreur lors de la lecture des joueurs participant au match: " . $e->getMessage();
+        }
+        return $joueurs;
+    }
+
     public function update(Joueur $joueur): void {
         try {
             $connexion = Connexion::getInstance()->getConnection();
