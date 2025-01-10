@@ -141,7 +141,10 @@ class DAOJoueur {
         $joueur = new Joueur($row['idJoueur'], $row['nom'], $row['prenom'],
             new DateTime($row['dateNaissance']), $row['numeroLicense'], $row['taille'], $row['poids'],
             Statut::from($row['statut']), Poste::tryFromName($row['postePrefere']), $row['estPremiereLigne']);
-        $joueur->setCommentaire($row["commentaire"]);
+        if(!is_null($row["commentaire"]))
+            $joueur->setCommentaire($row["commentaire"]);
+        if(!is_null($row["url"]))
+            $joueur->setURL($row["url"]);
         return $joueur;
     }
 
