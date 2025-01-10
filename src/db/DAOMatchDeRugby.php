@@ -143,6 +143,9 @@ class DAOMatchDeRugby {
             $id = $matchDeRugby->getIdMatch();
             $statement->bindParam(':idMatch', $id);
             $statement->execute();
+            $statement = $connexion->prepare("DELETE FROM Participer WHERE idMatch = :idMatch");
+            $statement->bindParam(':idMatch', $id);
+            $statement->execute();
             echo "Match supprimé avec succès\n";
         } catch (PDOException $e) {
             echo "Erreur lors de la suppression du match: " . $e->getMessage();
