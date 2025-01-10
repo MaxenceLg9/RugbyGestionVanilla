@@ -6,16 +6,16 @@ checkSession();
 
 
 $csrf_token = $_SESSION['csrf_token'];
-$type = $_POST['type'] ?? null;
+$type = $_POST['type'] ?? $_GET['type'] ?? null;
 
-if (!in_array($type, ['ajout', 'modification','validation'])) {
+if (!in_array($type, ['ajout', 'modification','validation', 'notes'])) {
     die("Type de requête non défini.");
 }
 
 
-$idMatch = $_POST['idMatch'] ?? null;
+$idMatch = $_POST['idMatch'] ?? $_GET['idMatch'] ?? null;
 if (!is_numeric($idMatch)) {
-    die("ID joueur invalide.");
+    die("ID Match invalide.");
 }
 
 /**
@@ -62,18 +62,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 
-
-    if($_POST["submit"] === "ajouter"){
-        editerFDM($idMatch,false);
-    }
-    elseif($_POST["submit"] === "valider"){
-        if(!regle()){
-            header("Location: gerermatch.php?type=vue&idMatch=" . $_POST["idMatch"] . "&csrf_token=" . password_hash($_POST["idMatch"] . $csrf_token . "vue", PASSWORD_BCRYPT));
-            die();
+    if($_POST["fdm"] === "0"){
+        $match = MatchDeRugby::getFromId($idMatch);
+        $match->setResultat(Resultat::from($_POST["resultat"]));
+        $match->validerMatch();
+    }elseif($_POST["fdm"] === "1") {
+        if ($_POST["submit"] === "ajouter") {
+            editerFDM($idMatch, false);
+        } elseif ($_POST["submit"] === "valider") {
+            if (!regle()) {
+                header("Location: gerermatch.php?type=vue&idMatch=" . $_POST["idMatch"] . "&csrf_token=" . password_hash($_POST["idMatch"] . $csrf_token . "vue", PASSWORD_BCRYPT));
+                die();
+            }
+            editerFDM($idMatch, true);
         }
-        editerFDM($idMatch,true);
+    }elseif($_POST["fdm"] === 2){
+        $idJoueur = $_POST['idJoueur'];
+        $note = floatval($_POST['note']);
+        $playerMatch = JouerUnMatch::getJouerByMatch($idMatch);
+        foreach ($playerMatch as $player) {
+            if ($player->getIdMatch() == $idMatch) {
+                $player->setNote($note);
+                $player->save();
+                break;
+            }
+        }
+
+        header('Location: playerNotes.php?success=1');
+        exit;
     }
-    header("Location: gerermatch.php?type=vue&idMatch=" . $_POST["idMatch"] . "&csrf_token=" . password_hash($_POST["idMatch"] . $csrf_token . "vue", PASSWORD_BCRYPT));
+    header("Location: gerermatch.php?type=vue&idMatch=" . $idMatch . "&csrf_token=" . password_hash($_POST["idMatch"] . $csrf_token . "vue", PASSWORD_BCRYPT));
+}
+elseif($_SERVER['REQUEST_METHOD'] === 'GET'){
+    if(!isset($_GET['csrf_token']) || !password_verify($idMatch . $csrf_token . $type, $_GET['csrf_token'])){
+        header("Location: matchs.php");
+        die("CSRF validation failed.");
+    }
+    if($type == "notes"){
+        $css = ["style.css","gerer.css"];
+        $joueurs = JouerUnMatch::getJouerByMatch($idMatch);
+        $title = "Ajouter des notes";
+        $page = '../vue/saisirnotes.php';
+        include_once '../components/page.php';
+        die();
+    }
+    header("Location: gerermatch.php?type=vue&idMatch=" . $idMatch . "&csrf_token=" . password_hash($_GET["idMatch"] . $csrf_token . "vue", PASSWORD_BCRYPT));
 }
 
 function regle():bool {
