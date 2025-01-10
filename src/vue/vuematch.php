@@ -16,9 +16,10 @@ function createPlayerCard($joueur): string
 }
 ?>
 <div class="main">
+    <header class="header-section">
+        <h1>Faites votre feuille de match</h1>
+    </header>
     <article>
-
-        <h1>Select Players for the Match</h1>
         <div class="container">
             <aside>
                 <p id="">Il y a <strong id="fieldNbJoueurs"></strong> joueurs sur la feuille de match</p>
@@ -67,11 +68,30 @@ function createPlayerCard($joueur): string
                 <input type="hidden" name="type" value="ajout">
                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(password_hash($_GET["idMatch"] . $_SESSION['csrf_token'] . "ajout", PASSWORD_BCRYPT)) ?>">
                 <input type="hidden" name="idMatch" value="<?=$_GET["idMatch"]?>">
-                <?php if($valider || $archive){ ?>
-                    <p>Match validé, vous pouvez saisir le score</p>
+                <?php if($archive){ ?>
+                    <p>Le match est archivé, vous ne pouvez plus le modifier</p>
+                    <p>Résultat : <?=$match->getResultat()->name?></p>
+                    <a class="button saisie" href="gererfdm.php?type=notes&idMatch=<?=$match->getIdMatch()?>&csrf_token=<?=htmlspecialchars(password_hash($match->getIdMatch().$_SESSION["csrf_token"]."notes",PASSWORD_BCRYPT))?>">
+                        <p>Saisir les notes</p>
+                    </a>
+                <?php } elseif($valider){ ?>
+
+                    <div class="row">
+                        <p>Feuille de match validée, vous pouvez dès à présent finaliser le match en saisissant le score</p>
+                        <label for="resultat">Score</label>
+                        <select id="resultat" name="resultat" required>
+                            <?php foreach (Resultat::cases() as $resultat) { ?>
+                                <option value="<?= $resultat->name ?>">
+                                    <?= htmlspecialchars($resultat->name) ?>
+                                </option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <input type="hidden" name="fdm" value="0">
                     <input type="submit" name="submit" class="button saisie" value="Saisir le score" id="btnScore">
                 <?php } else {?>
-                    <input type="hidden" name="idMatch" value="<?=$_GET["idMatch"]?>">
+                    <input type="hidden" name="idMatch" value="<?=$match->getIdMatch()?>">
+                    <input type="hidden" name="fdm" value="1">
                     <input type="submit" name="submit" class="button saisie" value="ajouter">
                     <input type="submit" name="submit" class="button modify" value="valider" id="buttonValider">
                 <?php } ?>
