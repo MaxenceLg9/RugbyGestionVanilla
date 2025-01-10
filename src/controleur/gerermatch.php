@@ -49,7 +49,7 @@ if($_SERVER['REQUEST_METHOD'] === 'GET'){
             header('Location: matchs.php');
             die();
         }
-        $archive = $match->isArchive();
+        $archive = $match->isValider();
         $valider = JouerUnMatch::isArchiveFDM($match->getIdMatch());
         if(!$archive && !$valider){
             $joueursNP = Joueur::findAllNotOnMatch($match->getIdMatch());

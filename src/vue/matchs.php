@@ -42,7 +42,7 @@
                 <div class="forms">
 
                     <a href="gerermatch.php?type=vue&idMatch=<?= htmlspecialchars($match->getIdMatch()) ?>&csrf_token=<?= htmlspecialchars(password_hash($match->getIdMatch() . $_SESSION['csrf_token'] . "vue", PASSWORD_BCRYPT)) ?>" class="forms saisie button"><p>Voir la feuille de match</p></a>
-                    <?php if($match->isArchive()){
+                    <?php if($match->isValider() || JouerUnMatch::isArchiveFDM($match->getIdMatch())) {
                         echo "<p class=\"color-red\" style='text-align: center'>Ce match est archivé et ne peut être modifié.</p>";
                     } else {?>
                         <a href="gerermatch.php?type=modification&idMatch=<?= htmlspecialchars($match->getIdMatch()) ?>&csrf_token=<?= htmlspecialchars(password_hash($match->getIdMatch() . $_SESSION['csrf_token'] . "modification", PASSWORD_BCRYPT)) ?>" class="forms modify button"><p>Modifier le match</p></a>

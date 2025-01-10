@@ -12,14 +12,14 @@ class MatchDeRugby {
     private Lieu $lieu;
     private ?Resultat $resultat = null;
 
-    private bool $archive;
+    private bool $valider;
 
     function __construct(int $idMatch, DateTime $dateHeure, string $adversaire, Lieu $lieu, bool $archive) {
         $this -> idMatch = $idMatch;
         $this -> dateHeure = $dateHeure;
         $this -> adversaire = $adversaire;
         $this -> lieu = $lieu;
-        $this->archive = $archive;
+        $this->valider = $archive;
     }
 
     public static function getFromId(int $idMatch): ?MatchDeRugby
@@ -32,19 +32,19 @@ class MatchDeRugby {
     }
 
     /**
-     * @param bool $archive
+     * @param bool $valider
      */
-    public function setArchive(bool $archive): void
+    public function setValider(bool $valider): void
     {
-        $this->archive = $archive;
+        $this->valider = $valider;
     }
 
     /**
      * @return bool
      */
-    public function isArchive(): bool
+    public function isValider(): bool
     {
-        return $this->archive;
+        return $this->valider;
     }
 
 
@@ -98,10 +98,6 @@ class MatchDeRugby {
         $daoMatchDeRugby -> update($this);
     }
 
-    public function setResult(): void{
-        (new DAOMatchDeRugby()) -> setResult($this);
-    }
-
     public static function findAll(): array {
         return DAOMatchDeRugby::read();
     }
@@ -120,5 +116,11 @@ class MatchDeRugby {
     public function deleteMatchDeRugby(): void {
         $daoMatchDeRugby = new DAOMatchDeRugby();
         $daoMatchDeRugby -> delete($this);
+    }
+
+    public function validerMatch(): void
+    {
+        $daoMatchDeRugby = new DAOMatchDeRugby();
+        $daoMatchDeRugby->validerMatch($this);
     }
 }
