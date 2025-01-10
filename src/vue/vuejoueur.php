@@ -28,7 +28,7 @@
                 <p><strong>Taille :</strong> <?= htmlspecialchars($joueur->getTaille()) ?> cm</p>
                 <p><strong>Poids :</strong> <?= htmlspecialchars($joueur->getPoids()) ?> kg</p>
                 <p><strong>Poste Préféré :</strong> <?= htmlspecialchars($joueur->getPostePrefere()->value) ?></p>
-                <p><strong>Première Ligne :</strong> <?= $joueur->getEstPremiereLigne() ? 'Oui' : 'Non' ?></p>
+                <p><strong>Première Ligne :</strong> <?= $joueur->isPremiereLigne() ? 'Oui' : 'Non' ?></p>
                 <p><strong>Statut :</strong> <?= htmlspecialchars($joueur->getStatut()->name) ?></p>
                 <p><strong>Commentaire :</strong> <?= nl2br(htmlspecialchars($joueur->getCommentaire())) ?></p>
             </section>
@@ -62,15 +62,17 @@
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($matches as $match){ ?>
+                <?php foreach ($fdmJoueur as $fdm){
+                    $match = MatchDeRugby::getFromId($fdm->getIdMatch());
+                    ?>
                     <tr>
-                        <td><?= htmlspecialchars(date('d-m-Y H:i', strtotime($match['dateHeure']))) ?></td>
-                        <td><?= htmlspecialchars($match['adversaire']) ?></td>
-                        <td><?= htmlspecialchars($match['lieu']) ?></td>
-                        <td><?= htmlspecialchars($match['resultat']) ?></td>
-                        <td><?= htmlspecialchars($match['poste']) ?></td>
-                        <td><?= $match['estTitulaire'] ? 'Oui' : 'Non' ?></td>
-                        <td><?= number_format($match['note'], 2) ?></td>
+                        <td><?= htmlspecialchars($match->getDateHeure()->format('d/m/Y-H:i')) ?></td>
+                        <td><?= htmlspecialchars($match->getAdversaire()) ?></td>
+                        <td><?= htmlspecialchars($match->getLieu()->value) ?></td>
+                        <td><?= htmlspecialchars($match->getResultat()->value) ?></td>
+                        <td><?= htmlspecialchars($fdm->getPoste()) ?></td>
+                        <td><?= $fdm->isTitulaire() ? 'Oui' : 'Non' ?></td>
+                        <td><?= number_format($fdm->getNote()) ?></td>
                     </tr>
                 <?php } ?>
                 </tbody>
