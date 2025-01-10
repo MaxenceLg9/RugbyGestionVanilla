@@ -175,4 +175,8 @@ class Joueur {
         return DAOJoueur::readActif();
     }
 
+    public static function findAllNotOnMatch(int $idMatch):array{
+        return DAOJoueur::readNonParticiperMatch($idMatch);
+    }
+
 }
