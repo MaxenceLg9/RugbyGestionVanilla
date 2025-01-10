@@ -11,6 +11,7 @@ body {
     margin: 0;
     display: flex;
     padding: 0;
+    height: 100%;
     min-height: 100%;
     font-family: Bahnschrift, sans-serif;
 }
@@ -27,4 +28,7 @@ body {
 .nav-container{
     width: 10%;
     min-width: 157px;
+}
+img{
+    object-fit: cover;
 }
