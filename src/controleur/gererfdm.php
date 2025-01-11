@@ -48,7 +48,7 @@ function editerFDM(int $idMatch, bool $archive): void
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if(!isset($_POST['csrf_token']) || !password_verify($idMatch . $csrf_token . $type, $_POST['csrf_token'])){
-        header("Location: matchs.php");
+        header("Location: /matchs.php");
         die("CSRF validation failed.");
     }
 
@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             editerFDM($idMatch, false);
         } elseif ($_POST["submit"] === "valider") {
             if (!regle()) {
-                header("Location: gerermatch.php?type=vue&idMatch=" . $_POST["idMatch"] . "&csrf_token=" . password_hash($_POST["idMatch"] . $csrf_token . "vue", PASSWORD_BCRYPT));
+                header("Location: /gerermatch.php?type=vue&idMatch=" . $_POST["idMatch"] . "&csrf_token=" . password_hash($_POST["idMatch"] . $csrf_token . "vue", PASSWORD_BCRYPT));
                 die();
             }
             editerFDM($idMatch, true);
@@ -88,14 +88,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        header('Location: playerNotes.php?success=1');
+        header('Location: /playerNotes.php?success=1');
         exit;
     }
-    header("Location: gerermatch.php?type=vue&idMatch=" . $idMatch . "&csrf_token=" . password_hash($_POST["idMatch"] . $csrf_token . "vue", PASSWORD_BCRYPT));
+    header("Location: /gerermatch.php?type=vue&idMatch=" . $idMatch . "&csrf_token=" . password_hash($_POST["idMatch"] . $csrf_token . "vue", PASSWORD_BCRYPT));
 }
 elseif($_SERVER['REQUEST_METHOD'] === 'GET'){
     if(!isset($_GET['csrf_token']) || !password_verify($idMatch . $csrf_token . $type, $_GET['csrf_token'])){
-        header("Location: matchs.php");
+        header("Location: /matchs.php");
         die("CSRF validation failed.");
     }
     if($type == "notes"){
@@ -106,7 +106,7 @@ elseif($_SERVER['REQUEST_METHOD'] === 'GET'){
         include_once '../components/page.php';
         die();
     }
-    header("Location: gerermatch.php?type=vue&idMatch=" . $idMatch . "&csrf_token=" . password_hash($_GET["idMatch"] . $csrf_token . "vue", PASSWORD_BCRYPT));
+    header("Location: /gerermatch.php?type=vue&idMatch=" . $idMatch . "&csrf_token=" . password_hash($_GET["idMatch"] . $csrf_token . "vue", PASSWORD_BCRYPT));
 }
 
 function regle():bool {

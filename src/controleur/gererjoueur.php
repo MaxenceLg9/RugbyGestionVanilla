@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $joueur = new Joueur(-1, $_POST['nom'], $_POST['prenom'], new DateTime($_POST['dateNaissance']), $_POST['numeroLicense'], $_POST['taille'], $_POST['poids'], Statut::from($_POST["statut"]), Poste::tryFromName($_POST['postePrefere']), $_POST['estPremiereLigne']);
         $joueur->setCommentaire($_POST["commentaire"]);
         $joueur->saveJoueur();
-        header('Location: equipe.php');
+        header('Location: /equipe.php');
     } elseif ($type === 'modification') {
         $joueur = Joueur::getById($idJoueur);
         $joueur->setNom($_POST['nom']);
@@ -80,10 +80,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $joueur->setCommentaire($_POST["commentaire"]);
         $joueur->saveJoueur();
         // Update logic here
-        header('Location: equipe.php');
+        header('Location: /equipe.php');
     }elseif($type === 'suppression'){
         // Delete logic here
         Joueur::getById($idJoueur)->deleteJoueur();
-        header('Location: equipe.php');
+        header('Location: /equipe.php');
     }
 }

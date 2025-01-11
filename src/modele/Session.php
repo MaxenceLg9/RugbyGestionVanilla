@@ -3,7 +3,7 @@ function checkSession(): void
 {
     session_start();
     if (empty($_SESSION['email'])) {
-        header('Location: login');
+        header('Location: /login');
         destroySession();
         die();
     }

@@ -1,7 +1,7 @@
 <?php
 require_once "../db/DAOEntraineur.php";
 if(!DAOEntraineur::existEntraineur()) {
-    header('Location: register');
+    header('Location: /register');
     die();
 }
 session_start();
@@ -19,7 +19,7 @@ if(!empty($_POST) && isset($_POST["email"])){
         // $_POST = []; // This is unnecessary
 
         // Redirect to the login page with the correct header syntax
-        header('Location: login');
+        header('Location: /login');
         exit; // Ensure the script stops here
     }
     session_start();

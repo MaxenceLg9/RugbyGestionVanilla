@@ -1,11 +1,15 @@
 RewriteEngine On
 RewriteBase /
 
-# Exclude requests to /resources/ from redirection
+# If the request is for the root path (empty path), redirect to /controleur/index.php
+RewriteRule ^$ /controleur/index.php [L,QSA]
+
+# Exclude requests to /resources/ and /controleur/ from redirection
 RewriteCond %{REQUEST_URI} !^/resources/
-
-# Exclude requests that are already in /controleur/ from redirection
 RewriteCond %{REQUEST_URI} !^/controleur/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !\.php$
 
-# Redirect all other requests to /controleur/
-RewriteRule ^(.*)$ /controleur/$1 [L,QSA]
+# Redirect all other requests to /controleur/ with .php extension if file doesn't exist
+RewriteRule ^(.*)$ /controleur/$1.php [L,QSA]

@@ -19,7 +19,7 @@ if (!is_numeric($idMatch)) {
 
 if($_SERVER['REQUEST_METHOD'] === 'GET'){
     if (!isset($_GET['csrf_token']) || !password_verify($idMatch . $csrf_token . $type,$_GET['csrf_token'])) {
-        header('Location: matchs.php');
+        header('Location: /matchs.php');
         die('CSRF validation failed.');
     }
     $css = ["style.css","gerer.css"];
@@ -33,7 +33,7 @@ if($_SERVER['REQUEST_METHOD'] === 'GET'){
         $page = '../vue/modifiermatch.php';
         $match = MatchDeRugby::getFromId($_GET['idMatch']);
         if($match == null){
-            header('Location: matchs.php');
+            header('Location: /matchs.php');
             die();
         }
         include_once '../components/page.php';
@@ -46,7 +46,7 @@ if($_SERVER['REQUEST_METHOD'] === 'GET'){
         $page = '../vue/vuematch.php';
         $match = MatchDeRugby::getFromId($_GET['idMatch']);
         if($match == null){
-            header('Location: matchs.php');
+            header('Location: /matchs.php');
             die();
         }
         $archive = $match->isValider();
@@ -60,7 +60,7 @@ if($_SERVER['REQUEST_METHOD'] === 'GET'){
 }
 elseif($_SERVER['REQUEST_METHOD'] === 'POST'){
     if (!isset($_POST['csrf_token']) || !password_verify($idMatch . $csrf_token . $type,$_POST['csrf_token'])) {
-        header('Location: matchs.php');
+        header('Location: /matchs.php');
         die('CSRF validation failed.');
     }
 
@@ -68,32 +68,32 @@ elseif($_SERVER['REQUEST_METHOD'] === 'POST'){
         $dateHeure = new DateTime($_POST['datetime']);
         $match = new MatchDeRugby(-1, $dateHeure, $_POST['adversaire'],  Lieu::from($_POST['lieu']),false);
         $match->saveMatchDeRugby();
-        header('Location: matchs');
+        header('Location: /matchs');
         die();
     }
     if ($type == "modification"){
         // Sanitize and validate the match ID
         $match = MatchDeRugby::getFromId($_POST['idMatch']);
         if($match == null){
-            header('Location: matchs.php');
+            header('Location: /matchs.php');
             die();
         }
         $match->setDateHeure(new DateTime($_POST['datetime']));
         $match->setAdversaire($_POST['adversaire']);
         $match->setLieu(Lieu::from($_POST['lieu']));
         $match->saveMatchDeRugby();
-        header('Location: matchs');
+        header('Location: /matchs');
         die();
     }
     elseif ($type == "suppression"){
         // Sanitize and validate the match ID
         $match = MatchDeRugby::getFromId($_POST['idMatch']);
         if($match == null){
-            header('Location: matchs.php');
+            header('Location: /matchs.php');
             die();
         }
         $match->deleteMatchDeRugby();
-        header('Location: matchs');
+        header('Location: /matchs');
         die();
     }
 }
