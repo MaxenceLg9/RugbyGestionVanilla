@@ -49,12 +49,12 @@ class DAOEntraineur {
             $statement = $connexion->prepare("SELECT COUNT(*) FROM Entraineur WHERE email = :email");
             $statement->bindParam(':email', $email);
             $statement->execute();
-            return $statement->fetchColumn() != 0;
+            $exist = $statement->fetchColumn() != 0;
         } catch (PDOException $e) {
             echo $e->getMessage();
             die();
         }
-        return false;
+        return $exist;
     }
 
     public static function update(Entraineur $entraineur, string $motdepasse): void {
@@ -75,7 +75,10 @@ class DAOEntraineur {
         }
     }
 
-    public static function getEntraineur($email) : Entraineur{
+    /**
+     * @throws Exception
+     */
+    public static function getEntraineur($email) : Entraineur {
         try {
             $connexion = Connexion::getInstance()->getConnection();
             $statement = $connexion->prepare("SELECT * FROM Entraineur WHERE email = :email");

@@ -6,6 +6,9 @@ require_once "../modele/Poste.php";
 
 class DAOJoueur {
 
+    /**
+     * @throws DateMalformedStringException
+     */
     public static function readActif():array
     {
         $joueurs = [];
@@ -38,6 +41,9 @@ class DAOJoueur {
         }
     }
 
+    /**
+     * @throws DateMalformedStringException
+     */
     public static function read(): array {
         $joueurs = [];
         try {
@@ -53,6 +59,9 @@ class DAOJoueur {
         return $joueurs;
     }
 
+    /**
+     * @throws DateMalformedStringException
+     */
     public function readByNumeroLicense(int $numeroLicense): ?Joueur {
         $joueur = null;
         try {
@@ -70,13 +79,16 @@ class DAOJoueur {
         return $joueur;
     }
 
+    /**
+     * @throws DateMalformedStringException
+     */
     public static function readNonParticiperMatch(int $idMatch): array {
+        $joueurs = [];
         try {
             $connection = Connexion::getInstance()->getConnection();
             $statement = $connection->prepare("SELECT * FROM Joueur WHERE idJoueur NOT IN (SELECT idJoueur FROM Participer WHERE idMatch = :idMatch)");
             $statement->bindParam(':idMatch', $idMatch);
             $statement->execute();
-            $joueurs = [];
             while ($row = $statement->fetch()) {
                 $joueurs[] = self::constructFromRow($row);
             }
@@ -120,6 +132,9 @@ class DAOJoueur {
         }
     }
 
+    /**
+     * @throws DateMalformedStringException
+     */
     public static function readById(int $idJoueur): ?Joueur {
         $joueur = null;
         try {
@@ -137,6 +152,9 @@ class DAOJoueur {
         return $joueur;
     }
 
+    /**
+     * @throws DateMalformedStringException
+     */
     private static function constructFromRow($row):Joueur{
         $joueur = new Joueur($row['idJoueur'], $row['nom'], $row['prenom'],
             new DateTime($row['dateNaissance']), $row['numeroLicense'], $row['taille'], $row['poids'],
@@ -151,7 +169,7 @@ class DAOJoueur {
     /**
      * @param Joueur $joueur
      * @param bool|PDOStatement $statement
-     * @return array
+     * @return void
      */
     public function bindParams(Joueur $joueur, bool|PDOStatement $statement): void
     {

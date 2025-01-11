@@ -22,8 +22,8 @@ class DAOMatchDeRugby {
         try {
             $connexion = Connexion::getInstance()->getConnection();
             $statement = $connexion->prepare(
-                "INSERT INTO MatchDeRugby (dateHeure, adversaire, lieu) 
-                   VALUES (:dateHeure, :adversaire, :lieu)");
+                "INSERT INTO MatchDeRugby (dateHeure, adversaire, lieu, valider) 
+                   VALUES (:dateHeure, :adversaire, :lieu, 0)");
 
             $dateHeure = $match->getDateHeure()->format('Y-m-d H:i:s');
             $adversaire = $match->getAdversaire();
@@ -44,7 +44,7 @@ class DAOMatchDeRugby {
         $matches = [];
         try {
             $connexion = Connexion::getInstance()->getConnection();
-            $statement = $connexion->prepare("SELECT * FROM MatchDeRugby ORDER BY dateHeure ASC");
+            $statement = $connexion->prepare("SELECT * FROM MatchDeRugby ORDER BY dateHeure");
             $statement->execute();
             while ($row = $statement->fetch()) {
                 $matches[] = self::createMatch($row);
@@ -72,7 +72,6 @@ class DAOMatchDeRugby {
     }
 
     public function readByDateHeure(DateTime $dateHeure): ?MatchDeRugby {
-        $match = null;
         $dateHeure = $dateHeure->format('Y-m-d H:i:s');
         try {
             $connexion = Connexion::getInstance()->getConnection();
@@ -135,7 +134,7 @@ class DAOMatchDeRugby {
         $matches = [];
         try {
             $connexion = Connexion::getInstance()->getConnection();
-            $statement = $connexion->prepare("SELECT * FROM MatchDeRugby WHERE resultat is not null ORDER BY dateHeure ASC");
+            $statement = $connexion->prepare("SELECT * FROM MatchDeRugby WHERE resultat is not null ORDER BY dateHeure");
             $statement->execute();
             while ($row = $statement->fetch()) {
                 $match = self::createMatch($row);
