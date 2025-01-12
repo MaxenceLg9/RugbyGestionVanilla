@@ -26,6 +26,7 @@ VALUES
 (2203, 'Meafou', 'Emmanuel', '1998-07-12', 202, 140, 'ACTIF', 'DEUXIEME_LIGNE', TRUE, 'Puissant avec une grosse présence physique.', 'meafou.png'),
 (2204, 'Taofifenua', 'Romain', '1990-09-14', 200, 140, 'ACTIF', 'DEUXIEME_LIGNE', TRUE, 'Force de la nature avec beaucoup d’expérience.', 'taofifenua.png'),
 (2205, 'Willemse', 'Paul', '1992-11-13', 201, 135, 'ACTIF', 'DEUXIEME_LIGNE', 0, 'Towering lock, key in lineouts and scrums.', 'willemse.png'),
+-- (2206, 'Youn', 'Paul', '1992-11-13', 201, 135, 'ACTIF', 'DEUXIEME_LIGNE', 0, 'Towering lock, key in lineouts and scrums.', 'willemse.png'),
 
 
 -- Troisième lignes Ailes

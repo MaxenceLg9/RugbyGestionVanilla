@@ -1,9 +1,9 @@
 <?php
 
 require_once "../modele/Session.php";
-require_once "../modele/JouerUnMatch.php";
 checkSession();
 
+require_once "../modele/JouerUnMatch.php";
 
 $csrf_token = $_SESSION['csrf_token'];
 $type = $_POST['type'] ?? $_GET['type'] ?? null;
