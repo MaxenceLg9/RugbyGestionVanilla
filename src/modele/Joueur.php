@@ -38,6 +38,11 @@ class Joueur {
         $this->url = "";
     }
 
+    public static function getAllJoueursWithStats(): array
+    {
+        return DAOJoueur::getStatsJoueurs();
+    }
+
     public function getIdJoueur(): int {
         return $this -> idJoueur;
     }

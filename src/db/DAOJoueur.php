@@ -22,6 +22,33 @@ class DAOJoueur {
         return $joueurs;
     }
 
+    public static function getStatsJoueurs():array
+    {
+        try {
+            $connexion = Connexion::getInstance()->getConnection();
+
+            $query = "SELECT j.idJoueur, j.nom, j.postePrefere, COUNT(CASE WHEN p.numero < 16 THEN 1 END) AS titulaire,
+                COUNT(CASE WHEN p.numero > 15 THEN 1 END) AS remplacant,
+                AVG(p.note) AS moyenneNotes,
+                SUM(CASE WHEN m.resultat = 'VICTOIRE' THEN 1 ELSE 0 END) / COUNT(*) * 100 AS pourcentageMatchsGagnes,
+                MAX(CASE WHEN p.archive = 0 THEN 1 ELSE 0 END) AS selectionsConsecutives,
+                j.statut as statut
+                FROM Joueur j
+                LEFT JOIN Participer p ON j.idJoueur = p.idJoueur
+                LEFT JOIN MatchDeRugby m ON p.idMatch = m.idMatch
+                WHERE p.note != -1 AND m.valider = 1
+                GROUP BY j.idJoueur";
+
+            $statement = $connexion->prepare($query);
+            $statement->execute();
+
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        }catch (PDOException $e){
+            echo "Erreur lors de la récupération des statistiques des joueurs: " . $e->getMessage();
+        }
+        return [];
+    }
+
     public function create(Joueur $joueur): void {
         try {
             $connexion = Connexion::getInstance()->getConnection();

@@ -28,11 +28,11 @@ form {
     background: #1c65b6BB; /* Blue background */
     color: white;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.9); /* Add subtle shadow */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 section:hover {
     transform: scale(1.03); /* Slight growth on hover */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
 }
 
@@ -64,5 +64,10 @@ article {
     width: 100%;
     display: flex;
     justify-content: space-between;
+}
+
+.stats-joueurs, .recap-matchs, .stats-globales{
+    background-color: #1c65b6BB;
+    width: 95%;
 }
 
