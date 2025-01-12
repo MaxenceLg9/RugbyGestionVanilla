@@ -47,51 +47,53 @@ function editerFDM(int $idMatch, bool $archive): void
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if(!isset($_POST['csrf_token']) || !password_verify($idMatch . $csrf_token . $type, $_POST['csrf_token'])){
+    if (!isset($_POST['csrf_token']) || !password_verify($idMatch . $csrf_token . $type, $_POST['csrf_token'])) {
         header("Location: /matchs.php");
         die("CSRF validation failed.");
     }
 
-    for($i = 1; $i < 23; $i++){
-        echo "position-".$i." : ".$_POST["position-".$i]."<br>";
-    }
-    foreach ($_POST as $key => $value) {
-        if ($key == "csrf_token" || str_contains($key, "position-"))
-            continue;
-        echo $key . " : " . $value . "<br>";
-    }
 
-
-    if($_POST["fdm"] === "0"){
-        $match = MatchDeRugby::getFromId($idMatch);
-        $match->setResultat(Resultat::from($_POST["resultat"]));
-        $match->validerMatch();
-    }elseif($_POST["fdm"] === "1") {
-        if ($_POST["submit"] === "ajouter") {
-            editerFDM($idMatch, false);
-        } elseif ($_POST["submit"] === "valider") {
-            if (!regle()) {
-                header("Location: /gerermatch.php?type=vue&idMatch=" . $_POST["idMatch"] . "&csrf_token=" . password_hash($_POST["idMatch"] . $csrf_token . "vue", PASSWORD_BCRYPT));
-                die();
-            }
-            editerFDM($idMatch, true);
-        }
-    }elseif($_POST["fdm"] === 2){
-        $idJoueur = $_POST['idJoueur'];
-        $note = floatval($_POST['note']);
-        $playerMatch = JouerUnMatch::getJouerByMatch($idMatch);
-        foreach ($playerMatch as $player) {
-            if ($player->getIdMatch() == $idMatch) {
-                $player->setNote($note);
-                $player->save();
-                break;
+    if ($_POST["fdm"] === "2") {
+        if (!empty($_POST['notes'])) {
+            $fdm = JouerUnMatch::getJouerByMatch($idMatch);
+            foreach ($_POST['notes'] as $playerId => $data) {
+                echo $playerId . "</br>";
+                $idMatch = $data['idMatch'];
+                $numero = $data['idJoueur'];
+                echo is_string($numero) . " " . is_string($playerId);
+                $note = $data['note'];
+                $fdm[$numero]->setNote($note);
+                $fdm[$numero]->update();
             }
         }
-
-        header('Location: /playerNotes.php?success=1');
-        exit;
+        header("Location: /gerermatch.php?type=vue&idMatch=" . $_POST["idMatch"] . "&csrf_token=" . password_hash($_POST["idMatch"] . $csrf_token . "vue", PASSWORD_BCRYPT));
+        die();
+    } else {
+        for ($i = 1; $i < 23; $i++) {
+            echo "position-" . $i . " : " . $_POST["position-" . $i] . "<br>";
+        }
+        foreach ($_POST as $key => $value) {
+            if ($key == "csrf_token" || str_contains($key, "position-"))
+                continue;
+            echo $key . " : " . $value . "<br>";
+        }
+        if($_POST["fdm"] === "0") {
+            $match = MatchDeRugby::getFromId($idMatch);
+            $match->setResultat(Resultat::from($_POST["resultat"]));
+            $match->validerMatch();
+        } elseif ($_POST["fdm"] === "1") {
+            if ($_POST["submit"] === "ajouter") {
+                editerFDM($idMatch, false);
+            } elseif ($_POST["submit"] === "valider") {
+                if (!regle()) {
+                    header("Location: /gerermatch.php?type=vue&idMatch=" . $_POST["idMatch"] . "&csrf_token=" . password_hash($_POST["idMatch"] . $csrf_token . "vue", PASSWORD_BCRYPT));
+                    die();
+                }
+                editerFDM($idMatch, true);
+            }
+        }
+        header("Location: /gerermatch.php?type=vue&idMatch=" . $_POST["idMatch"] . "&csrf_token=" . password_hash($_POST["idMatch"] . $csrf_token . "vue", PASSWORD_BCRYPT));
     }
-    header("Location: /gerermatch.php?type=vue&idMatch=" . $idMatch . "&csrf_token=" . password_hash($_POST["idMatch"] . $csrf_token . "vue", PASSWORD_BCRYPT));
 }
 elseif($_SERVER['REQUEST_METHOD'] === 'GET'){
     if(!isset($_GET['csrf_token']) || !password_verify($idMatch . $csrf_token . $type, $_GET['csrf_token'])){
@@ -99,7 +101,7 @@ elseif($_SERVER['REQUEST_METHOD'] === 'GET'){
         die("CSRF validation failed.");
     }
     if($type == "notes"){
-        $css = ["style.css","gerer.css"];
+        $css = ["style.css","feuille.css"];
         $joueurs = JouerUnMatch::getJouerByMatch($idMatch);
         $title = "Ajouter des notes";
         $page = '../vue/saisirnotes.php';
