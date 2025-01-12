@@ -1,7 +1,7 @@
 <?php require "../components/nav.php" ?>
 
 <div class="main div-column">
-    <article>
+    <article class="article-list">
         <h1>Ajouter un joueur</h1>
         <section class="full">
             <h3>Entrez les informations du joueur à ajouter</h3>

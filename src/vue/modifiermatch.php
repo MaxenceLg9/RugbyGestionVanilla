@@ -1,7 +1,7 @@
 <?php require "../components/nav.php" ?>
 
 <div class="main div-column">
-    <article>
+    <article class="article-list">
         <h1>Modifier un match</h1>
         <section class="full">
             <h3>Entrez les informations du match à modifier</h3>
