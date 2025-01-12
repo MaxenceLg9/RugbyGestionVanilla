@@ -66,6 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $joueur->setCommentaire($_POST["commentaire"]);
         $joueur->saveJoueur();
         header('Location: /equipe.php');
+        die();
     } elseif ($type === 'modification') {
         $joueur = Joueur::getById($idJoueur);
         $joueur->setNom($_POST['nom']);
@@ -81,9 +82,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $joueur->saveJoueur();
         // Update logic here
         header('Location: /equipe.php');
+        die();
     }elseif($type === 'suppression'){
         // Delete logic here
         Joueur::getById($idJoueur)->deleteJoueur();
         header('Location: /equipe.php');
+        die();
     }
 }

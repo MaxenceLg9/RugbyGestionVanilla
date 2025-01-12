@@ -117,16 +117,18 @@ class DAOMatchDeRugby {
     public function delete(MatchDeRugby $matchDeRugby): void {
         try {
             $connexion = Connexion::getInstance()->getConnection();
-            $statement = $connexion->prepare("DELETE FROM MatchDeRugby WHERE idMatch = :idMatch");
+            $statement = $connexion->prepare("DELETE FROM Participer WHERE idMatch = :idMatch");
             $id = $matchDeRugby->getIdMatch();
             $statement->bindParam(':idMatch', $id);
             $statement->execute();
-            $statement = $connexion->prepare("DELETE FROM Participer WHERE idMatch = :idMatch");
+            $statement = $connexion->prepare("DELETE FROM MatchDeRugby WHERE idMatch = :idMatch");
             $statement->bindParam(':idMatch', $id);
             $statement->execute();
+
             echo "Match supprimé avec succès\n";
         } catch (PDOException $e) {
             echo "Erreur lors de la suppression du match: " . $e->getMessage();
+            die();
         }
     }
 

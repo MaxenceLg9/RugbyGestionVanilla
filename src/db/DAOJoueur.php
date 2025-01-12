@@ -104,19 +104,25 @@ class DAOJoueur {
             echo "Joueur mis à jour avec succès\n";
         } catch (PDOException $e) {
             echo "Erreur lors de la mise à jour du joueur: " . $e->getMessage();
+            die();
         }
     }
 
     public function delete(Joueur $joueur): void {
         try {
             $connexion = Connexion::getInstance()->getConnection();
-            $statement = $connexion->prepare("DELETE FROM Joueur WHERE numeroLicense = :numeroLicense");
-            $numeroLicense = $joueur->getNumeroLicense();
-            $statement->bindParam(':numeroLicense', $numeroLicense);
+            $statement = $connexion->prepare("DELETE FROM Participer WHERE idJoueur = :idJoueur");
+            $idJoueur = $joueur->getIdJoueur();
+            $statement->bindParam(':idJoueur', $idJoueur);
+            $statement->execute();
+
+            $statement = $connexion->prepare("DELETE FROM Joueur WHERE idJoueur = :idJoueur");
+            $statement->bindParam(':idJoueur', $idJoueur);
             $statement->execute();
             echo "Joueur supprimé avec succès\n";
         } catch (PDOException $e) {
             echo "Erreur lors de la suppression du joueur: " . $e->getMessage();
+            die();
         }
     }
 
