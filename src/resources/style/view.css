@@ -53,7 +53,7 @@ p {
     color: #672323;
 }
 
-article {
+.article-list {
     display: flex;
     flex-wrap: wrap; /* Allow wrapping to the next row if needed */
     gap: 15px; /* Add space between sections */
