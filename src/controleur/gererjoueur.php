@@ -20,7 +20,8 @@ if (!is_numeric($idJoueur)) {
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    if (!isset($_GET['csrf_token']) || !password_verify($idJoueur . $csrf_token . $type, $_GET['csrf_token'])) {
+    $hash = hash_hmac("sha256", $idJoueur . $csrf_token . $type, $csrf_token);
+    if (!isset($_GET['csrf_token']) || !hash_equals($hash, $_GET['csrf_token'])) {
         die("CSRF validation failed.");
     }
     $css = ["style.css","gerer.css"];
@@ -56,7 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         include_once '../components/page.php';
     }
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!isset($_POST['csrf_token']) || !password_verify($idJoueur . $csrf_token . $type,$_POST['csrf_token'])) {
+    $hash = hash_hmac("sha256", $idJoueur . $csrf_token . $type, $csrf_token);
+    if (!isset($_POST['csrf_token']) || !hash_equals($hash, $_POST['csrf_token'])) {
         die("CSRF validation failed.");
     }
 

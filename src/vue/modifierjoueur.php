@@ -88,7 +88,7 @@
                 <!-- Hidden fields -->
                 <input type="hidden" name="idJoueur" value="<?= htmlspecialchars($joueur->getIdJoueur()) ?>">
                 <input type="hidden" name="type" value="modification">
-                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(password_hash($joueur->getIdJoueur() . $_SESSION['csrf_token'] . "modification", PASSWORD_BCRYPT)) ?>">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(hash_hmac("sha256",$joueur->getIdJoueur() . $_SESSION['csrf_token'] . "modification", $_SESSION['csrf_token'])) ?>">
 
                 <!-- Submit button -->
                 <button type="submit" class="ajout">Modifier le joueur</button>

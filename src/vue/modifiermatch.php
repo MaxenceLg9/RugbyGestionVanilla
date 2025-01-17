@@ -28,8 +28,7 @@
 
                 <input type="hidden" name="idMatch" value="<?= $match->getIdMatch() ?>">
                 <input type="hidden" name="type" value="modification">
-                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(password_hash($match->getIdMatch() . $_SESSION['csrf_token'] . "modification", PASSWORD_BCRYPT)) ?>">
-
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(hash_hmac("sha256",$match->getIdMatch() . $_SESSION['csrf_token'] . "modification", $_SESSION['csrf_token'])) ?>">
                 <button type="submit" class="ajout">Modifier le match</button>
             </form>
         </section>

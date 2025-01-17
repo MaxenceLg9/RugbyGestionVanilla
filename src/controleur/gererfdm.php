@@ -47,7 +47,8 @@ function editerFDM(int $idMatch, bool $archive): void
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!isset($_POST['csrf_token']) || !password_verify($idMatch . $csrf_token . $type, $_POST['csrf_token'])) {
+    $hash = hash_hmac("sha256", $idMatch . $csrf_token . $type, $csrf_token);
+    if (!isset($_POST['csrf_token']) || !hash_equals($hash, $_POST['csrf_token'])) {
         header("Location: /matchs.php");
         die("CSRF validation failed.");
     }
@@ -66,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $fdm[$numero]->update();
             }
         }
-        header("Location: /gerermatch.php?type=vue&idMatch=" . $_POST["idMatch"] . "&csrf_token=" . password_hash($_POST["idMatch"] . $csrf_token . "vue", PASSWORD_BCRYPT));
+        header("Location: /gerermatch.php?type=vue&idMatch=" . $idMatch . "&csrf_token=" . hash_hmac("sha256",$idMatch . $csrf_token . "vue", $_SESSION['csrf_token']));
         die();
     } else {
         for ($i = 1; $i < 23; $i++) {
@@ -86,17 +87,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 editerFDM($idMatch, false);
             } elseif ($_POST["submit"] === "valider") {
                 if (!regle()) {
-                    header("Location: /gerermatch.php?type=vue&idMatch=" . $_POST["idMatch"] . "&csrf_token=" . password_hash($_POST["idMatch"] . $csrf_token . "vue", PASSWORD_BCRYPT));
+                    header("Location: /gerermatch.php?type=vue&idMatch=" . $idMatch . "&csrf_token=" . hash_hmac("sha256",$idMatch . $csrf_token . "vue", $_SESSION['csrf_token']));
                     die();
                 }
                 editerFDM($idMatch, true);
             }
         }
-        header("Location: /gerermatch.php?type=vue&idMatch=" . $_POST["idMatch"] . "&csrf_token=" . password_hash($_POST["idMatch"] . $csrf_token . "vue", PASSWORD_BCRYPT));
+        header("Location: /gerermatch.php?type=vue&idMatch=" . $idMatch . "&csrf_token=" . hash_hmac("sha256",$idMatch . $csrf_token . "vue", $_SESSION['csrf_token']));
     }
 }
 elseif($_SERVER['REQUEST_METHOD'] === 'GET'){
-    if(!isset($_GET['csrf_token']) || !password_verify($idMatch . $csrf_token . $type, $_GET['csrf_token'])){
+    $hash = hash_hmac("sha256", $idMatch . $csrf_token . $type, $csrf_token);
+    if (!isset($_GET['csrf_token']) || !hash_equals($hash, $_GET['csrf_token'])){
         header("Location: /matchs.php");
         die("CSRF validation failed.");
     }
@@ -108,7 +110,7 @@ elseif($_SERVER['REQUEST_METHOD'] === 'GET'){
         include_once '../components/page.php';
         die();
     }
-    header("Location: /gerermatch.php?type=vue&idMatch=" . $idMatch . "&csrf_token=" . password_hash($_GET["idMatch"] . $csrf_token . "vue", PASSWORD_BCRYPT));
+    header("Location: /gerermatch.php?type=vue&idMatch=" . $idMatch . "&csrf_token=" . hash_hmac("sha256",$idMatch . $csrf_token . "vue", $_SESSION['csrf_token']));
 }
 
 function regle():bool {

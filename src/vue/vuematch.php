@@ -1,4 +1,5 @@
 <?php include_once "../components/nav.php";
+$csrf_token = $_SESSION['csrf_token'];
 function createPlayerCard($joueur): string
 {
     if($joueur->getUrl() == ""){
@@ -10,7 +11,7 @@ function createPlayerCard($joueur): string
     return '<div class="player-card '.$class.'" data-id="1">
         <img src="' .$url.'" alt="Profile picture of '.$joueur->getNom() . " " . $joueur->getPrenom().'" width="40" height="40">
         <p>'.$joueur->getNom() . ' ' . $joueur->getPrenom().'</p>
-        <input type="hidden" name="id" value="'.$joueur->getIdJoueur().'">
+        <input type="hidden" name="id" value="'.hash_hmac("sha256",$joueur->getIdJoueur(),$_SESSION['csrf_token']).'">
         <input type="hidden" name="premiereLigne" value="'.$joueur->isPremiereLigne().'">
     </div>';
 }
@@ -44,7 +45,7 @@ function createPlayerCard($joueur): string
                 <?php } ?>
                 <div>
             </aside>
-            <form action="gererfdm.php" method="post" class="form">
+            <form action="/gererfdm.php" method="post" class="form">
                 <div class="field" id="field">
                     <!-- Position slots -->
                     <?php
@@ -60,41 +61,46 @@ function createPlayerCard($joueur): string
                                 echo createPlayerCard($jouerLeMatch[$i]->getJoueur());
                                 $value = $jouerLeMatch[$i]->getJoueur()->getIdJoueur();
                             } ?></div>
-                        <input type="hidden" name="position-<?=$i?>" value="<?= $value?>">
+                        <input type="hidden" name="position-<?=htmlspecialchars(hash_hmac("sha25",$i,$_SESSION["csrf_token"]))?>" value="<?= $value?>" >
                     <?php } ?>
                 </div>
                 <input name="nbJoueurs" type="hidden" value="" id="inputNbJoueurs">
                 <input name="nbPremieresLignes" type="hidden" value="" id="inputNbPremieresLignes">
-                <input type="hidden" name="type" value="ajout">
-                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(password_hash($_GET["idMatch"] . $_SESSION['csrf_token'] . "ajout", PASSWORD_BCRYPT)) ?>">
-                <input type="hidden" name="idMatch" value="<?=$_GET["idMatch"]?>">
+
                 <?php if($archive){ ?>
                     <p>Le match est archivé, vous ne pouvez plus le modifier</p>
                     <p>Résultat : <?=$match->getResultat()->name?></p>
                     <a class="button saisie" href="/gererfdm.php?type=notes&idMatch=<?=$match->getIdMatch()?>&csrf_token=<?=htmlspecialchars(password_hash($match->getIdMatch().$_SESSION["csrf_token"]."notes",PASSWORD_BCRYPT))?>">
                         <p>Saisir les notes</p>
                     </a>
-                <?php } elseif($valider){ ?>
-
-                    <div class="row">
-                        <p>Feuille de match validée, vous pouvez dès à présent finaliser le match en saisissant le score</p>
-                        <label for="resultat">Score</label>
-                        <select id="resultat" name="resultat" required>
-                            <?php foreach (Resultat::cases() as $resultat) { ?>
-                                <option value="<?= $resultat->name ?>">
-                                    <?= htmlspecialchars($resultat->name) ?>
-                                </option>
-                            <?php } ?>
-                        </select>
-                    </div>
-                    <input type="hidden" name="fdm" value="0">
-                    <input type="submit" name="submit" class="button saisie" value="Saisir le score" id="btnScore">
-                <?php } else {?>
-                    <input type="hidden" name="idMatch" value="<?=$match->getIdMatch()?>">
-                    <input type="hidden" name="fdm" value="1">
-                    <input type="submit" name="submit" class="button saisie" value="ajouter">
-                    <input type="submit" name="submit" class="button modify" value="valider" id="buttonValider">
-                <?php } ?>
+                <?php } else { ?>
+                    <input type="hidden" name="type" value="ajout">
+                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(hash_hmac("sha256",$match->getIdMatch() . $_SESSION['csrf_token'] . "ajout", $csrf_token)) ?>">
+                    <input type="hidden" name="idMatch" value="<?=$_GET["idMatch"]?>">
+                    <?php
+                    if($valider){ ?>
+                        <div class="row">
+                            <p>Feuille de match validée, vous pouvez dès à présent finaliser le match en saisissant le score</p>
+                            <label for="resultat">Score</label>
+                            <select id="resultat" name="resultat" required>
+                                <?php foreach (Resultat::cases() as $resultat) { ?>
+                                    <option value="<?= $resultat->name ?>">
+                                        <?= htmlspecialchars($resultat->name) ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <input type="hidden" name="fdm" value="0">
+                        <input type="submit" name="submit" class="button saisie" value="Saisir le score" id="btnScore">
+                    <?php } else { ?>
+                        <input type="hidden" name="idMatch" value="<?=$match->getIdMatch()?>">
+                        <input type="hidden" name="fdm" value="1">
+                        <input type="submit" name="submit" class="button saisie" value="ajouter">
+                        <input type="submit" name="submit" class="button modify" value="valider" id="buttonValider">
+                        <?php
+                    }
+                }
+                ?>
             </form>
         </div>
     </article>

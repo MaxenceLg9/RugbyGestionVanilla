@@ -37,7 +37,7 @@
                 <input type="hidden" name="type" value="notes">
                 <input type="hidden" name="fdm" value="2">
                 <input type="hidden" name="idMatch" value="<?= htmlspecialchars($idMatch) ?>">
-                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(password_hash($idMatch . $csrf_token . "notes", PASSWORD_BCRYPT)) ?>">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(hash_hmac("sha256", $idMatch . $_SESSION["csrf_token"] . "notes", PASSWORD_BCRYPT)) ?>">
                 <button type="submit" class="button save-note">Enregistrer les notes</button>
             </form>
         <?php } ?>

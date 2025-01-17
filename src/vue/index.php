@@ -37,8 +37,8 @@
         <section class="section-index">
             <h1>Actions rapides</h1>
             <div class="actions">
-                <a href="/gerermatch.php?type=ajout&idMatch=0&csrf_token=<?= htmlspecialchars(password_hash("0" . $_SESSION['csrf_token'] . "ajout", PASSWORD_BCRYPT)) ?>" class="forms button add"><p>Ajouter un match</p></a>
-                <a href="/gererjoueur.php?type=ajout&idJoueur=0&csrf_token=<?= htmlspecialchars(password_hash("0" . $_SESSION['csrf_token'] . "ajout", PASSWORD_BCRYPT)) ?>" class="forms button add"><p>Ajouter un joueur</p></a>
+                <a href="/gerermatch.php?type=ajout&idMatch=0&csrf_token=<?= htmlspecialchars(hash_hmac("sha256","0" . $_SESSION['csrf_token'] . "ajout", $_SESSION['csrf_token'])) ?>" class="forms button add"><p>Ajouter un match</p></a>
+                <a href="/gererjoueur.php?type=ajout&idJoueur=0&csrf_token=<?= htmlspecialchars(hash_hmac("sha256","0" . $_SESSION['csrf_token'] . "ajout", $_SESSION['csrf_token'])) ?>" class="forms button add"><p>Ajouter un joueur</p></a>
             </div>
         </section>
     </article>

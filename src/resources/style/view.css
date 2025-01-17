@@ -68,7 +68,7 @@ p {
 }
 
 .stats-joueurs, .recap-matchs, .stats-globales{
-    background-color: #1c65b6BB;
+    background-color: rgba(63, 155, 255, 0.73);
     width: 95%;
 }
 

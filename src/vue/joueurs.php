@@ -5,7 +5,7 @@
         <h1>Votre équipe : <?= $_SESSION["equipe"]?></h1>
         <div class="add">
             <p class="color-red">Vous cherchez à ajouter un joueur?</p>
-            <a href="/gererjoueur.php?type=ajout&idJoueur=0&csrf_token=<?= htmlspecialchars(password_hash("0" . $_SESSION['csrf_token'] . "ajout", PASSWORD_BCRYPT)) ?>" class="forms button add"><p>Ajouter un joueur</p></a>
+            <a href="/gererjoueur.php?type=ajout&idJoueur=0&csrf_token=<?= htmlspecialchars(hash_hmac("sha256","0" . $_SESSION['csrf_token'] . "ajout", $_SESSION['csrf_token'])) ?>" class="forms button add"><p>Ajouter un joueur</p></a>
         </div>
     </header>
     <article class="team-list article-card">
@@ -40,8 +40,8 @@
 
                     <div class="forms">
                         <!-- Modification Form -->
-                        <a href="/gererjoueur.php?type=vue&idJoueur=<?= htmlspecialchars($joueur->getIdJoueur()) ?>&csrf_token=<?= htmlspecialchars(password_hash($joueur->getIdJoueur() . $_SESSION['csrf_token'] . "vue", PASSWORD_BCRYPT)) ?>" class="forms saisie button"><p>Consulter le joueur</p></a>
-                        <a href="/gererjoueur.php?type=modification&idJoueur=<?= htmlspecialchars($joueur->getIdJoueur()) ?>&csrf_token=<?= htmlspecialchars(password_hash($joueur->getIdJoueur() . $_SESSION['csrf_token'] . "modification", PASSWORD_BCRYPT)) ?>" class="forms modify button">
+                        <a href="/gererjoueur.php?type=vue&idJoueur=<?= htmlspecialchars($joueur->getIdJoueur()) ?>&csrf_token=<?= htmlspecialchars(hash_hmac("sha256",$joueur->getIdJoueur() . $_SESSION['csrf_token'] . "vue", $_SESSION['csrf_token'])) ?>" class="forms saisie button"><p>Consulter le joueur</p></a>
+                        <a href="/gererjoueur.php?type=modification&idJoueur=<?= htmlspecialchars($joueur->getIdJoueur()) ?>&csrf_token=<?= htmlspecialchars(hash_hmac("sha256",$joueur->getIdJoueur() . $_SESSION['csrf_token'] . "modification", $_SESSION['csrf_token'])) ?>" class="forms modify button">
                             <p>Modifier le joueur</p>
                         </a>
 
@@ -49,7 +49,7 @@
                         <form method="post" action="gererjoueur.php">
                             <input type="hidden" name="type" value="suppression">
                             <input type="hidden" name="idJoueur" value="<?= htmlspecialchars($joueur->getIdJoueur()) ?>">
-                            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(password_hash($joueur->getIdJoueur() . $_SESSION['csrf_token'] . "suppression", PASSWORD_BCRYPT)) ?>">
+                            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(hash_hmac("sha256",$joueur->getIdJoueur() . $_SESSION['csrf_token'] . "suppression", $_SESSION['csrf_token'])) ?>">
                             <button type="submit" class="delete">Supprimer</button>
                         </form>
                     </div>

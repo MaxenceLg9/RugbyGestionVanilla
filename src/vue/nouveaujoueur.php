@@ -60,8 +60,7 @@
 
                 <input type="hidden" name="type" value="ajout">
                 <input type="hidden" name="idJoueur" value="0">
-                <input type="hidden" name="csrf_token"
-                       value="<?=htmlspecialchars(password_hash("0".$_SESSION['csrf_token']."ajout",PASSWORD_BCRYPT))?>">
+                <input type="hidden" name="csrf_token" value="<?=htmlspecialchars(hash_hmac("sha256","0".$_SESSION['csrf_token']."ajout",$_SESSION['csrf_token']))?>">
 
                 <button type="submit" class="ajout">Ajouter le joueur</button>
             </form>
