@@ -76,11 +76,11 @@ VALUES
 
 INSERT INTO MatchDeRugby (dateHeure, adversaire, lieu, resultat, valider)
 VALUES
-    ('2025-02-03 15:00:00', 'Pays de Galles', 'DOMICILE', 'VICTOIRE', TRUE),
+    ('2025-02-03 15:00:00', 'Pays de Galles', 'DOMICILE', NULL, FALSE),
     ('2025-02-10 17:30:00', 'Irlande', 'EXTERIEUR', NULL, FALSE),
     ('2025-03-02 16:00:00', 'Ecosse', 'DOMICILE', NULL, FALSE),
     ('2025-03-09 18:00:00', 'Angleterre', 'EXTERIEUR', NULL, FALSE),
     ('2025-03-16 20:45:00', 'Italie', 'DOMICILE', NULL, FALSE),
-    ('2024-11-25 15:00:00', 'Australie', 'EXTERIEUR', 'VICTOIRE', TRUE),
-    ('2024-10-30 20:00:00', 'Argentine', 'DOMICILE', 'VICTOIRE', TRUE),
-    ('2024-08-15 19:00:00', 'Fidji', 'EXTERIEUR', 'VICTOIRE', TRUE);
+    ('2024-11-25 15:00:00', 'Australie', 'EXTERIEUR', NULL, FALSE),
+    ('2024-10-30 20:00:00', 'Argentine', 'DOMICILE', NULL, FALSE),
+    ('2024-08-15 19:00:00', 'Fidji', 'EXTERIEUR', NULL, FALSE);

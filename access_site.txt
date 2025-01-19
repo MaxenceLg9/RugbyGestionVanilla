@@ -1,0 +1,9 @@
+URL du site : https://gestionequiperugby.alwaysdata.net/
+
+
+Si présent :
+Login : fabien.gatlhie@ffr.fr
+Mot de passe : depossession
+
+Il y a déjà des matchs de prévus, & des joueurs ajoutés dans l'application.
+Certains matchs sont validés avec un score mais ne contiennent pas de FDM, c'est normal car ils ont été entrés alors qu'ils étaient passés.
