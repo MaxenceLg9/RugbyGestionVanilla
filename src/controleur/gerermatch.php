@@ -57,7 +57,6 @@ if($_SERVER['REQUEST_METHOD'] === 'GET'){
         }
         $jouerLeMatch = JouerUnMatch::getJouerByMatch($match->getIdMatch());
         $csrf_token = $_SESSION['csrf_token'];
-
         $css = ["style.css", "feuille.css"];
         $title = "Consulter un match";
         $page = '../vue/vuematch.php';

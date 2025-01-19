@@ -1,6 +1,6 @@
 <?php include_once "../components/nav.php";
 
-function createPlayerCard($joueur): string
+function createPlayerCard($joueur,$iv): string
 {
     if($joueur->getUrl() == ""){
         $url = "../resources/img/data/default.png";
@@ -36,7 +36,7 @@ function createPlayerCard($joueur): string
                         <?php
                         if($joueursNP) {
                             foreach ($joueursNP as $joueurNP) {
-                                echo createPlayerCard($joueurNP);
+                                echo createPlayerCard($joueurNP,$iv);
                             }
                         }else {
                             echo "<p>Vous n'avez aucun joueur actif</p>";
@@ -61,7 +61,7 @@ function createPlayerCard($joueur): string
                                 if($jouerLeMatch[$i]->getJoueur()->isPremiereLigne()){
                                     $nbPremieresLignes++;
                                 }
-                                echo createPlayerCard($jouerLeMatch[$i]->getJoueur());
+                                echo createPlayerCard($jouerLeMatch[$i]->getJoueur(),$iv);
 
                                 $value = htmlspecialchars(openssl_encrypt($jouerLeMatch[$i]->getJoueur()->getIdJoueur(),'aes-256-cbc',$_SESSION["csrf_token"],0,$iv));
                             }
