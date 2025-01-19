@@ -110,7 +110,6 @@ class DAOMatchDeRugby {
             echo "Match mis à jour avec succès\n";
         } catch (PDOException $e) {
             echo "Erreur lors de la mise à jour du match: " . $e->getMessage();
-            die();
         }
     }
 
@@ -128,7 +127,6 @@ class DAOMatchDeRugby {
             echo "Match supprimé avec succès\n";
         } catch (PDOException $e) {
             echo "Erreur lors de la suppression du match: " . $e->getMessage();
-            die();
         }
     }
 

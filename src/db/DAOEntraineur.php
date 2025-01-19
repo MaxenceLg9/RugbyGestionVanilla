@@ -27,7 +27,6 @@ class DAOEntraineur {
             echo "Entraineur créé avec succès";
         } catch (PDOException $e) {
             echo $e->getMessage();
-            die();
         }
     }
 
@@ -52,7 +51,6 @@ class DAOEntraineur {
             return $statement->fetchColumn() != 0;
         } catch (PDOException $e) {
             echo $e->getMessage();
-            die();
         }
         return false;
     }
@@ -71,7 +69,6 @@ class DAOEntraineur {
             echo "Entraineur modifié avec succès";
         } catch (PDOException $e) {
             echo $e->getMessage();
-            die();
         }
     }
 
@@ -91,7 +88,6 @@ class DAOEntraineur {
 
         } catch (PDOException $e) {
             echo $e->getMessage();
-            die();
         }
     }
 

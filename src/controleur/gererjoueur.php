@@ -9,12 +9,14 @@ $csrf_token = $_SESSION['csrf_token'];
 $type = $_POST['type'] ?? $_GET['type'] ?? null;
 
 if (!in_array($type, ['ajout', 'suppression', 'modification', 'vue'])) {
+    header("Location: /equipe.php");
     die("Type de requête non défini.");
 }
 
 
 $idJoueur = $_POST['idJoueur'] ?? $_GET['idJoueur'] ?? null;
 if (!is_numeric($idJoueur)) {
+    header("Location: /equipe.php");
     die("ID joueur invalide.");
 }
 

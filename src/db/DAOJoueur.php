@@ -61,7 +61,6 @@ class DAOJoueur {
             echo "Joueur créé avec succès\n";
         } catch (PDOException $e) {
             echo "Erreur lors de la création du joueur" . $e->getMessage();
-            die();
         }
     }
 
@@ -131,7 +130,6 @@ class DAOJoueur {
             echo "Joueur mis à jour avec succès\n";
         } catch (PDOException $e) {
             echo "Erreur lors de la mise à jour du joueur: " . $e->getMessage();
-            die();
         }
     }
 
@@ -149,7 +147,6 @@ class DAOJoueur {
             echo "Joueur supprimé avec succès\n";
         } catch (PDOException $e) {
             echo "Erreur lors de la suppression du joueur: " . $e->getMessage();
-            die();
         }
     }
 
