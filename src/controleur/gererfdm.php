@@ -7,16 +7,27 @@ require_once "../modele/JouerUnMatch.php";
 
 $csrf_token = $_SESSION['csrf_token'];
 $type = $_POST['type'] ?? $_GET['type'] ?? null;
+$iv = $_SESSION['iv'];
+$idMatch = $_POST['idMatch'] ?? $_GET['idMatch'] ?? null;
+
+if($_SESSION['iv'] == ""){
+    header("Location: /matchs.php");
+    die("ID Match invalide.");
+}
+
+if (!is_numeric($idMatch)) {
+    header("Location: /matchs.php");
+    die("ID Match invalide.");
+}
 
 if (!in_array($type, ['ajout', 'modification','validation', 'notes'])) {
+    header("Location: /gerermatch.php?type=vue&idMatch=" . $idMatch . "&csrf_token=" . hash_hmac("sha256",$idMatch . $csrf_token . "vue", $_SESSION['csrf_token']));
     die("Type de requête non défini.");
 }
 
 
-$idMatch = $_POST['idMatch'] ?? $_GET['idMatch'] ?? null;
-if (!is_numeric($idMatch)) {
-    die("ID Match invalide.");
-}
+
+
 
 /**
  * @param int $idMatch
@@ -26,7 +37,8 @@ function editerFDM(int $idMatch, bool $archive): void
 {
     $fdmExistante = JouerUnMatch::getJouerByMatch($idMatch);
     for ($i = 1; $i <= 23; $i++) {
-        $idJoueur = $_POST["position-" . $i];
+        $key = "position-" . openssl_encrypt($i,'aes-256-cbc',$_SESSION["csrf_token"],0, $_SESSION['iv']);
+        $idJoueur = openssl_decrypt($_POST[$key],'aes-256-cbc',$_SESSION["csrf_token"],0,$_SESSION["iv"]);
         $poste = $i;
         if(array_key_exists($i,$fdmExistante)){
             if($idJoueur == ""){
@@ -71,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die();
     } else {
         for ($i = 1; $i < 23; $i++) {
-            echo "position-" . $i . " : " . $_POST["position-" . $i] . "<br>";
+            echo "position-" . $i . " : " . openssl_decrypt($_POST["position-" . openssl_encrypt($i,'aes-256-cbc',$_SESSION["csrf_token"],0,$_SESSION["iv"])],'aes-256-cbc',$_SESSION["csrf_token"],0,$_SESSION["iv"]) . "<br>";
         }
         foreach ($_POST as $key => $value) {
             if ($key == "csrf_token" || str_contains($key, "position-"))
@@ -107,6 +119,8 @@ elseif($_SERVER['REQUEST_METHOD'] === 'GET'){
         $joueurs = JouerUnMatch::getJouerByMatch($idMatch);
         $title = "Ajouter des notes";
         $page = '../vue/saisirnotes.php';
+        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+        $_SESSION['iv'] = $iv;
         include_once '../components/page.php';
         die();
     }

@@ -1,5 +1,5 @@
 <?php include_once "../components/nav.php";
-$csrf_token = $_SESSION['csrf_token'];
+
 function createPlayerCard($joueur): string
 {
     if($joueur->getUrl() == ""){
@@ -11,7 +11,7 @@ function createPlayerCard($joueur): string
     return '<div class="player-card '.$class.'" data-id="1">
         <img src="' .$url.'" alt="Profile picture of '.$joueur->getNom() . " " . $joueur->getPrenom().'" width="40" height="40">
         <p>'.$joueur->getNom() . ' ' . $joueur->getPrenom().'</p>
-        <input type="hidden" name="id" value="'.hash_hmac("sha256",$joueur->getIdJoueur(),$_SESSION['csrf_token']).'">
+        <input type="hidden" name="idJoueur" value="'.htmlspecialchars(openssl_encrypt($joueur->getIdJoueur(),'aes-256-cbc',$_SESSION['csrf_token'],0,$iv)).'">
         <input type="hidden" name="premiereLigne" value="'.$joueur->isPremiereLigne().'">
     </div>';
 }
@@ -23,8 +23,8 @@ function createPlayerCard($joueur): string
     <article>
         <div class="container">
             <aside>
-                <p id="">Il y a <strong id="fieldNbJoueurs"></strong> joueurs sur la feuille de match</p>
-                <p id="">Il y a <strong id="fieldNbPremieresLignes"></strong> joueurs ayant la spécificité 1ère ligne sur la feuille de match</p>
+                <p>Il y a <strong id="fieldNbJoueurs"></strong> joueurs sur la feuille de match</p>
+                <p>Il y a <strong id="fieldNbPremieresLignes"></strong> joueurs ayant la spécificité 1ère ligne sur la feuille de match</p>
 
                 <?php if($valider || $archive){?>
                     <p>Le match est archivé, vous ne pouvez plus le modifier</p>
@@ -53,15 +53,21 @@ function createPlayerCard($joueur): string
                     $nbPremieresLignes = 0;
                     for($i = 1; $i <= 23; $i++){
                         $value = ""?>
-                        <div class="position-slot slot-<?=$i?>" data-position="<?=$i?>"><?php if(array_key_exists($i,$jouerLeMatch)) {
+                        <div class="position-slot slot-<?=$i?>" data-position="<?=$i?>">
+                            <?php
+                            $key = "position-" . htmlspecialchars(openssl_encrypt($i, 'aes-256-cbc',$_SESSION["csrf_token"],0,$iv));
+                            if(array_key_exists($i,$jouerLeMatch)) {
                                 $nbJoueurs++;
                                 if($jouerLeMatch[$i]->getJoueur()->isPremiereLigne()){
                                     $nbPremieresLignes++;
                                 }
                                 echo createPlayerCard($jouerLeMatch[$i]->getJoueur());
-                                $value = $jouerLeMatch[$i]->getJoueur()->getIdJoueur();
-                            } ?></div>
-                        <input type="hidden" name="position-<?=htmlspecialchars(hash_hmac("sha25",$i,$_SESSION["csrf_token"]))?>" value="<?= $value?>" >
+
+                                $value = htmlspecialchars(openssl_encrypt($jouerLeMatch[$i]->getJoueur()->getIdJoueur(),'aes-256-cbc',$_SESSION["csrf_token"],0,$iv));
+                            }
+                            ?>
+                        </div>
+                        <input type="hidden" name="<?=$key?>" value="<?= $value?>" >
                     <?php } ?>
                 </div>
                 <input name="nbJoueurs" type="hidden" value="" id="inputNbJoueurs">
@@ -77,8 +83,7 @@ function createPlayerCard($joueur): string
                     <input type="hidden" name="type" value="ajout">
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(hash_hmac("sha256",$match->getIdMatch() . $_SESSION['csrf_token'] . "ajout", $csrf_token)) ?>">
                     <input type="hidden" name="idMatch" value="<?=$_GET["idMatch"]?>">
-                    <?php
-                    if($valider){ ?>
+                    <?php if($valider){ ?>
                         <div class="row">
                             <p>Feuille de match validée, vous pouvez dès à présent finaliser le match en saisissant le score</p>
                             <label for="resultat">Score</label>

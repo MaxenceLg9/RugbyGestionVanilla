@@ -42,10 +42,10 @@ if($_SERVER['REQUEST_METHOD'] === 'GET'){
     elseif($type == "vue"){
         require_once "../modele/Joueur.php";
         require_once "../modele/JouerUnMatch.php";
-        $css = ["style.css", "feuille.css"];
-        $title = "Consulter un match";
-        $page = '../vue/vuematch.php';
+
         $match = MatchDeRugby::getFromId($_GET['idMatch']);
+        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+        $_SESSION['iv'] = $iv;
         if($match == null){
             header('Location: /matchs.php');
             die();
@@ -56,6 +56,11 @@ if($_SERVER['REQUEST_METHOD'] === 'GET'){
             $joueursNP = Joueur::findAllNotOnMatch($match->getIdMatch());
         }
         $jouerLeMatch = JouerUnMatch::getJouerByMatch($match->getIdMatch());
+        $csrf_token = $_SESSION['csrf_token'];
+
+        $css = ["style.css", "feuille.css"];
+        $title = "Consulter un match";
+        $page = '../vue/vuematch.php';
         include_once '../components/page.php';
     }
 }

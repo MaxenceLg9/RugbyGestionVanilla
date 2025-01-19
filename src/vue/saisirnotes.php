@@ -25,11 +25,16 @@
                             </div>
 
                             <!-- Use unique names for inputs -->
-                            <input type="hidden" name="notes[<?= htmlspecialchars($joueur->getIdJoueur()) ?>][idMatch]" value="<?= htmlspecialchars($fdm->getIdMatch()) ?>">
-                            <input type="hidden" name="notes[<?= htmlspecialchars($joueur->getIdJoueur()) ?>][idJoueur]" value="<?= htmlspecialchars($fdm->getNumero()) ?>">
+                            <?php
+                            $key = htmlspecialchars(openssl_encrypt($joueur->getIdJoueur(), 'aes-256-cbc', $_SESSION["csrf_token"], 0, $iv));
+                            $match = htmlspecialchars($fdm->getIdMatch());
+                            $numero = htmlspecialchars(openssl_encrypt($fdm->getNumero(),'aes-256-cbc',$_SESSION["csrf_token"], 0, $iv));
+                            ?>
+                            <input type="hidden" name="notes[<?= $key ?>][idMatch]" value="<?= $match ?>">
+                            <input type="hidden" name="notes[<?= $key ?>][idJoueur]" value="<?= $numero ?>">
                             <div class="row">
-                                <label for="note-<?= htmlspecialchars($joueur->getIdJoueur()) ?>">Note :</label>
-                                <input type="number" id="note-<?= htmlspecialchars($joueur->getIdJoueur()) ?>" name="notes[<?= htmlspecialchars($joueur->getIdJoueur()) ?>][note]" min="0" max="20" step="0.25" value="<?= $fdm->getNote() == -1 ? 0 : $fdm->getNote()?>" required>
+                                <label for="note-<?= $key ?>">Note :</label>
+                                <input type="number" id="note-<?= $key ?>" name="notes[<?= $key ?>][note]" min="0" max="20" step="0.25" value="<?= $fdm->getNote() == -1 ? 0 : $fdm->getNote()?>" required>
                             </div>
                         </section>
                     <?php } ?>
