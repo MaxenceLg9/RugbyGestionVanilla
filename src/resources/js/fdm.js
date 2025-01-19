@@ -30,7 +30,7 @@ slots.forEach(slot => {
         e.preventDefault();
 
         if (draggedPlayer) {
-            const playerId = draggedPlayer.querySelector('input[name="id"]').value;
+            const playerId = draggedPlayer.querySelector('input[name="idJoueur"]').value;
             const playerPremiereLigne = draggedPlayer.querySelector('input[name="premiereLigne"]').value === '1';
 
             // Find the hidden input for this slot and set its value
@@ -71,7 +71,6 @@ slots.forEach(slot => {
         console.log('slot.firstChild:', slot.firstChild);
         console.log(slot.firstChild === draggedPlayer);
         if (draggedPlayer && slot.firstChild === draggedPlayer) {
-            console.log('aaa');
             // Remove player from the slot
             slot.removeChild(draggedPlayer);
 
