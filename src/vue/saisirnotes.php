@@ -26,9 +26,9 @@
 
                             <!-- Use unique names for inputs -->
                             <?php
-                            $key = htmlspecialchars(openssl_encrypt($joueur->getIdJoueur(), 'aes-256-cbc', $_SESSION["csrf_token"], 0, $iv));
+                            $key = htmlspecialchars(openssl_encrypt($joueur->getIdJoueur(), 'aes-256-cbc', $csrf_token, 0, $iv));
                             $match = htmlspecialchars($fdm->getIdMatch());
-                            $numero = htmlspecialchars(openssl_encrypt($fdm->getNumero(),'aes-256-cbc',$_SESSION["csrf_token"], 0, $iv));
+                            $numero = htmlspecialchars(openssl_encrypt($fdm->getNumero(),'aes-256-cbc', $csrf_token, 0, $iv));
                             ?>
                             <input type="hidden" name="notes[<?= $key ?>][idMatch]" value="<?= $match ?>">
                             <input type="hidden" name="notes[<?= $key ?>][idJoueur]" value="<?= $numero ?>">
@@ -42,7 +42,7 @@
                 <input type="hidden" name="type" value="notes">
                 <input type="hidden" name="fdm" value="2">
                 <input type="hidden" name="idMatch" value="<?= htmlspecialchars($idMatch) ?>">
-                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(hash_hmac("sha256", $idMatch . $_SESSION["csrf_token"] . "notes", PASSWORD_BCRYPT)) ?>">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(hash_hmac("sha256", $idMatch . $csrf_token . "notes", $csrf_token)) ?>">
                 <button type="submit" class="button save-note">Enregistrer les notes</button>
             </form>
         <?php } ?>

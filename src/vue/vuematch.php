@@ -76,7 +76,7 @@ function createPlayerCard($joueur,$iv): string
                 <?php if($archive){ ?>
                     <p>Le match est archivé, vous ne pouvez plus le modifier</p>
                     <p>Résultat : <?=$match->getResultat()->name?></p>
-                    <a class="button saisie" href="/gererfdm.php?type=notes&idMatch=<?=$match->getIdMatch()?>&csrf_token=<?=htmlspecialchars(password_hash($match->getIdMatch().$_SESSION["csrf_token"]."notes",PASSWORD_BCRYPT))?>">
+                    <a class="button saisie" href="/gererfdm.php?type=notes&idMatch=<?=$match->getIdMatch()?>&csrf_token=<?=htmlspecialchars(hash_hmac("sha256",$match->getIdMatch().$_SESSION["csrf_token"]."notes",$csrf_token))?>">
                         <p>Saisir les notes</p>
                     </a>
                 <?php } else { ?>

@@ -1,7 +1,7 @@
 <?php
 require_once "../db/DAOEntraineur.php";
 if(DAOEntraineur::existEntraineur()) {
-    header('Location: login');
+    header('Location: /login');
     die();
 }
 if(isset($_POST["email"])){

@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Connexion.php';
+require_once '../db/Connexion.php';
 require_once '../modele/Joueur.php';
 require_once "../modele/Poste.php";
 

@@ -26,9 +26,6 @@ if (!in_array($type, ['ajout', 'modification','validation', 'notes'])) {
 }
 
 
-
-
-
 /**
  * @param int $idMatch
  * @return void
@@ -61,7 +58,7 @@ function editerFDM(int $idMatch, bool $archive): void
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $hash = hash_hmac("sha256", $idMatch . $csrf_token . $type, $csrf_token);
     if (!isset($_POST['csrf_token']) || !hash_equals($hash, $_POST['csrf_token'])) {
-        header("Location: /matchs.php");
+//        header("Location: /matchs.php");
         die("CSRF validation failed.");
     }
 
@@ -70,9 +67,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!empty($_POST['notes'])) {
             $fdm = JouerUnMatch::getJouerByMatch($idMatch);
             foreach ($_POST['notes'] as $playerId => $data) {
-                echo $playerId . "</br>";
                 $idMatch = $data['idMatch'];
-                $numero = $data['idJoueur'];
+                $numero = openssl_decrypt($data['idJoueur'],'aes-256-cbc', $csrf_token, 0, $iv);
                 echo is_string($numero) . " " . is_string($playerId);
                 $note = $data['note'];
                 $fdm[$numero]->setNote($note);
@@ -121,6 +117,7 @@ elseif($_SERVER['REQUEST_METHOD'] === 'GET'){
         $page = '../vue/saisirnotes.php';
         $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
         $_SESSION['iv'] = $iv;
+        $csrf_token = $_SESSION["csrf_token"];
         include_once '../components/page.php';
         die();
     }
