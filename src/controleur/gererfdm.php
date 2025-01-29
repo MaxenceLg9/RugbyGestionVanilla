@@ -58,7 +58,7 @@ function editerFDM(int $idMatch, bool $archive): void
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $hash = hash_hmac("sha256", $idMatch . $csrf_token . $type, $csrf_token);
     if (!isset($_POST['csrf_token']) || !hash_equals($hash, $_POST['csrf_token'])) {
-//        header("Location: /matchs.php");
+        header("Location: /matchs.php");
         die("CSRF validation failed.");
     }
 
