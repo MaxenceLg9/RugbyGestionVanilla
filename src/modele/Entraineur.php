@@ -45,6 +45,9 @@
             DAOEntraineur::update($this,$nouveauMotDePasse);
         }
 
+        /**
+         * @throws Exception
+         */
         public static function getEntraineur(string $email, string $motdepasse): ?Entraineur{
             if(DAOEntraineur::existEntraineurWithEmail($email)) {
                 if(DAOEntraineur::compareMotDePasse($motdepasse, $email)){

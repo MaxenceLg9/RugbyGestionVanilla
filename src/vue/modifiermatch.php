@@ -6,7 +6,7 @@
         <section class="full">
             <h3>Entrez les informations du match à modifier</h3>
             <h3>Match du <?= $match->getDateHeure()->format('d/m/Y-H:i') ?> contre <?= $match->getAdversaire() ?>, Lieu : <?= $match->getLieu()->name ?></h3>
-            <form action="gerermatch.php" method="post">
+            <form action="../controleur/gerermatch.php" method="post">
                 <div class="form-row">
                     <label for="datetime">Date du match</label>
                     <input type="datetime-local" id="datetime" name="datetime" required value="<?= $match->getDateHeure()->format('Y-m-d\TH:i') ?>">

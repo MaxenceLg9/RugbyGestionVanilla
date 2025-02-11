@@ -5,7 +5,7 @@
         <h1>Ajouter un match</h1>
         <section class="full">
             <h3>Entrez les informations du match à ajouter</h3>
-            <form action="gerermatch.php" method="post">
+            <form action="../controleur/gerermatch.php" method="post">
                 <div class="form-row">
                     <label for="datetime">Date du match</label>
                     <input type="datetime-local" id="datetime" name="datetime" required>

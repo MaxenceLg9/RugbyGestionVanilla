@@ -2,7 +2,7 @@
 <div class="main">
     <h1>RugbyGestionPlus</h1>
     <article>
-        <!-- Welcome Section -->
+        <!-- Welcome, Section -->
         <section class="header-section section-index">
             <h1>
                 Bienvenue <strong class="strong-bienvenue"><?php echo $_SESSION['prenom']." ".$_SESSION["nom"] ?></strong> !
@@ -37,8 +37,8 @@
         <section class="section-index">
             <h1>Actions rapides</h1>
             <div class="actions">
-                <a href="/gerermatch.php?type=ajout&idMatch=0&csrf_token=<?= htmlspecialchars(password_hash("0" . $_SESSION['csrf_token'] . "ajout", PASSWORD_BCRYPT)) ?>" class="forms button add"><p>Ajouter un match</p></a>
-                <a href="/gererjoueur.php?type=ajout&idJoueur=0&csrf_token=<?= htmlspecialchars(password_hash("0" . $_SESSION['csrf_token'] . "ajout", PASSWORD_BCRYPT)) ?>" class="forms button add"><p>Ajouter un joueur</p></a>
+                <a href="../controleur/gerermatch.php?type=ajout&idMatch=0&csrf_token=<?= htmlspecialchars(password_hash("0" . $_SESSION['csrf_token'] . "ajout", PASSWORD_BCRYPT)) ?>" class="forms button add"><p>Ajouter un match</p></a>
+                <a href="../controleur/gererjoueur.php?type=ajout&idJoueur=0&csrf_token=<?= htmlspecialchars(password_hash("0" . $_SESSION['csrf_token'] . "ajout", PASSWORD_BCRYPT)) ?>" class="forms button add"><p>Ajouter un joueur</p></a>
             </div>
         </section>
     </article>

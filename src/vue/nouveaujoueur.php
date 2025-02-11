@@ -5,7 +5,7 @@
         <h1>Ajouter un joueur</h1>
         <section class="full">
             <h3>Entrez les informations du joueur à ajouter</h3>
-            <form action="gererjoueur.php" method="post">
+            <form action="../controleur/gererjoueur.php" method="post">
                 <div class="form-row">
                     <label for="nom">Nom</label>
                     <input type="text" id="nom" name="nom" placeholder="Nom du joueur" required>

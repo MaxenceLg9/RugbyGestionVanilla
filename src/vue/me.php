@@ -1,1 +1,1 @@
-<?php require "../components/nav.php" ?>
+<?php require "../components/nav.php";

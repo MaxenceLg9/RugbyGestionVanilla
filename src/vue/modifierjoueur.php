@@ -10,7 +10,7 @@
             $url = empty($joueur->getUrl()) ? "../resources/img/data/default.png" : $joueur->getUrl();
             ?>
             <img src="<?=$url?>" alt="Photo de <?= htmlspecialchars($joueur->getNom() . " " . $joueur->getPrenom()) ?>" width="200" height="200">
-            <form action="gererjoueur.php" method="post">
+            <form action="../controleur/gererjoueur.php" method="post">
                 <!-- Nom -->
                 <div class="form-row">
                     <label for="nom">Nom</label>
