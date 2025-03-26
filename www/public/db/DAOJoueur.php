@@ -53,8 +53,8 @@ class DAOJoueur {
         try {
             $connexion = Connexion::getInstance()->getConnection();
             $statement = $connexion->prepare(
-                "INSERT INTO Joueur (numeroLicense, nom, prenom, dateNaissance, taille, poids, statut, postePrefere, estPremiereLigne, commentaire) 
-                   VALUES (:numeroLicense, :nom, :prenom, :dateNaissance, :taille, :poids, :statut, :postePrefere, :estPremiereLigne, :commentaire)");
+                "INSERT INTO Joueur (numeroLicence, nom, prenom, dateNaissance, taille, poids, statut, postePrefere, estPremiereLigne, commentaire) 
+                   VALUES (:numeroLicence, :nom, :prenom, :dateNaissance, :taille, :poids, :statut, :postePrefere, :estPremiereLigne, :commentaire)");
 
             $this->bindParams($joueur, $statement);
             $statement->execute();
@@ -79,12 +79,12 @@ class DAOJoueur {
         return $joueurs;
     }
 
-    public function readByNumeroLicense(int $numeroLicense): ?Joueur {
+    public function readByNumeroLicence(int $numeroLicence): ?Joueur {
         $joueur = null;
         try {
             $connexion = Connexion::getInstance()->getConnection();
-            $statement = $connexion->prepare("SELECT * FROM Joueur WHERE numeroLicense = :numeroLicense");
-            $statement->bindParam(':numeroLicense', $numeroLicense);
+            $statement = $connexion->prepare("SELECT * FROM Joueur WHERE numeroLicence = :numeroLicence");
+            $statement->bindParam(':numeroLicence', $numeroLicence);
             $statement->execute();
             $row = $statement->fetch();
             if ($row) {
@@ -119,7 +119,7 @@ class DAOJoueur {
             $statement = $connexion->prepare(
                 "UPDATE Joueur SET taille = :taille, poids = :poids, statut = :statut,
                     postePrefere = :postePrefere, estPremiereLigne = :estPremiereLigne,
-                    numeroLicense = :numeroLicense, nom = :nom, prenom = :prenom, dateNaissance = :dateNaissance, commentaire= :commentaire
+                    numeroLicence = :numeroLicence, nom = :nom, prenom = :prenom, dateNaissance = :dateNaissance, commentaire= :commentaire
               WHERE idJoueur = :idJoueur"
             );
             self::bindParams($joueur, $statement);
@@ -169,7 +169,7 @@ class DAOJoueur {
 
     private static function constructFromRow($row):Joueur{
         $joueur = new Joueur($row['idJoueur'], $row['nom'], $row['prenom'],
-            new DateTime($row['dateNaissance']), $row['numeroLicense'], $row['taille'], $row['poids'],
+            new DateTime($row['dateNaissance']), $row['numeroLicence'], $row['taille'], $row['poids'],
             Statut::from($row['statut']), Poste::tryFromName($row['postePrefere']), $row['estPremiereLigne']);
         if(!is_null($row["commentaire"]))
             $joueur->setCommentaire($row["commentaire"]);
@@ -185,7 +185,7 @@ class DAOJoueur {
      */
     public function bindParams(Joueur $joueur, bool|PDOStatement $statement): void
     {
-        $numeroLicense = $joueur->getNumeroLicense();
+        $numeroLicence = $joueur->getNumeroLicence();
         $nom = $joueur->getNom();
         $prenom = $joueur->getPrenom();
         $dateNaissance = $joueur->getDateNaissance()->format('Y-m-d');
@@ -196,7 +196,7 @@ class DAOJoueur {
         $estPremiereLigne = $joueur->isPremiereLigne();
         $commentaire = $joueur->getCommentaire();
 
-        $statement->bindParam(':numeroLicense', $numeroLicense);
+        $statement->bindParam(':numeroLicence', $numeroLicence);
         $statement->bindParam(':nom', $nom);
         $statement->bindParam(':prenom', $prenom);
         $statement->bindParam(':dateNaissance', $dateNaissance);
