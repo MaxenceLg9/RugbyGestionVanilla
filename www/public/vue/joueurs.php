@@ -28,7 +28,7 @@
                         <div class="head">
                             <h2><?= htmlspecialchars($joueur->getNom() . " " . $joueur->getPrenom()) ?></h2>
                             <p>Date de naissance : <?= htmlspecialchars($joueur->getDateNaissance()->format('d/m/Y')) ?></p>
-                            <p>Numéro de licence : <?= htmlspecialchars($joueur->getNumeroLicense()) ?></p>
+                            <p>Numéro de licence : <?= htmlspecialchars($joueur->getNumeroLicence()) ?></p>
                             <p>Taille : <?= htmlspecialchars($joueur->getTaille()) ?> cm</p>
                             <p>Poids : <?= htmlspecialchars($joueur->getPoids()) ?> kg</p>
                             <p>Statut : <?= htmlspecialchars($joueur->getStatut()->name) ?></p>

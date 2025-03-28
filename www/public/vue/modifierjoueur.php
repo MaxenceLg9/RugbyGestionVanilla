@@ -31,8 +31,8 @@
 
                 <!-- Numéro de licence -->
                 <div class="form-row">
-                    <label for="numeroLicense">Numéro de licence</label>
-                    <input type="text" id="numeroLicense" name="numeroLicense" required value="<?= htmlspecialchars($joueur->getNumeroLicense()) ?>">
+                    <label for="numeroLicence">Numéro de licence</label>
+                    <input type="text" id="numeroLicence" name="numeroLicence" required value="<?= htmlspecialchars($joueur->getNumeroLicence()) ?>">
                 </div>
 
                 <!-- Taille -->

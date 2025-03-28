@@ -6,7 +6,7 @@ require_once '../modele/Poste.php';
 class Joueur {
 
     private ?int $idJoueur;
-    private int $numeroLicense;
+    private int $numeroLicence;
     private string $nom;
     private string $prenom;
     private DateTime $dateNaissance;
@@ -21,14 +21,14 @@ class Joueur {
     private string $url;
 
     public function  __construct(int $idJoueur, string $nom, string $prenom,
-                                 DateTime $dateNaissance, int $numeroLicense,
+                                 DateTime $dateNaissance, int $numeroLicence,
                                  int $taille, int $poids, Statut $statut,
                                  Poste $postePrefere, bool $estPremiereLigne) {
         $this -> idJoueur = $idJoueur;
         $this -> nom = $nom;
         $this -> prenom = $prenom;
         $this -> dateNaissance = $dateNaissance;
-        $this -> numeroLicense = $numeroLicense;
+        $this -> numeroLicence = $numeroLicence;
         $this -> taille = $taille;
         $this -> poids = $poids;
         $this -> statut = $statut;
@@ -96,8 +96,8 @@ class Joueur {
         return $this -> dateNaissance;
     }
 
-    public function getNumeroLicense(): String {
-        return $this -> numeroLicense;
+    public function getNumeroLicence(): String {
+        return $this -> numeroLicence;
     }
 
     public function getTaille(): int {
@@ -141,10 +141,10 @@ class Joueur {
     }
 
     // partie DAO : utiliser les méthodes de DAOJoueur pour accéder à la base de données
-    public function getJoueurByNumeroLicense(): Joueur
+    public function getJoueurByNumeroLicence(): Joueur
     {
         $daoJoueur = new DAOJoueur();
-        return $daoJoueur->readByNumeroLicense($this->getNumeroLicense());
+        return $daoJoueur->readByNumeroLicence($this->getNumeroLicence());
     }
 
     public function saveJoueur(): void {
@@ -169,9 +169,9 @@ class Joueur {
         return DAOJoueur::read();
     }
 
-    public function setNumeroLicense(mixed $numeroLicense):void
+    public function setNumeroLicence(mixed $numeroLicence):void
     {
-        $this->numeroLicense = $numeroLicense;
+        $this->numeroLicence = $numeroLicence;
     }
 
     public function setDateNaissance(DateTime $date):void

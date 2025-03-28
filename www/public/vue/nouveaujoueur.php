@@ -19,8 +19,8 @@
                     <input type="date" id="dateNaissance" name="dateNaissance" required>
                 </div>
                 <div class="form-row">
-                    <label for="numeroLicense">Numéro de licence</label>
-                    <input type="number" id="numeroLicense" name="numeroLicense" placeholder="Numéro de licence" required>
+                    <label for="numeroLicence">Numéro de licence</label>
+                    <input type="number" id="numeroLicence" name="numeroLicence" placeholder="Numéro de licence" required>
                 </div>
                 <div class="form-row">
                     <label for="taille">Taille (cm)</label>

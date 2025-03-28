@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     if ($type === 'ajout') {
 
-        $joueur = new Joueur(-1, $_POST['nom'], $_POST['prenom'], new DateTime($_POST['dateNaissance']), $_POST['numeroLicense'], $_POST['taille'], $_POST['poids'], Statut::from($_POST["statut"]), Poste::tryFromName($_POST['postePrefere']), $_POST['estPremiereLigne']);
+        $joueur = new Joueur(-1, $_POST['nom'], $_POST['prenom'], new DateTime($_POST['dateNaissance']), $_POST['numeroLicence'], $_POST['taille'], $_POST['poids'], Statut::from($_POST["statut"]), Poste::tryFromName($_POST['postePrefere']), $_POST['estPremiereLigne']);
         $joueur->setCommentaire($_POST["commentaire"]);
         $joueur->saveJoueur();
         header('Location: /equipe.php');
@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $joueur->setNom($_POST['nom']);
         $joueur->setPrenom($_POST['prenom']);
         $joueur->setDateNaissance(new DateTime($_POST['dateNaissance']));
-        $joueur->setNumeroLicense($_POST['numeroLicense']);
+        $joueur->setNumeroLicence($_POST['numeroLicence']);
         $joueur->setTaille($_POST['taille']);
         $joueur->setPoids($_POST['poids']);
         $joueur->setStatut(Statut::from($_POST['statut']));

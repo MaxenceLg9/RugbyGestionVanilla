@@ -24,7 +24,7 @@
             </section>
             <section class="player-info">
                 <h2>Caractéristiques</h2>
-                <p><strong>Numéro de Licence :</strong> <?= htmlspecialchars($joueur->getNumeroLicense()) ?></p>
+                <p><strong>Numéro de Licence :</strong> <?= htmlspecialchars($joueur->getNumeroLicence()) ?></p>
                 <p><strong>Taille :</strong> <?= htmlspecialchars($joueur->getTaille()) ?> cm</p>
                 <p><strong>Poids :</strong> <?= htmlspecialchars($joueur->getPoids()) ?> kg</p>
                 <p><strong>Poste Préféré :</strong> <?= htmlspecialchars($joueur->getPostePrefere()->value) ?></p>
