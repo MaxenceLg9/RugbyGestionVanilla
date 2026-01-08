@@ -1,3 +1,9 @@
+DROP DATABASE IF EXISTS rugbygestion;
+
+CREATE DATABASE IF NOT EXISTS rugbygestion;
+
+USE rugbygestion;
+
 DROP TABLE IF EXISTS Participer;
 DROP TABLE IF EXISTS MatchDeRugby;
 DROP TABLE IF EXISTS Joueur;
@@ -5,7 +11,7 @@ DROP TABLE IF EXISTS Entraineur;
 
 CREATE TABLE IF NOT EXISTS Joueur (
                                       idJoueur INT PRIMARY KEY AUTO_INCREMENT,
-                                      numeroLicense INT(4) NOT NULL,
+                                      numeroLicence INT(4) NOT NULL,
     nom VARCHAR(50) NOT NULL,
     prenom VARCHAR(50) NOT NULL,
     dateNaissance DATE NOT NULL,
