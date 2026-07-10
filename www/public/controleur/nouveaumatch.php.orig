@@ -1,0 +1,6 @@
+<<<<<<< HEAD:src/controleur/nouveaumatch.php
+<?php
+=======
+<?php
+>>>>>>> 108f3a53b8f5d201be971435bc6a3e16c55b6224:www/public/controleur/nouveaumatch.php
+include '../vue/nouveaumatch.php';
